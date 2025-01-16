@@ -1,0 +1,36 @@
+# Stage 1: Build the application
+FROM node:21 AS builder
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json to the container
+COPY package*.json ./
+
+# Install dependencies
+RUN  npm install -g prisma -D 
+
+
+# Copy the rest of the application code to the container
+COPY . .
+
+
+# Build the application
+RUN npm run build
+
+# Stage 2: Serve the application
+FROM node:latest AS production
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the build output and node_modules from the builder stage
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/public ./public
+
+# Expose the port that the application will run on
+EXPOSE 3007
+
+# Default command
+CMD ["npm", "start"]

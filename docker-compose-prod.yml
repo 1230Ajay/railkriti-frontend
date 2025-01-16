@@ -1,0 +1,28 @@
+version: "3.10"
+
+services:
+  railkriti:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    working_dir: /app
+    environment:
+      - DB_URL=mysql://root:inRKI@0510@49.50.119.39:3306/railkriti_db
+      - PORT=3007
+      - AUTH_SECRET=Q29tbWFuZCB0byBnZW5lcmF0ZSBhIHJhbmRvbSBzdHJpbmcgaW4gYmFzZTY0
+      - EMAIL=info@robokriti.com
+      - PASSWORD= hqbaevkbtsgkhuav
+      - CLIENT_SECRET=hkfgfhfkjhf
+      - USE_HTTPS=false
+
+    ports:
+      - "3007:3007" # Mapping the container's port 3002 to host's port 3002
+    command: "npm start"
+
+    networks:
+      - railkriti
+
+
+networks:
+  railkriti:
+    external: true

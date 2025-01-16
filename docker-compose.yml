@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  railkriti:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: always
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "3007:3007"
+    environment:
+      - WATCHPACK_POLLING=true
+      - DB_URL=mysql://root:inRKI@0510@49.50.119.39:3306/railkriti_db
+      - PORT=3007
+      - AUTH_SECRET=Q29tbWFuZCB0byBnZW5lcmF0ZSBhIHJhbmRvbSBzdHJpbmcgaW4gYmFzZTY0
+      - EMAIL=info@robokriti.com
+      - PASSWORD=hqbaevkbtsgkhuav
+      - CLIENT_SECRET=hkfgfhfkjhf
+      - BASE_URL="http://localhost:8080"
+
+
+    networks:
+      - railkriti
+            
+    command: ["sh", "-c", "npm run dev"]
+
+  # nginx:
+  #   image: nginx:latest
+  #   container_name: nginx_proxy
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf
+  #     - ./ssl:/etc/nginx/ssl
+  #   depends_on:
+  #     - railkriti
+    
+  #   networks:
+  #     - railkriti
+
+networks:
+  railkriti:
+    external: true
