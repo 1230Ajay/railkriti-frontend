@@ -1,14 +1,14 @@
 const https = {
   
-  API_GATEWAY: "https:///edge-server:8090",
-  LOCTION: `https:///edge-server:8090/location`,
-  BR_WLMS: `https:///edge-server:8090/br-wlms`,
-  TR_WLMS: `https:///edge-server:8090/tr-wlms`,
-  SAATHI_RX: `https:///edge-server:8090/saathi-rx`,
-  SAATHI_TX: `https:///edge-server:8090/saathi-tx`,
-  RAILTAAP: `https://edge-server:8090/railtaap`,
-  NOTIFICATION: `https://api-gateway:8090/backend/notification`,
-  TANK_WLMS: `https://edge-server:8090/tank-wlms`,
+  API_GATEWAY: "https://railkriti.co.in:8090",
+  LOCTION: `https://railkriti.co.in:8090/location`,
+  BR_WLMS: `https://railkriti.co.in:8090/br-wlms`,
+  TR_WLMS: `https://railkriti.co.in:8090/tr-wlms`,
+  SAATHI_RX: `https://railkriti.co.in:8090/saathi-rx`,
+  SAATHI_TX: `https://railkriti.co.in:8090/saathi-tx`,
+  RAILTAAP: `https://railkriti.co.in:8090/railtaap`,
+  NOTIFICATION: `https://railkriti.co.in:8090/backend/notification`,
+  TANK_WLMS: `https://railkriti.co.in:8090/tank-wlms`,
 
   // socket urls
   BR_WLMS_SOCKET_URL: "https://railkriti.co.in:3001",
