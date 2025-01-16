@@ -3,7 +3,8 @@ import { NextResponse, NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
     const token = request.cookies.get('jwt')?.value; // Get JWT from cookies
     const url = request.nextUrl;
-
+    
+    console.log(token);
     // List of allowed unauthenticated routes
     const allowedUnauthenticatedUrls: string[] = [
         "/change-email",
@@ -18,7 +19,7 @@ export async function middleware(request: NextRequest) {
     ];
 
     // Handle authenticated users trying to access unauthenticated pages
-    if (token && allowedUnauthenticatedUrls.includes(url.pathname) || url.pathname==="/") {
+    if (token && allowedUnauthenticatedUrls.includes(url.pathname) || url.pathname === "/") {
         return NextResponse.redirect(new URL('/application', request.url));
     }
 

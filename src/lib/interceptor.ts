@@ -13,7 +13,9 @@ myInterceptor.interceptors.request.use(
         return config;
     },
     (error) => {
-        // Handle request errors
+        if (error.response?.status === 403) {
+        console.log("user is unauthorised to do that!")
+        }
         return Promise.reject(error);
     }
 );
