@@ -20,6 +20,7 @@ import Link from 'next/link';
 
 import myInterceptor from '@/lib/interceptor';
 import { IoNotifications } from 'react-icons/io5';
+import conf from '@/conf/conf';
 
 type DashboardNavProps = {
   toggleSidebar: () => void;
@@ -77,7 +78,7 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
   };
 
   const handleSignOut = async () => {
-   const res = await myInterceptor.post('http://localhost:8080/auth/logout',)
+   const res = await myInterceptor.post(`${conf.API_GATEWAY}/auth/logout`,)
    if(res.status===200){
     router.push("sign-in");
    }

@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { SignInPageData } from "@/app/data/sigin-in";
 import Link from "next/link";
 import myIntercepter from '@/lib/interceptor';
+import conf from '@/conf/conf';
 
 
 
@@ -52,7 +53,7 @@ export default function SignInPage() {
 
     setIsSubmitting(true);
     try {
-      const response = await myIntercepter.post("http://localhost:8080/auth/sign-in", {
+      const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/sign-in`, {
         identifier,
         password
       },
