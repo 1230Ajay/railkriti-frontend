@@ -44,7 +44,7 @@ const http = {
 
 
 const conf = {
-  ...http
+  ...https
 }
 
 

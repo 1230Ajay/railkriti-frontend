@@ -40,8 +40,6 @@ const CustomTimePicker: React.FC<TimePickerProps> = ({ value, onChange }) => {
   };
   
 const UpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => void, alertData?: any }) => {
-    const [riverName, setRiverName] = useState<string>(alertData!.device.river_name);
-    const [bridgeNumber, setBridgeNumber] = useState<string>(alertData!.device.bridge_no);
     const [name, setName] = useState<string>('');
     const [mobileNumber, setMobileNumber] = useState<string>('');
     const [email, setEmail] = useState<string>('');
