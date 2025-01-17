@@ -84,8 +84,8 @@ const UpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => v
 
     const fetchDevices = async () => {
         try {
-            const response = await fetch(`${conf.BR_WLMS}/api/device`);
-            const data = await response.json();
+            const response = await myIntercepter.get(`${conf.BR_WLMS}/api/device`);
+            const data = response.data;
             setDevices(data);
             setLoading(false);
         } catch (error) {

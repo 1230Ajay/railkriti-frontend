@@ -7,7 +7,7 @@ const https = {
   SAATHI_RX: `https://railkriti.co.in:8090/saathi-rx`,
   SAATHI_TX: `https://railkriti.co.in:8090/saathi-tx`,
   RAILTAAP: `https://railkriti.co.in:8090/railtaap`,
-  NOTIFICATION: `https://railkriti.co.in:8090/backend/notification`,
+  NOTIFICATION: `https://railkriti.co.in:8090/notification`,
   TANK_WLMS: `https://railkriti.co.in:8090/tank-wlms`,
 
   // socket urls
@@ -21,15 +21,15 @@ const https = {
 
 const http = {
   // api urls
-  API_GATEWAY: "http:///localhost:8080",
-  LOCTION: `http:///localhost:8080/location`,
-  BR_WLMS: `http:///localhost:8080/br-wlms`,
-  TR_WLMS: `http:///localhost:8080/tr-wlms`,
-  SAATHI_RX: `http:///localhost:8080/saathi-rx`,
-  SAATHI_TX: `http:///localhost:8080/saathi-tx`,
-  RAILTAAP: `http://localhost:8080/railtaap`,
-  NOTIFICATION: `http://api-gateway:8080/backend/notification`,
-  TANK_WLMS: `http://localhost:8080/tank-wlms`,
+  API_GATEWAY: "http:///localhost:8090",
+  LOCTION: `http:///localhost:8090/location`,
+  BR_WLMS: `http:///localhost:8090/br-wlms`,
+  TR_WLMS: `http:///localhost:8090/tr-wlms`,
+  SAATHI_RX: `http:///localhost:8090/saathi-rx`,
+  SAATHI_TX: `http:///localhost:8090/saathi-tx`,
+  RAILTAAP: `http://localhost:8090/railtaap`,
+  NOTIFICATION: `http://api-gateway:8090/backend/notification`,
+  TANK_WLMS: `http://localhost:8090/tank-wlms`,
 
   // socket urls
   BR_WLMS_SOCKET_URL: "http://localhost:3001",
@@ -44,7 +44,7 @@ const http = {
 
 
 const conf = {
-  ...https
+  ...http
 }
 
 
