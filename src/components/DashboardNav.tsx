@@ -5,21 +5,21 @@ import { FaEdit, FaHome, FaPlaystation, FaSms, FaUserCog } from 'react-icons/fa'
 
 import { GiLevelCrossing } from "react-icons/gi";
 import { FaUsersBetweenLines } from "react-icons/fa6";
+import { IoNotifications } from 'react-icons/io5';
 import { IconButton } from './buttons/primarybutton';
 import { MdContactPhone, MdLogout, MdPassword } from 'react-icons/md';
-
+import UpdatePasswordForm from './forms/UpdatePassword';
 import Modal from './pop-ups/AddPopUp';
+
 import { useRouter } from 'next/navigation';
 import { BsSignIntersectionSideFill } from 'react-icons/bs';
 import { SiPrivatedivision } from "react-icons/si";
 import { RiTimeZoneFill } from 'react-icons/ri';
 import Image from 'next/image';
-
+import UserDetailsForm from './forms/user/updateUserDetails';
 import IsAdmin from '@/helpers/getUserRoles';
 import Link from 'next/link';
-
 import myInterceptor from '@/lib/interceptor';
-import { IoNotifications } from 'react-icons/io5';
 import conf from '@/conf/conf';
 
 type DashboardNavProps = {
@@ -74,15 +74,15 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
     const day = date.getDate();
     const month = date.toLocaleString('en-US', { month: 'long' });
     const year = date.getFullYear();
+
     return `${hours}:${minutes}:${seconds}; ${day} ${month} ${year}`;
   };
-
   const handleSignOut = async () => {
-   const res = await myInterceptor.post(`${conf.API_GATEWAY}/auth/logout`,)
-   if(res.status===200){
-    router.push("sign-in");
-   }
-  };
+    const res = await myInterceptor.post(`${conf.API_GATEWAY}/auth/logout`,{})
+    if(res.status===200){
+     router.push("sign-in");
+    }
+   };
 
   const redirect = async (route: string) => {
     router.push(route);
@@ -101,7 +101,6 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
           </div>}
         </div>
         }
-        
 
         {details.isHome ? <div>
           <div>
@@ -124,6 +123,8 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
         <div className="hidden lg:block">
           <p>{formatDateTime(currentDateTime)}</p>
         </div>
+
+   
 
         <div onClick={() => router.push('/application')} className="bg-white cursor-pointer flex p-2 text-primary text-center rounded-full hover:text-white hover:bg-primary transition-all duration-75">
           <FaHome />
@@ -152,9 +153,6 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
           )}
         </div> : <></>}
 
-
-        
-
         <div className={`bg-white hidden lg:flex  text-primary cursor-pointer text-center rounded-full ${details.isHome ? '' : 'p-2'}`}>
           {details.isHome ? isadmin ? <div className="relative">
             <div
@@ -182,7 +180,7 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
             )}
           </div> : "" : <IoNotifications />}
         </div>
-          
+
         <div className="relative ">
           <div
             className={` p-2  text-center cursor-pointer rounded-full ${showDropdown ? 'bg-primary text-white' : 'bg-white text-primary'}`}
@@ -198,10 +196,10 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
               onMouseLeave={() => setShowDropdown(false)}
             >
               <ul className="py-1 bg-black border-gray-300 border rounded-md">
-                {/* <div className="mx-4 pt-2 space-y-4 mb-2 pb-2 border-b border-gray-500">
-                  <div>Name: {session?.user?.firstname} {session?.user?.lastname}</div>
-                  <div>Mobile: {session?.user?.mobile}</div>
-                </div> */}
+                <div className="mx-4 pt-2 space-y-4 mb-2 pb-2 border-b border-gray-500">
+                  <div>Name:</div>
+                  <div>Mobile: </div>
+                </div>
                 <IconButton icon={MdPassword} name="Change Password" onClick={() => setIsPasswordModalOpen(true)} />
                 <IconButton icon={FaEdit} name="Edit Profile" onClick={() => setUserModalOpen(true)} />
                 <IconButton icon={MdLogout} name="Log Out" onClick={handleSignOut} />
@@ -213,13 +211,13 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
 
       <Modal isOpen={isUserModalOpen}>
         <div className=' px-8 py-4 bg-black'> 
-        {/* <UserDetailsForm onCancel={() => setUserModalOpen(false)} uid={session?.user?.uid} firstName={session?.user?.firstname} lastName={session?.user?.lastname} contactNo={session?.user?.mobile} email={session?.user?.email} designation={session?.user?.designation} role={session?.user?.user_role_id} /> */}
+        <UserDetailsForm onCancel={() => setUserModalOpen(false)} uid={""} firstName={""} lastName={""} contactNo={""} email={""} designation={""} role={""} />
         </div>
       </Modal>
 
-      // <Modal isOpen={isPasswordModalOpen}>
-        {/* <UpdatePasswordForm uid={session?.user?.uid} onCancel={() => setIsPasswordModalOpen(false)} /> */}
-     // </Modal> 
+      <Modal isOpen={isPasswordModalOpen}>
+        <UpdatePasswordForm uid={""} onCancel={() => setIsPasswordModalOpen(false)} />
+      </Modal>
     </div>
   );
 };
