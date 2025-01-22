@@ -22,6 +22,7 @@ import DevicesStatics from "@/components/DevicesStatics";
 import NavBar from "@/components/nav/navbar";
 import conf from "@/conf/conf";
 import myIntercepter from "@/lib/interceptor";
+import { getStoredJwt } from "../../../../getCoockies";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const Dashboard: React.FC = (): JSX.Element => {
@@ -36,22 +37,6 @@ const Dashboard: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
     const deviceButtonStates = useSelector((state: any) => state.button.deviceButtonStates);
 
-    const router = useRouter();
-
-    const handleLogsClick = (uid: string) => {
-        router.push(`/logs/${uid}`);
-    };
-
-    useEffect(() => {
-        fetchDevices();
-    }, []);
-
-    const fetchDevices = async () => {
-        const devices = await myIntercepter.get(`${conf.TR_WLMS}/api/device`);
-        if (devices.data) {
-            setDevices(devices.data);
-        }
-    }
 
     useEffect(() => {
         Object.keys(deviceButtonStates).forEach((deviceUid) => {
@@ -80,20 +65,45 @@ const Dashboard: React.FC = (): JSX.Element => {
     };
 
     useEffect(() => {
-        socketTRWLMS.on('connect', () => {
-       
-            console.log('Connected to server as user');
-        });
 
-        socketTRWLMS.on('realtimeUpdate', (updatedDevices: any[]) => {
-            console.log('Received updated devices:', updatedDevices);
+        const handleConnect = async () => {
+            const jwt = await getStoredJwt();
+            socketTRWLMS.emit('userConnect', { jwt });
+        };
+
+        const handleDevicesUpdate = (updatedDevices: any[]) => {
             setDevices(updatedDevices);
-        });
+        };
 
-        socketTRWLMS.on('disconnect', () => {
+        const handleDisconnect = () => {
             console.log('Disconnected from server');
-        });
+        };
 
+
+        const executeHandleConnect = () => {
+            let count = 0;
+    
+            const intervalId = setInterval(async () => {
+                if (socketTRWLMS.connected) { 
+                    count++;
+                    await handleConnect();
+    
+                    if (count === 3) {
+                        clearInterval(intervalId); 
+                    }
+                } else {
+                    console.log('Socket not connected, skipping handleConnect');
+                }
+            }, 15000); 
+        };
+
+
+
+        socketTRWLMS.on('connect', executeHandleConnect);
+        socketTRWLMS.on('devices', handleDevicesUpdate);
+        socketTRWLMS.on('disconnect', handleDisconnect);
+
+    
         return () => {
             socketTRWLMS.off('connect');
             socketTRWLMS.off('deviceUpdateToUser');

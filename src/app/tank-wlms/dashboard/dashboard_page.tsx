@@ -23,6 +23,7 @@ import NavBar from "@/components/nav/navbar";
 import conf from "@/conf/conf";
 import title from "../title";
 import myIntercepter from "@/lib/interceptor";
+import { getStoredJwt } from "../../../../getCoockies";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const Dashboard: React.FC = (): JSX.Element => {
@@ -35,21 +36,6 @@ const Dashboard: React.FC = (): JSX.Element => {
 
     const dispatch = useDispatch();
     const deviceButtonStates = useSelector((state: any) => state.button.deviceButtonStates);
-
-    const router = useRouter();
-
-
-
-    useEffect(() => {
-        fetchDevices();
-    }, []);
-
-    const fetchDevices = async () => {
-        const devices = await myIntercepter.get(`${conf.TANK_WLMS}/api/device`);
-        if (devices.data) {
-            setDevices(devices.data);
-        }
-    }
 
     useEffect(() => {
         Object.keys(deviceButtonStates).forEach((deviceUid) => {
@@ -78,19 +64,43 @@ const Dashboard: React.FC = (): JSX.Element => {
     };
 
     useEffect(() => {
-        socket.on('connect', () => {
-   
-            console.log('Connected to server as user');
-        });
 
-        socket.on('deviceUpdateToUser', (updatedDevices: any[]) => {
-            console.log('Received updated devices:', updatedDevices);
+        const handleConnect = async () => {
+            const jwt = await getStoredJwt();
+            socket.emit('userConnect', { jwt });
+        };
+
+        const handleDevicesUpdate = (updatedDevices: any[]) => {
             setDevices(updatedDevices);
-        });
+        };
 
-        socket.on('disconnect', () => {
+        const handleDisconnect = () => {
             console.log('Disconnected from server');
-        });
+        };
+
+
+        const executeHandleConnect = () => {
+            let count = 0;
+    
+            const intervalId = setInterval(async () => {
+                if (socket.connected) { 
+                    count++;
+                    await handleConnect();
+    
+                    if (count === 3) {
+                        clearInterval(intervalId); 
+                    }
+                } else {
+                    console.log('Socket not connected, skipping handleConnect');
+                }
+            }, 15000); 
+        };
+
+
+        socket.on('connect', executeHandleConnect);
+        socket.on('devices', handleDevicesUpdate);
+        socket.on('disconnect', handleDisconnect);
+
 
         return () => {
             socket.off('connect');

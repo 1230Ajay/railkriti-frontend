@@ -1,23 +1,25 @@
-// socket.js
 import conf from '@/conf/conf';
 import { io } from 'socket.io-client';
 import { getStoredJwt } from '../../getCoockies';
 
-const socketWLMS = io(conf.BR_WLMS_SOCKET_URL);
+const socketRailTaap = io(conf.RAILTAAP_SOCKET_URL);
 
 const handleConnect = async () => {
     const jwt = await getStoredJwt();
-    socketWLMS.emit('userConnect', { jwt });
+    socketRailTaap.emit('userConnect', { jwt });
 };
 
 const executeHandleConnect = () => {
     let count = 0;
-    
+
     const intervalId = setInterval(async () => {
-        if (socketWLMS.connected) {
+
+        console.log(count);
+
+        if (socketRailTaap.connected) {
             count++;
             await handleConnect();
-            console.log('count is : ',count);
+
             if (count === 3) {
                 clearInterval(intervalId);
             }
@@ -28,6 +30,8 @@ const executeHandleConnect = () => {
 };
 
 
-socketWLMS.on('connect',executeHandleConnect);
+socketRailTaap.on('connect',executeHandleConnect);
 
-export default socketWLMS;
+
+
+export default socketRailTaap;

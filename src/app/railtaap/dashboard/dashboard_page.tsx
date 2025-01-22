@@ -11,17 +11,18 @@ import { BsFileEarmarkPdfFill, BsFillPrinterFill } from "react-icons/bs";
 import { TbListDetails } from "react-icons/tb";
 import { RiFileExcel2Fill, RiRestartLine } from "react-icons/ri";
 import { GrMapLocation } from "react-icons/gr";
-import socket from "@/services/socketRaiTaap";
+import socket from "@/services/socketRailTaap";
 import { useDispatch, useSelector } from "react-redux";
 import { disableButton, enableButton, setTimer } from "@/features/device/deviceSlice";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 import DevicesStatics from "@/components/DevicesStatics";
 import { PrimaryButton } from "@/components/buttons/primarybutton";
 import NavBar from "@/components/nav/navbar";
 import conf from "@/conf/conf";
 import title from "../title";
 import myIntercepter from "@/lib/interceptor";
+import { getStoredJwt } from "../../../../getCoockies";
+
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
@@ -36,20 +37,6 @@ const Dashboard: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
     const deviceButtonStates = useSelector((state: any) => state.button.deviceButtonStates);
 
-    const router = useRouter();
-
-
-
-    useEffect(() => {
-        fetchDevices();
-    }, []);
-
-    const fetchDevices = async () => {
-        const devices = await myIntercepter.get(`${conf.RAILTAAP}/api/device`);
-        if (devices.data) {
-            setDevices(devices.data);
-        }
-    }
 
     useEffect(() => {
         Object.keys(deviceButtonStates).forEach((deviceUid) => {
@@ -72,31 +59,36 @@ const Dashboard: React.FC = (): JSX.Element => {
             dispatch(disableButton({ deviceUid }));
             const disableUntil = Date.now() + 2 * 60 * 1000; // 2 minutes
             dispatch(setTimer({ deviceUid, timer: disableUntil }));
-
             socket.emit('rebootDevice', { "uid": deviceUid });
         }
     };
 
     useEffect(() => {
-        socket.on('connect', () => {
-            console.log('Connected to server as user');
-        });
 
-        socket.on('deviceUpdateToUser', (updatedDevices: any[]) => {
-            console.log('Received updated devices:', updatedDevices);
+
+
+
+
+
+        const handleDevicesUpdate = (updatedDevices: any[]) => {
             setDevices(updatedDevices);
-        });
+        };
 
-        socket.on('disconnect', () => {
+        const handleDisconnect = () => {
             console.log('Disconnected from server');
-        });
+        };
+
+
+        socket.on('devices', handleDevicesUpdate);
+        socket.on('disconnect', handleDisconnect);
+
 
         return () => {
-            socket.off('connect');
-            socket.off('deviceUpdateToUser');
-            socket.off('disconnect');
+            socket.off('devices', handleDevicesUpdate);
+            socket.off('disconnect', handleDisconnect);
         };
-    },);
+    }, []);
+
 
     useEffect(() => {
         if (activeDetail) {

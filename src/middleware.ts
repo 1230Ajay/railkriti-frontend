@@ -4,7 +4,6 @@ export async function middleware(request: NextRequest) {
     const token = request.cookies.get('jwt')?.value; // Get JWT from cookies
     const url = request.nextUrl;
     
-    console.log(token);
     // List of allowed unauthenticated routes
     const allowedUnauthenticatedUrls: string[] = [
         "/change-email",

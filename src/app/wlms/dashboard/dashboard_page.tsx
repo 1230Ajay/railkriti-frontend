@@ -15,13 +15,12 @@ import socket from "@/services/SocketService";
 import { useDispatch, useSelector } from "react-redux";
 import { disableButton, enableButton, setTimer } from "@/features/device/deviceSlice";
 import { toast } from "react-toastify";
-
-import { useRouter } from "next/navigation";
 import DevicesStatics from "@/components/DevicesStatics";
 import { PrimaryButton } from "@/components/buttons/primarybutton";
 import NavBar from "@/components/nav/navbar";
 import conf from "@/conf/conf";
 import myIntercepter from "@/lib/interceptor";
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const Dashboard: React.FC = (): JSX.Element => {
@@ -35,20 +34,6 @@ const Dashboard: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
     const deviceButtonStates = useSelector((state: any) => state.button.deviceButtonStates);
 
-    const router = useRouter();
-
-
-
-    useEffect(() => {
-        fetchDevices();
-    }, []);
-
-    const fetchDevices = async () => {
-        const devices = await myIntercepter.get(`${conf.BR_WLMS}/api/device`);
-        if (devices.data) {
-            setDevices(devices.data);
-        }
-    }
 
     useEffect(() => {
         Object.keys(deviceButtonStates).forEach((deviceUid) => {
@@ -77,23 +62,28 @@ const Dashboard: React.FC = (): JSX.Element => {
     };
 
     useEffect(() => {
-        socket.on('connect', () => {
-    
-            console.log('Connected to server as user');
-        });
 
-        socket.on('deviceUpdateToUser', (updatedDevices: any[]) => {
-            console.log('Received updated devices:', updatedDevices);
+
+
+
+        const handleDevicesUpdate = (updatedDevices: any[]) => {
+            console.log(updatedDevices);
             setDevices(updatedDevices);
-        });
+        };
 
-        socket.on('disconnect', () => {
+        const handleDisconnect = () => {
             console.log('Disconnected from server');
-        });
+        };
+
+
+        socket.on('devices', handleDevicesUpdate);
+        socket.on('disconnect', handleDisconnect);
+
+
 
         return () => {
             socket.off('connect');
-            socket.off('deviceUpdateToUser');
+            socket.off('devices');
             socket.off('disconnect');
         };
     });
@@ -140,9 +130,6 @@ const Dashboard: React.FC = (): JSX.Element => {
         return hourlyData;
     };
 
-    const toggleSidebar = () => {
-        setSearchState(!searchState);
-    };
 
     const toggleDetail = (uid: string) => {
         setActiveDetail((prevUid) => (prevUid === uid ? null : uid));

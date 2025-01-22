@@ -26,6 +26,7 @@ import socketSaathiRx from "@/services/socketSaathiRx";
 import conf from "@/conf/conf";
 import title from "../title";
 import myIntercepter from "@/lib/interceptor";
+import { getStoredJwt } from "../../../../getCoockies";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const Dashboard: React.FC = (): JSX.Element => {
@@ -47,28 +48,9 @@ const Dashboard: React.FC = (): JSX.Element => {
         router.push(`/logs/${uid}`);
     };
 
-    useEffect(() => {
-        fetchDevicesTx();
-        if(showRx){
-            fetchDevicesRx();
-        }
-    }, []);
 
 
 
-    const fetchDevicesTx = async () => {
-        const devices = await myIntercepter.get(`${conf.SAATHI_TX}/api/device`);
-        if (devices.data) {
-            setDevicesTx(devices.data);
-        }
-    }
-
-    const fetchDevicesRx = async () => {
-        const devices = await myIntercepter.get(`${conf.SAATHI_RX}/api/device`);
-        if (devices.data) {
-            setDevicesRx(devices.data);
-        }
-    }
 
     useEffect(() => {
         Object.keys(deviceButtonStates).forEach((deviceUid) => {
@@ -107,21 +89,20 @@ const Dashboard: React.FC = (): JSX.Element => {
     };
 
     useEffect(() => {
-        socketSaathiTX.on('connect', () => {
-            console.log('Connected to server as user');
-        });
 
-        socketSaathiTX.on('realtimeUpdate', (updatedDevices: any[]) => {
-            console.log('Received updated for tx devices:', updatedDevices);
+        const handleDevicesUpdate = (updatedDevices: any[]) => {
             setDevicesTx(updatedDevices);
-        });
+        };
 
-        socketSaathiTX.on('disconnect', () => {
+        const handleDisconnect = () => {
             console.log('Disconnected from server');
-        });
+        };
+
+        socketSaathiTX.on('devices', handleDevicesUpdate);
+        socketSaathiTX.on('disconnect', handleDisconnect);
 
         return () => {
-            socketSaathiTX.off('connect');
+
             socketSaathiTX.off('deviceUpdateToUser');
             socketSaathiTX.off('disconnect');
         };
@@ -131,19 +112,19 @@ const Dashboard: React.FC = (): JSX.Element => {
 
 
     useEffect(() => {
-        socketSaathiRx.on('connect', () => {
-    
-            console.log('Connected to server as user');
-        });
 
-        socketSaathiRx.on('realtimeUpdate', (updatedDevices: any[]) => {
-            console.log('Received updated fo rx devices:', updatedDevices);
-            setDevicesRx(updatedDevices);
-        });
+        const handleDevicesUpdate = (updatedDevices: any[]) => {
+            setDevicesTx(updatedDevices);
+        };
 
-        socketSaathiRx.on('disconnect', () => {
+        const handleDisconnect = () => {
             console.log('Disconnected from server');
-        });
+        };
+
+
+        socketSaathiRx.on('devices', handleDevicesUpdate);
+        socketSaathiRx.on('disconnect', handleDisconnect);
+
 
         return () => {
             socketSaathiRx.off('connect');
@@ -203,10 +184,9 @@ const Dashboard: React.FC = (): JSX.Element => {
             <div className="flex justify-between max-h-16 items-center mx-4 py-4  bg-black rounded-t-md mt-4 px-4 ">
                 <div className="  transition-all space-x-2 text-gray-400"><button onClick={() =>{ 
                     setShowRx(false)
-                    fetchDevicesTx()
                 }} className={` ${showRx ? '' : ' text-white font-bold'}  border-primary px-2 rounded-sm  text-md uppercase`}>Tx Live Status</button> <button onClick={() =>{
                      setShowRx(true) 
-                     fetchDevicesRx()}} className={` ${!showRx ? '' : ' text-white font-bold'}  border-primary px-2 rounded-sm   text-md uppercase`}>Rx Live Status</button></div>
+                  }} className={` ${!showRx ? '' : ' text-white font-bold'}  border-primary px-2 rounded-sm   text-md uppercase`}>Rx Live Status</button></div>
                 <div className=' flex-col md:flex-row md:space-x-4 hidden md:flex'>
 
                     <input
