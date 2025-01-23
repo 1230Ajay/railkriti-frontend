@@ -7,6 +7,7 @@ import { setIdentifier } from '@/features/forgot-password/forgotPsswordSlice';
 import { SignInPageData } from '../../data/sigin-in';
 import Image from 'next/image';
 import myIntercepter from '@/lib/interceptor';
+import conf from '@/conf/conf';
 
 export default function ChangeEmail() {
   const [identifier, setNewEmail] = useState<string>('');
@@ -18,17 +19,17 @@ export default function ChangeEmail() {
 
     try {
       setIsSubmitting(true);
-      const response = await myIntercepter.post('/api/forgot-password', {
+      const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/forgot-password`, {
         identifier: identifier,
       });
 
-      if (response.status===200) {
+      if (response.data.status===200) {
     
         toast.success('Otp sent to your mail.');
         await dispatch(setIdentifier(identifier));
         router.push('/forgot-password-otp');
       } else {
-        toast.error(`failed to get user with given credentials: ${response.data.message}`);
+        toast.error(`${response.data.message}`);
       }
     } catch (error: any) {
       console.error('Error updating email:', error.message);
@@ -58,7 +59,7 @@ export default function ChangeEmail() {
             value={identifier}
             onChange={(e) => setNewEmail(e.target.value)}
             className="bg-gray-700 text-white px-4 py-2 rounded-md w-full"
-            placeholder="Enter Email or User"
+            placeholder="Enter Email or Username"
           />
         </div>
         <div className="flex  flex-col gap-y-4 w-full items-center justify-center mb-6">

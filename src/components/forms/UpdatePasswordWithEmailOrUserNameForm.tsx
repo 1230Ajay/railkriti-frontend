@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 
 import { useRouter } from 'next/navigation';
 import myIntercepter from '@/lib/interceptor';
+import conf from '@/conf/conf';
 
 const UpdatePasswordForm: React.FC = () => {
 
@@ -27,16 +28,16 @@ const UpdatePasswordForm: React.FC = () => {
 
         const data = {
             identifier: identifier,
-            new_password: newPassword
+            password: newPassword
         };
 
         try {
-            const res = await myIntercepter.post('/api/change-passowrd-by-email-or-username', data);
-            if (res.status === 200) {
-                toast.success("Password updated successfully");
+            const res = await myIntercepter.post(`${conf.API_GATEWAY}/auth/update`, data);
+            if (res.data.status === 200) {
+                toast.success(res.data.message);
                 router.push('/sign-in')
             } else {
-                toast.error("Something went wrong while updating the password");
+                toast.error(res.data.message);
             }
         } catch (error: any) {
             toast.error(error.response?.data?.message || "An error occurred");

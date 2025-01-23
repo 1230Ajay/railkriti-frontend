@@ -19,15 +19,16 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
   const [designation, setDesignation] = useState('');
   const [zone_uid, setZone] = useState('');
   const [division_uid, setDivision] = useState('');
-  const [section_uid, setSections] = useState('');
-  const [firstname, setFirstName] = useState('');
-  const [lastname, setLastName] = useState('');
+  const [sections_uid, setSections] = useState<string[]>([]);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [mobile, setMobile] = useState('');
   const [email, setEmailState] = useState('');
 
   const [zoneOptions, setZoneOptions] = useState([]);
   const [divisionOptions, setDivisionOptions] = useState([]);
   const [sectionOptions, setSectionOptions] = useState([]);
+
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
   useEffect(() => {
     const fetchZones = async () => {
       try {
-        const zones = await myIntercepter.get('/api/zone');
+        const zones = await myIntercepter.get(`${conf.LOCTION}/api/zone`);
         setZoneOptions(zones.data);
       } catch (error) {
         console.error('Error fetching zones:', error);
@@ -51,7 +52,7 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
       if (zone_uid) {
         try {
           const response = await myIntercepter.get(`${conf.LOCTION}/api/zone/${zone_uid}`);
-          setDivisionOptions(response.data);
+          setDivisionOptions(response.data.divisions);
         } catch (error) {
           console.error('Error fetching divisions:', error);
         }
@@ -66,24 +67,38 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
       if (division_uid) {
         try {
           const response = await myIntercepter.get(`${conf.LOCTION}/api/division/${division_uid}`);
-          setSectionOptions(response.data);
+          console.log(response.data)
+          setSectionOptions(response.data.sections);
         } catch (error) {
           console.error('Error fetching sections:', error);
         }
       }
     };
+
     fetchSections();
   }, [division_uid]);
 
-  const handleZoneChange = (selectedZoneUid: React.SetStateAction<string>) => {
+  const handleZoneChange = async (selectedZoneUid: React.SetStateAction<string>) => {
     const selectedZone = zoneOptions.find((zone:any) => zone.uid === selectedZoneUid);
     setZone(selectedZoneUid);
     setDivision(''); // Reset division when zone changes
+
+    const response = await myIntercepter.get(`${conf.LOCTION}/api/sections/zone/${selectedZoneUid}`);
+    await setSections(response.data);
+
   };
 
-  const handleDivisionChange = (selectedDivision: React.SetStateAction<string>) => {
+  const handleDivisionChange = async (selectedDivision: React.SetStateAction<string>) => {
     setDivision(selectedDivision);
+    const response = await myIntercepter.get(`${conf.LOCTION}/api/sections/division/${selectedDivision}`);
+    await setSections(response.data);
   };
+
+  const handleSectionChange = (uid:any)=>{
+    const section = [uid]
+     setSections(section);
+  }
+
 
   const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
@@ -99,19 +114,17 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
       username,
       password,
       designation,
-      firstname,
-      lastname,
+      firstName,
+      lastName,
       mobile,
       email,
       ...(isRailwayEmployee && {
-        zone_uid: zone_uid || undefined,
-        division_uid: division_uid || undefined,
-        section_uid: section_uid.length > 0 ? section_uid : undefined,
+        allotedSections:sections_uid
       }),
     };
   
     try {
-      const response = await myIntercepter.post('/api/user', userData);
+      const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/sign-up`, userData);
       console.log('User registered successfully:', response.data);
       await dispatch(setEmail(email));
       await dispatch(setMobileNumber(mobile));
@@ -119,7 +132,6 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
       onClose();
     } catch (error:any) {
       console.error('Error registering user:', error);
-      // Display the error message from the backend in the toast
       toast.error(error.response?.data?.error || 'Something went wrong while creating user');
     }
   };
@@ -135,14 +147,14 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
           <TextInput
             label="First Name"
             htmlFor="firstName"
-            value={firstname}
+            value={firstName}
             onChange={setFirstName}
             required
           />
           <TextInput
             label="Last Name"
             htmlFor="lastName"
-            value={lastname}
+            value={lastName}
             onChange={setLastName}
             required
           />
@@ -245,8 +257,8 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
             <SelectInput
               label="Sections"
               htmlFor="sections"
-              value={section_uid}
-              onChange={setSections}
+              value={sections_uid}
+              onChange={handleSectionChange}
               options={sectionOptions}
               // Disable sections select until a division is selected
             />
@@ -266,7 +278,7 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
               setDesignation('');
               setZone('');
               setDivision('');
-              setSections('');
+              setSections([]);
               setFirstName('');
               setLastName('');
               setMobile('');

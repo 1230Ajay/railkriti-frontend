@@ -56,23 +56,20 @@ export default function SignInPage() {
       const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/sign-in`, {
         identifier,
         password
-      },
-      { withCredentials: true }
-    );
+      }
+      );
 
-      const result = response.data;
 
-      if (result) {
+
+      if (response.data.status === 200) {
         router.push('/application');
-        console.log(result, "user logged in successfully");
+        toast.success(response.data.message);
       } else {
-        console.log(result, "user logged out");
+        toast.error(response.data.message);
       }
 
     } catch (error: any) {
       toast.error('Error logging in: ' + error.message);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

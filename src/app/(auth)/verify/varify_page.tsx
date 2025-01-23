@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import Image from 'next/image';
 import { SignInPageData } from '@/app/data/sigin-in';
 import myIntercepter from '@/lib/interceptor';
+import conf from '@/conf/conf';
 
 
 
@@ -26,8 +27,9 @@ export default function OTPVerification() {
   const dispatch = useDispatch();
 
   const otpData = {
-    email,
-    code: otp,
+    identifier:email,
+    otp: Number(otp),
+    isVerified:true
   };
 
   useEffect(() => {
@@ -42,11 +44,13 @@ export default function OTPVerification() {
   const handleSubmit = async () => {
     try {
       setIsVerifying(true);
-      const response = await myIntercepter.post('/api/verify-otp', otpData);
-      if (response.data.success) {
+      const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/verify-otp`, otpData);
+      if (response.data.status===200) {
         setVerificationStatus('success');
+        toast.success("Account verified!");
         router.push('/verified');
       } else {
+        toast.error(response.data.message);
         setVerificationStatus('failed');
       }
     } catch (error) {

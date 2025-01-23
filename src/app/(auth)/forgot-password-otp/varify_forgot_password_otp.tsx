@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import Image from 'next/image';
 import { SignInPageData } from '@/app/data/sigin-in';
 import myIntercepter from '@/lib/interceptor';
+import conf from '@/conf/conf';
 // Ensure you import your RootState type
 
 export default function ForgotPasswordOTPVerification() {
@@ -24,7 +25,7 @@ export default function ForgotPasswordOTPVerification() {
 
   const otpData = {
     identifier,
-    code: otp,
+    otp: Number(otp),
   };
 
   useEffect(() => {
@@ -38,19 +39,17 @@ export default function ForgotPasswordOTPVerification() {
 
   const handleSubmit = async () => {
     try {
-      setIsVerifying(true);
-      const response = await myIntercepter.post('/api/forgot-password-otp', otpData);
+
+      const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/verify-otp`, otpData);
       
-      if (response.status === 200 && response.data.success) {
+      if (response.data.status === 200) {
         setVerificationStatus('success');
         router.push('/change-password-by-email-or-username');
-      } else if (response.status === 400) {
-        toast.error('Wrong OTP. Please recheck your OTP.');
-        setVerificationStatus('failed');
       } else {
+        toast.error(response.data.message);
         setVerificationStatus('failed');
-        toast.error('OTP verification failed. Please try again.');
       }
+      setIsVerifying(true);
     } catch (error) {
       console.error('Error verifying OTP:', error);
       setVerificationStatus('error');
@@ -63,7 +62,9 @@ export default function ForgotPasswordOTPVerification() {
   const handleResendOTP = async () => {
     try {
       setIsResending(true);
-      await myIntercepter.post('/api/resend-otp-forgot-password', { identifier });
+      const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/forgot-password`, {
+        identifier: identifier,
+      });
       toast.success('OTP has been resent to your email.');
       setResendTimer(30);
     } catch (error) {
