@@ -52,13 +52,8 @@ const Dashboard: React.FC = (): JSX.Element => {
     }, [deviceButtonStates, dispatch]);
 
     const handleRestartClick = (deviceUid: string) => {
-        if (!deviceButtonStates[deviceUid]?.disabled) {
-            dispatch(disableButton({ deviceUid }));
-            const disableUntil = Date.now() + 2 * 60 * 1000; // 2 minutes
-            dispatch(setTimer({ deviceUid, timer: disableUntil }));
-
             socket.emit('rebootDevice', { "uid": deviceUid });
-        }
+
     };
 
     useEffect(() => {
@@ -154,7 +149,6 @@ const Dashboard: React.FC = (): JSX.Element => {
             },
         ],
     };
-
 
     const lineChartOptions = {
         responsive: true,
@@ -314,16 +308,18 @@ const Dashboard: React.FC = (): JSX.Element => {
                             </div>
                             <div className="flex justify-center items-center ">
                                 <button
-                                    className={`flex  w-fit items-center justify-center ${deviceButtonStates[device.uid]?.disabled ? 'bg-gray-600' : 'bg-green-600'} rounded-full p-2`}
+                                    className={`flex  w-fit items-center justify-center ${ !device.relay_status ? 'bg-gray-600' : 'bg-green-600'} rounded-full p-2`}
                                     onClick={() => {
                                         if (device.is_online) {
                                             toast.error(`Device is allready online`);
                                         } else {
+                                          if(device.relay_status){
                                             handleRestartClick(device.uid)
                                             toast.success(`${device.river_name} (${device.bridge_no}) is being restarted`);
+                                          }
                                         }
                                     }}
-                                    disabled={deviceButtonStates[device.uid]?.disabled}
+                               
                                 >
                                     <RiRestartLine />
                                 </button>

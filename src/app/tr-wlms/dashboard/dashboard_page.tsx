@@ -55,21 +55,11 @@ const Dashboard: React.FC = (): JSX.Element => {
     }, [deviceButtonStates, dispatch]);
 
     const handleRestartClick = (deviceUid: string) => {
-        if (!deviceButtonStates[deviceUid]?.disabled) {
-            dispatch(disableButton({ deviceUid }));
-            const disableUntil = Date.now() + 2 * 60 * 1000; // 2 minutes
-            dispatch(setTimer({ deviceUid, timer: disableUntil }));
-
             socketTRWLMS.emit('rebootDevice', { "uid": deviceUid });
-        }
     };
 
     useEffect(() => {
 
-        const handleConnect = async () => {
-            const jwt = await getStoredJwt();
-            socketTRWLMS.emit('userConnect', { jwt });
-        };
 
         const handleDevicesUpdate = (updatedDevices: any[]) => {
             setDevices(updatedDevices);
@@ -80,26 +70,7 @@ const Dashboard: React.FC = (): JSX.Element => {
         };
 
 
-        const executeHandleConnect = () => {
-            let count = 0;
-    
-            const intervalId = setInterval(async () => {
-                if (socketTRWLMS.connected) { 
-                    count++;
-                    await handleConnect();
-    
-                    if (count === 3) {
-                        clearInterval(intervalId); 
-                    }
-                } else {
-                    console.log('Socket not connected, skipping handleConnect');
-                }
-            }, 15000); 
-        };
 
-
-
-        socketTRWLMS.on('connect', executeHandleConnect);
         socketTRWLMS.on('devices', handleDevicesUpdate);
         socketTRWLMS.on('disconnect', handleDisconnect);
 
@@ -243,16 +214,20 @@ const Dashboard: React.FC = (): JSX.Element => {
 
                             <div className="flex justify-center items-center ">
                                 <button
-                                    className={`flex  w-fit items-center justify-center ${deviceButtonStates[device.uid]?.disabled ? 'bg-gray-600' : 'bg-green-600'} rounded-full p-2`}
+                                    className={`flex  w-fit items-center justify-center ${!device.relay_status ? 'bg-gray-600' : 'bg-green-600'} rounded-full p-2`}
                                     onClick={() => {
                                         if (device.is_online) {
                                             toast.error(`Device is allready online`);
                                         } else {
-                                            handleRestartClick(device.uid)
+                                            if(device.relay_status){
+                                                handleRestartClick(device.uid)
                                             toast.success(`${device.location} (${device.km}) is being restarted`);
+                                            }else{
+                                                toast.error(`Relay is Offline`);
+                                            }
                                         }
                                     }}
-                                    disabled={deviceButtonStates[device.uid]?.disabled}
+                    
                                 >
                                     <RiRestartLine />
                                 </button>

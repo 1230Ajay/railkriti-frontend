@@ -55,12 +55,7 @@ const Dashboard: React.FC = (): JSX.Element => {
     }, [deviceButtonStates, dispatch]);
 
     const handleRestartClick = (deviceUid: string) => {
-        if (!deviceButtonStates[deviceUid]?.disabled) {
-            dispatch(disableButton({ deviceUid }));
-            const disableUntil = Date.now() + 2 * 60 * 1000; // 2 minutes
-            dispatch(setTimer({ deviceUid, timer: disableUntil }));
             socket.emit('rebootDevice', { "uid": deviceUid });
-        }
     };
 
     useEffect(() => {
@@ -97,15 +92,15 @@ const Dashboard: React.FC = (): JSX.Element => {
     }, [selectedDate, activeDetail]);
 
 
-    const getDateRange = (selectedDate:any) => {
+    const getDateRange = (selectedDate: any) => {
         const startDate = new Date(selectedDate);
         startDate.setHours(0, 0, 0, 0);
-      
+
         const endDate = new Date(selectedDate);
         endDate.setHours(23, 59, 59, 999);
-      
+
         return { start: startDate, end: endDate };
-      };
+    };
 
 
 
@@ -115,7 +110,7 @@ const Dashboard: React.FC = (): JSX.Element => {
 
         try {
             const response = await myIntercepter.get(`${conf.RAILTAAP}/api/logs/${uid}`, {
-                params:dates,
+                params: dates,
             });
             const data = response.data;
             const processedData = processChartData(data.device_logs);
@@ -129,7 +124,7 @@ const Dashboard: React.FC = (): JSX.Element => {
         const hourlyData = Array(24).fill(null);
         data.forEach((entry) => {
             const hour = new Date(entry.created_at).getHours();
-            hourlyData[hour] = entry.temp >0? entry.temp:null; // Assuming 'level' is the value you want to plot
+            hourlyData[hour] = entry.temp > 0 ? entry.temp : null; // Assuming 'level' is the value you want to plot
         });
         return hourlyData;
     };
@@ -223,8 +218,8 @@ const Dashboard: React.FC = (): JSX.Element => {
         },
         spanGaps: true,
         animation: {
-            duration: 2000, 
-    
+            duration: 2000,
+
             // Adjust animation duration in milliseconds
         },
     };
@@ -235,7 +230,7 @@ const Dashboard: React.FC = (): JSX.Element => {
     const activeDevices = devices.filter(device => device.isActive).length;
 
     const filteredDevices = devices.filter(device =>
-     true
+        true
     );
 
 
@@ -302,7 +297,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                                         const encodedUrl = encodeURIComponent(`${device.km}-${device.location}`)
                                         const path = `/location/${device.lattitude}-${device.longitude}-${encodedUrl}`
                                         const url = `${window.location.origin}${path}`;
-                                        
+
                                         window.open(url, '_blank', 'noopener,noreferrer');
                                     }
                                 } className="w-fit" />
@@ -321,16 +316,20 @@ const Dashboard: React.FC = (): JSX.Element => {
                             </div>
                             <div className="flex justify-center items-center ">
                                 <button
-                                    className={`flex  w-fit items-center justify-center ${deviceButtonStates[device.uid]?.disabled ? 'bg-gray-600' : 'bg-green-600'} rounded-full p-2`}
+                                    className={`flex  w-fit items-center justify-center ${!device.relay_status ? 'bg-gray-600' : 'bg-green-600'} rounded-full p-2`}
                                     onClick={() => {
                                         if (device.is_online) {
                                             toast.error(`Device is allready online`);
                                         } else {
-                                            handleRestartClick(device.uid)
-                                            toast.success(`${device.km} (${device.location}) is being restarted`);
+                                            if (device.relay_status) {
+                                                handleRestartClick(device.uid)
+                                                toast.success(`${device.km} (${device.location}) is being restarted`);
+                                            } else {
+                                                toast.error(`Relay is offline`);
+                                            }
                                         }
                                     }}
-                                    disabled={deviceButtonStates[device.uid]?.disabled}
+            
                                 >
                                     <RiRestartLine />
                                 </button>
@@ -384,7 +383,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                                 </div>
 
                                 <div className="min-w-[720px] h-[32vh] flex justify-center items-center pr-4 ">
-                                <Line data={lineChartData} options={lineChartOptions} />
+                                    <Line data={lineChartData} options={lineChartOptions} />
                                     {/* <div className=" text-4xl capitalize text-primary">under maintainance</div>  */}
                                 </div>
                             </div>

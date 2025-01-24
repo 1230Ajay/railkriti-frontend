@@ -59,12 +59,12 @@ export default function SignInPage() {
       }
       );
 
-
-
       if (response.data.status === 200) {
         router.push('/application');
+        setIsSubmitting(false);
         toast.success(response.data.message);
       } else {
+        setIsSubmitting(false);
         toast.error(response.data.message);
       }
 

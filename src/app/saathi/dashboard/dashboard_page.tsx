@@ -69,23 +69,13 @@ const Dashboard: React.FC = (): JSX.Element => {
     }, [deviceButtonStates, dispatch]);
 
     const handleRestartClickTx = (deviceUid: string) => {
-        if (!deviceButtonStates[deviceUid]?.disabled) {
-            dispatch(disableButton({ deviceUid }));
-            const disableUntil = Date.now() + 2 * 60 * 1000; // 2 minutes
-            dispatch(setTimer({ deviceUid, timer: disableUntil }));
-
-            socketSaathiTX.emit('rebootDevice', { "uid": deviceUid });
-        }
+        console.log("Rebotting tx")
+        socketSaathiTX.emit('rebootDevice', { "uid": deviceUid });
     };
 
     const handleRestartClickRx = (deviceUid: string) => {
-        if (!deviceButtonStates[deviceUid]?.disabled) {
-            dispatch(disableButton({ deviceUid }));
-            const disableUntil = Date.now() + 2 * 60 * 1000; // 2 minutes
-            dispatch(setTimer({ deviceUid, timer: disableUntil }));
-
-            socketSaathiRx.emit('rebootDevice', { "uid": deviceUid });
-        }
+        console.log("rebootinh rx");
+        socketSaathiRx.emit('rebootDevice', { "uid": deviceUid });
     };
 
     useEffect(() => {
@@ -114,7 +104,7 @@ const Dashboard: React.FC = (): JSX.Element => {
     useEffect(() => {
 
         const handleDevicesUpdate = (updatedDevices: any[]) => {
-            setDevicesTx(updatedDevices);
+            setDevicesRx(updatedDevices);
         };
 
         const handleDisconnect = () => {
@@ -177,16 +167,16 @@ const Dashboard: React.FC = (): JSX.Element => {
 
 
 
-            {!showRx 
+            {!showRx
                 ? <DevicesStatics totalDevices={totalDevicesTx} activeDevices={activeDevicesTx} onlineDevices={onlineDevicesTx} offlineDevices={offlineDevicesTx} />
                 : <DevicesStatics totalDevices={totalDevicesRx} activeDevices={activeDevicesRx} onlineDevices={onlineDevicesRx} offlineDevices={offlineDevicesRx} />
             }
             <div className="flex justify-between max-h-16 items-center mx-4 py-4  bg-black rounded-t-md mt-4 px-4 ">
-                <div className="  transition-all space-x-2 text-gray-400"><button onClick={() =>{ 
+                <div className="  transition-all space-x-2 text-gray-400"><button onClick={() => {
                     setShowRx(false)
-                }} className={` ${showRx ? '' : ' text-white font-bold'}  border-primary px-2 rounded-sm  text-md uppercase`}>Tx Live Status</button> <button onClick={() =>{
-                     setShowRx(true) 
-                  }} className={` ${!showRx ? '' : ' text-white font-bold'}  border-primary px-2 rounded-sm   text-md uppercase`}>Rx Live Status</button></div>
+                }} className={` ${showRx ? '' : ' text-white font-bold'}  border-primary px-2 rounded-sm  text-md uppercase`}>Tx Live Status</button> <button onClick={() => {
+                    setShowRx(true)
+                }} className={` ${!showRx ? '' : ' text-white font-bold'}  border-primary px-2 rounded-sm   text-md uppercase`}>Rx Live Status</button></div>
                 <div className=' flex-col md:flex-row md:space-x-4 hidden md:flex'>
 
                     <input
@@ -236,11 +226,11 @@ const Dashboard: React.FC = (): JSX.Element => {
                         <div className={`text-center min-w-[720px] text-xs md:text-base grid grid-cols-9 ${activeDetail === device.uid ? '' : 'border-b'} border-gray-600 items-center py-2`}>
                             <p className=" ml-4 text-start">{index + 1}</p>
                             <p className=" text-start capitalize">{device.name}</p>
-                            <p className=" text-start capitalize">{device.is_fixed?"Fixed":"Mobile"} / {device.installed_at}</p>
+                            <p className=" text-start capitalize">{device.is_fixed ? "Fixed" : "Mobile"} / {device.installed_at}</p>
 
                             <div className="flex justify-center">
-                                <p className={`uppercase w-fit px-4 rounded-full py-1 font-semibold ${device.sensor_status && device.is_online ? 'bg-green-600 text-white': 'bg-primary text-white  ' }`}>
-                                    {device.sensor_status && device.is_online ?  "OK": "Error"}
+                                <p className={`uppercase w-fit px-4 rounded-full py-1 font-semibold ${device.sensor_status && device.is_online ? 'bg-green-600 text-white' : 'bg-primary text-white  '}`}>
+                                    {device.sensor_status && device.is_online ? "OK" : "Error"}
                                 </p>
                             </div>
 
@@ -265,16 +255,20 @@ const Dashboard: React.FC = (): JSX.Element => {
 
                             <div className="flex justify-center items-center ">
                                 <button
-                                    className={`flex  w-fit items-center justify-center ${deviceButtonStates[device.uid]?.disabled ? 'bg-gray-600' : 'bg-green-600'} rounded-full p-2`}
+                                    className={`flex  w-fit items-center justify-center ${!device.relay_status ? 'bg-gray-600' : 'bg-green-600'} rounded-full p-2`}
                                     onClick={() => {
                                         if (device.is_online) {
                                             toast.error(`Device is allready online`);
                                         } else {
-                                            handleRestartClickTx(device.uid)
-                                            toast.success(`${device.name}  is being restarted`);
+                                            if (device.relay_status) {
+                                                handleRestartClickTx(device.uid)
+                                                toast.success(`${device.name}  is being restarted`);
+                                            } else {
+                                                toast.error(`Relay is offline`);
+                                            }
                                         }
                                     }}
-                                    disabled={deviceButtonStates[device.uid]?.disabled}
+
                                 >
                                     <RiRestartLine />
                                 </button>
@@ -316,7 +310,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                         <div className={`text-center min-w-[720px] text-xs md:text-base grid grid-cols-9 ${activeDetail === device.uid ? '' : 'border-b'} border-gray-600 items-center py-2`}>
                             <p className=" ml-4 text-start">{index + 1}</p>
                             <p className=" text-start capitalize">{device.name}</p>
-                            <p className=" text-start capitalize">{`${device.is_fixed?"Fixed":"Mobile"} / ${device.installed_at}`}</p>
+                            <p className=" text-start capitalize">{`${device.is_fixed ? "Fixed" : "Mobile"} / ${device.installed_at}`}</p>
 
                             <div className="flex justify-center">
                                 <p className={`uppercase w-fit px-4 rounded-full py-1 font-semibold ${!device.hooter_status && device.is_online ? 'bg-primary text-white  ' : 'bg-green-600 text-white'}`}>
@@ -345,16 +339,20 @@ const Dashboard: React.FC = (): JSX.Element => {
 
                             <div className="flex justify-center items-center ">
                                 <button
-                                    className={`flex  w-fit items-center justify-center ${deviceButtonStates[device.uid]?.disabled ? 'bg-gray-600' : 'bg-green-600'} rounded-full p-2`}
+                                    className={`flex  w-fit items-center justify-center ${!device.relay_status ? 'bg-gray-600' : 'bg-green-600'} rounded-full p-2`}
                                     onClick={() => {
                                         if (device.is_online) {
                                             toast.error(`Device is allready online`);
                                         } else {
-                                            handleRestartClickRx(device.uid)
-                                            toast.success(`${device.name}  is being restarted`);
+                                            if (device.relay_status) {
+                                                handleRestartClickRx(device.uid)
+                                                toast.success(`${device.name}  is being restarted`);
+                                            } else {
+                                                toast.error(`Relay is Offline`);
+                                            }
                                         }
                                     }}
-                                    disabled={deviceButtonStates[device.uid]?.disabled}
+
                                 >
                                     <RiRestartLine />
                                 </button>
