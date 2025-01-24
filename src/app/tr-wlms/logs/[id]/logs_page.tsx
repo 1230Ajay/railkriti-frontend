@@ -2,6 +2,7 @@
 
 import NavBar from "@/components/nav/navbar";
 import conf from "@/conf/conf";
+import myInterceptor from "@/lib/interceptor";
 import axios from "axios";
 
 import { useEffect, useState } from "react";
@@ -30,7 +31,7 @@ interface Device {
 // Fetch data function
 const fetchLog = async (id: string): Promise<Device> => {
   try {
-    const res = await axios.get(`${conf.TR_WLMS}/api/logs/${id}`);
+    const res = await myInterceptor.get(`${conf.TR_WLMS}/api/logs/${id}`);
     console.log(res.data)
     return res.data;
     console.log(res.data)

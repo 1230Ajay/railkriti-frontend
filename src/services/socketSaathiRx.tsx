@@ -28,7 +28,7 @@ const executeHandleConnect = () => {
         } else {
             console.log('Socket not connected, skipping handleConnect');
         }
-    }, 15000);
+    }, 5000);
 };
 
 
