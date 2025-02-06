@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { FaEnvelope, FaEye, FaEyeSlash, FaSync } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Image from 'next/image';
-import { SignInPageData } from "@/lib/data/sigin-in";
+import { SignInPageData } from "@/app/data/sigin-in";
 import Link from "next/link";
 import myIntercepter from '@/lib/interceptor';
 import conf from '@/conf/conf';
@@ -63,7 +63,6 @@ export default function SignInPage() {
         router.push('/application');
         setIsSubmitting(false);
         toast.success(response.data.message);
-        await sessionStorage.setItem('user',JSON.stringify(response.data.user));
       } else {
         setIsSubmitting(false);
         toast.error(response.data.message);

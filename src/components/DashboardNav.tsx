@@ -28,10 +28,10 @@ type DashboardNavProps = {
   isHome?: boolean;
   disableMenuBar?: boolean;
   title?: {
-    titleSm: string,
-    titleXl: string
-  }
-
+      titleSm:string,
+      titleXl:string
+    }
+  
 };
 
 const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) => {
@@ -78,30 +78,15 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
     return `${hours}:${minutes}:${seconds}; ${day} ${month} ${year}`;
   };
   const handleSignOut = async () => {
-    const res = await myInterceptor.post(`${conf.API_GATEWAY}/auth/logout`, {})
-    if (res.status === 200) {
-      router.push("sign-in");
+    const res = await myInterceptor.post(`${conf.API_GATEWAY}/auth/logout`,{})
+    if(res.status===200){
+     router.push("sign-in");
     }
-  };
+   };
 
   const redirect = async (route: string) => {
     router.push(route);
   }
-
-  let parsedUser=null;
- 
-  try {
-    const user = sessionStorage.getItem("user");
-
-    if (user) {
-        parsedUser = JSON.parse(user); 
-    }
-  
-  
-  } catch (error) {
-    console.log("unable to get userData");
-  }
-
 
   return (
     <div className="flex items-center justify-between py-4 h-20 px-4 bg-black  w-screen z-10">
@@ -118,10 +103,10 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
             <Image src="/assets/logo/logo-dark.png" alt="Logo" width={360} height={80} />
           </div>
         </div> : <Link href={'dashboard'} className="flex items-end lg:space-x-2 cursor-pointer">
-          <div className="flex items-end">
-            <p className="text-2xl lg:hidden">{details.title?.titleSm}</p>
-            <p className="hidden capitalize lg:block">{details.title?.titleXl}</p>
-          </div>
+        <div className="flex items-end">
+              <p className="text-2xl lg:hidden">{details.title?.titleSm}</p>
+              <p className="hidden capitalize lg:block">{details.title?.titleXl}</p>
+            </div>
         </Link>
         }
 
@@ -133,7 +118,7 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
           <p>{formatDateTime(currentDateTime)}</p>
         </div>
 
-
+   
 
         <div onClick={() => router.push('/application')} className="bg-white cursor-pointer flex p-2 text-primary text-center rounded-full hover:text-white hover:bg-primary transition-all duration-75">
           <FaHome />
@@ -160,8 +145,7 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
               </ul>
             </div>
           )}
-        </div> : <></>
-        }
+        </div> : <></>}
 
         <div className={`bg-white hidden lg:flex  text-primary cursor-pointer text-center rounded-full ${details.isHome ? '' : 'p-2'}`}>
           {details.isHome ? isadmin ? <div className="relative">
@@ -207,8 +191,8 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
             >
               <ul className="py-1 bg-black border-gray-300 border rounded-md">
                 <div className="mx-4 pt-2 space-y-4 mb-2 pb-2 border-b border-gray-500">
-                  <div>Name: {parsedUser?.firstName} {parsedUser?.lastName}</div>
-                  <div>Mobile: {parsedUser?.mobile} </div>
+                  <div>Name:</div>
+                  <div>Mobile: </div>
                 </div>
                 <IconButton icon={MdPassword} name="Change Password" onClick={() => setIsPasswordModalOpen(true)} />
                 <IconButton icon={FaEdit} name="Edit Profile" onClick={() => setUserModalOpen(true)} />
@@ -220,8 +204,8 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
       </div>
 
       <Modal isOpen={isUserModalOpen}>
-        <div className=' px-8 py-4 bg-black'>
-          <UserDetailsForm onCancel={() => setUserModalOpen(false)} uid={""} firstName={""} lastName={""} contactNo={""} email={""} designation={""} role={""} />
+        <div className=' px-8 py-4 bg-black'> 
+        <UserDetailsForm onCancel={() => setUserModalOpen(false)} uid={""} firstName={""} lastName={""} contactNo={""} email={""} designation={""} role={""} />
         </div>
       </Modal>
 
