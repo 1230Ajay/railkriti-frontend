@@ -7,6 +7,7 @@ import { BsFileEarmarkPdfFill, BsFillPrinterFill } from 'react-icons/bs';
 import DateInput from '@/components/text-fields/DateInput';
 import conf from '@/conf/conf';
 import myIntercepter from '@/lib/interceptor';
+import { Titles } from '@/lib/data/title';
 
 
 
@@ -117,16 +118,10 @@ const Reports: React.FC = (): JSX.Element => {
       second: '2-digit'
     });
   };
-  const title =[
-    { short: 'Tr', full: 'ack' },
-    { short: 'W', full: 'ater' },
-    { short: 'L', full: 'ogging' },
-    { short: 'M', full: 'onitering' },
-    { short: 'S', full: 'ystem' },
-  ];
+
   return (
     <div className='grid grid-rows-[auto_auto_1fr] h-screen'>
-      <NavBar title={title} />
+      <NavBar title={Titles.TrWlmsTitle} />
 
       <div className="bg-black rounded-md p-4 mt-4 mx-4">
         <h2 className='font-bold text-xl text-white uppercase pb-2'>Reports {selectedDevice?.location}</h2>

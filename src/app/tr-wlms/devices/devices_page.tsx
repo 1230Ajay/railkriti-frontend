@@ -13,6 +13,7 @@ import TRWLMSDeviceReservationForm from '@/components/forms/tr-wlms/trwlmsDevice
 import TRWLMSDeviceUpdateForm from '@/components/forms/tr-wlms/trwlmsupdateDeviceDetail';
 import conf from '@/conf/conf';
 import myIntercepter from '@/lib/interceptor';
+import { Titles } from '@/lib/data/title';
 
 
 interface Device {
@@ -90,17 +91,10 @@ const DevicePage: React.FC = ():JSX.Element => {
     }
   };
 
-  const title =[
-    { short: 'Tr', full: 'ack' },
-    { short: 'W', full: 'ater' },
-    { short: 'L', full: 'ogging' },
-    { short: 'M', full: 'onitering' },
-    { short: 'S', full: 'ystem' },
-  ];
 
   return (
     <div className=' grid h-screen grid-rows-[auto_auto_1fr] '>
-      <NavBar title={title} />
+      <NavBar title={Titles.TrWlmsTitle} />
 
       <div className="flex justify-between max-h-16 items-center mx-4 py-4  bg-black rounded-t-md mt-4 px-4 ">
         <h2 className="font-bold text-white text-xl uppercase">Devices</h2>

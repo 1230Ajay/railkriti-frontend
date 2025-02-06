@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { BsFileEarmarkPdfFill, BsFillPrinterFill } from "react-icons/bs";
 import { RiFileExcel2Fill } from "react-icons/ri";
 import conf from "@/conf/conf";
-import title from "../../title";
 import myIntercepter from "@/lib/interceptor";
+import { Titles } from "@/lib/data/title";
 
 interface Log {
   isTrainDetected: any;
@@ -31,7 +31,7 @@ interface Device {
 
 const currentDate = new Date();
 
-currentDate.setDate(currentDate.getDate()+1);
+currentDate.setDate(currentDate.getDate() + 1);
 
 // Get the date from three days ago
 const threeDaysAgo = new Date();
@@ -45,7 +45,7 @@ const toDate = currentDate.toISOString();
 // Fetch data function
 const fetchLog = async (id: string): Promise<Log[]> => {
   try {
-    const res = await myIntercepter.get(`${conf.SAATHI_TX}/api/logs/${id}`,{params: {start: fromDate, end: toDate }});
+    const res = await myIntercepter.get(`${conf.SAATHI_TX}/api/logs/${id}`, { params: { start: fromDate, end: toDate } });
     return res.data.device_logs;
   } catch (error) {
     console.log(error);
@@ -87,7 +87,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
 
   return (
     <div className=" grid h-screen w-screen grid-rows-[auto_auto_1fr]  ">
-      <NavBar title={title} disableMenuBar={true} />
+      <NavBar title={Titles.SaathiTitle} disableMenuBar={true} />
       <div className='flex justify-between rounded-t-md mx-4 mt-4 bg-black items-center px-4'>
         <h2 className='font-bold text-white py-4 uppercase text-2xl flex items-center'>Logs Tx <div className="ml-2 "></div></h2>
         <div className='space-x-4 items-center hidden lg:flex'>
@@ -138,8 +138,8 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
                       {log.sensor_status && log.is_online ? "ON" : "OFF"}
                     </p>
                   </div>
-                  
-                  <div >{log.sensor_status && log.is_online&& log.isTrainDetected?<div className=" flex items-center justify-center"><FaTrainSubway className=" bg-primary p-1 rounded-full h-full w-6 " /> <div className=" w-2"></div> <p className=" text-sm">Train Detected</p></div>:''}</div>
+
+                  <div >{log.sensor_status && log.is_online && log.isTrainDetected ? <div className=" flex items-center justify-center"><FaTrainSubway className=" bg-primary p-1 rounded-full h-full w-6 " /> <div className=" w-2"></div> <p className=" text-sm">Train Detected</p></div> : ''}</div>
 
                 </div>
               ))

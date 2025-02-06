@@ -6,8 +6,8 @@ import Modal from '@/components/pop-ups/AddPopUp';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { ApplicationPageData } from '../data/ApplicationPageData';
-import { FooterData } from '../data/FooterData';
+import { ApplicationPageData } from '../../lib/data/ApplicationPageData';
+import { FooterData } from '../../lib/data/FooterData';
 
 interface App {
   image: string;

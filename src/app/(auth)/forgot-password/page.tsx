@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { setIdentifier } from '@/features/forgot-password/forgotPsswordSlice';
-import { SignInPageData } from '../../data/sigin-in';
+import { SignInPageData } from '../../../lib/data/sigin-in';
 import Image from 'next/image';
 import myIntercepter from '@/lib/interceptor';
 import conf from '@/conf/conf';

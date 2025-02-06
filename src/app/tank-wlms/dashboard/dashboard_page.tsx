@@ -13,17 +13,15 @@ import { RiFileExcel2Fill, RiRestartLine } from "react-icons/ri";
 import { GrMapLocation } from "react-icons/gr";
 import socket from "@/services/tankWLMS";
 import { useDispatch, useSelector } from "react-redux";
-import { disableButton, enableButton, setTimer } from "@/features/device/deviceSlice";
+import {  enableButton, setTimer } from "@/features/device/deviceSlice";
 import { toast } from "react-toastify";
-
-import { useRouter } from "next/navigation";
 import DevicesStatics from "@/components/DevicesStatics";
 import { PrimaryButton } from "@/components/buttons/primarybutton";
 import NavBar from "@/components/nav/navbar";
 import conf from "@/conf/conf";
-import title from "../title";
 import myIntercepter from "@/lib/interceptor";
 import { getStoredJwt } from "../../../../getCoockies";
+import { Titles } from "@/lib/data/title";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const Dashboard: React.FC = (): JSX.Element => {
@@ -247,7 +245,7 @@ const Dashboard: React.FC = (): JSX.Element => {
 
     return (
         <div className="h-screen xl:grid grid-rows-[auto_auto_auto_1fr] ">
-            <NavBar title={title} ></NavBar>
+            <NavBar title={Titles.TankWlmsTitle} ></NavBar>
 
             <DevicesStatics totalDevices={totalDevices} activeDevices={activeDevices} onlineDevices={onlineDevices} offlineDevices={offlineDevices} />
 

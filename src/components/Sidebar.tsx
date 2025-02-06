@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import IsAdmin from '@/helpers/getUserRoles';
-import allowedSidebarPages from '@/app/data/SidebarData';
+import allowedSidebarPages from '@/lib/data/SidebarData';
 
 interface SidebarProps {
   sidebarOpen: boolean;

@@ -2,17 +2,11 @@
 import { useState } from 'react';
 import DashboardNav from "@/components/DashboardNav";
 import Sidebar from "@/components/Sidebar";
-import { title } from 'process';
-
 
 
 interface NavBarProps{
   disableMenuBar?:boolean,
-  title?:
-    {
-      short:string,
-      full:string
-    }[]
+  title?:any
   
 }
 

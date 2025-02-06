@@ -28,9 +28,9 @@ type DashboardNavProps = {
   isHome?: boolean;
   disableMenuBar?: boolean;
   title?: {
-      short:string,
-      full:string
-    }[]
+      titleSm:string,
+      titleXl:string
+    }
   
 };
 
@@ -107,12 +107,10 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
             <Image src="/assets/logo/logo-dark.png" alt="Logo" width={360} height={80} />
           </div>
         </div> : <Link href={'dashboard'} className="flex items-end lg:space-x-2 cursor-pointer">
-          {details.title && details.title.map((word, index) => (
-            <div key={index} className="flex items-end">
-              <p className="uppercase lg:capitalize">{word.short}</p>
-              <p className="text-2xl hidden lowercase lg:block">{word.full}</p>
+        <div className="flex items-end">
+              <p className="text-2xl lg:hidden">{details.title?.titleSm}</p>
+              <p className="hidden capitalize lg:block">{details.title?.titleXl}</p>
             </div>
-          ))}
         </Link>
         }
 

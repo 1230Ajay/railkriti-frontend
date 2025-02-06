@@ -6,8 +6,8 @@ import conf from "@/conf/conf";
 import { useEffect, useState } from "react";
 import { BsFileEarmarkPdfFill, BsFillPrinterFill } from "react-icons/bs";
 import { RiFileExcel2Fill } from "react-icons/ri";
-import title from "../../title";
 import myIntercepter from "@/lib/interceptor";
+import { Titles } from "@/lib/data/title";
 
 interface Log {
   hooter_status: boolean;
@@ -84,11 +84,10 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
 
   return (
     <div className=" grid h-screen w-screen grid-rows-[auto_auto_1fr]  ">
-      <NavBar title={title} disableMenuBar={true} />
+      <NavBar title={Titles.SaathiTitle} disableMenuBar={true} />
       <div className='flex justify-between rounded-t-md mx-4 mt-4 bg-black items-center px-4'>
         <h2 className='font-bold text-white py-4 uppercase text-2xl flex items-center'>Logs Rx ${}<div className="ml-2 "> </div></h2>
         <div className='space-x-4 items-center hidden lg:flex'>
-
           <div className='flex rounded-md space-x-4 w-fit text-white justify-center items-center'>
             <RiFileExcel2Fill className='bg-green-600 h-8 w-8 p-1 rounded-sm' />
             <BsFileEarmarkPdfFill className='bg-red-600 h-8 w-8 p-1 rounded-sm' />

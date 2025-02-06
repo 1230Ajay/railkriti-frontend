@@ -9,10 +9,10 @@ import { PrimaryButton } from '@/components/buttons/primarybutton';
 import Modal from '@/components/pop-ups/AddPopUp';
 import NavBar from '@/components/nav/navbar';
 import conf from '@/conf/conf';
-import title from '../title';
 import TankWLMSDeviceAdd from '@/components/forms/tank-wlms/tankWLMSAdd';
 import TankWLMSDeviceUpdate from '@/components/forms/tank-wlms/tankWLMSUpdate';
 import myIntercepter from '@/lib/interceptor';
+import { Titles } from '@/lib/data/title';
 
 interface Device {
   km: any;
@@ -102,7 +102,7 @@ const DevicePage: React.FC = (): JSX.Element => {
 
   return (
     <div className=' grid h-screen grid-rows-[auto_auto_1fr] '>
-      <NavBar title={title} />
+      <NavBar title={Titles.TankWlmsTitle} />
 
       <div className="flex justify-between max-h-16 items-center mx-4 py-4  bg-black rounded-t-md mt-4 px-4 ">
         <h2 className="font-bold text-white text-xl uppercase">Devices</h2>

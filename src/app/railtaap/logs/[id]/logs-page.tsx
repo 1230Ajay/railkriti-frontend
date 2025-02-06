@@ -6,8 +6,8 @@ import conf from "@/conf/conf";
 import { useEffect, useState } from "react";
 import { BsFileEarmarkPdfFill, BsFillPrinterFill } from "react-icons/bs";
 import { RiFileExcel2Fill } from "react-icons/ri";
-import title from "../../title";
 import myIntercepter from "@/lib/interceptor";
+import { Titles } from "@/lib/data/title";
 
 interface Log {
   temp: any;
@@ -82,7 +82,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
 
   return (
     <div className=" grid h-screen w-screen grid-rows-[auto_auto_1fr]">
-      <NavBar title={title} disableMenuBar={true} />
+      <NavBar title={Titles.RailtaapTitle} disableMenuBar={true} />
       <div className='flex justify-between rounded-t-md mx-4 mt-4 bg-black items-center px-4'>
         <h2 className='font-bold text-white py-4 uppercase text-2xl flex items-center'>Logs <div className="ml-2 "> </div></h2>
         <div className='space-x-4 items-center hidden lg:flex'>

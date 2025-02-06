@@ -3,7 +3,7 @@
 
 import UserRegistrationForm from '@/components/forms/user/UserRegistration';
 import Image from 'next/image';
-import { SignUpPageData } from '@/app/data/sign-up';
+import { SignUpPageData } from '@/lib/data/sign-up';
 
 
 export default function SignUpPage() {

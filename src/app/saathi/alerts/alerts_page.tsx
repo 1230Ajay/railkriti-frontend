@@ -10,8 +10,8 @@ import NavBar from '@/components/nav/navbar';
 import AddAlert from '@/components/forms/saathi/alert/add';
 import UpdateAlert from '@/components/forms/saathi/alert/update';
 import conf from '@/conf/conf';
-import title from '../title';
 import myIntercepter from '@/lib/interceptor';
+import { Titles } from '@/lib/data/title';
 
 interface Alert {
   uid: string;
@@ -115,7 +115,7 @@ const AlertPage: React.FC = (): JSX.Element => {
 
   return (
     <div className='grid h-screen grid-rows-[auto_auto_1fr]'>
-      <NavBar title={title}></NavBar>
+      <NavBar title={Titles.SaathiTitle}></NavBar>
 
       <div className='flex justify-between items-center px-4 mt-4 rounded-t-md bg-black mx-4'>
         <div className='transition-all space-x-2 py-5 text-gray-400'>

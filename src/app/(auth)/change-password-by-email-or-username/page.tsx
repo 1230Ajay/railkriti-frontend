@@ -1,7 +1,7 @@
 import UpdatePasswordForm from '@/components/forms/UpdatePasswordWithEmailOrUserNameForm'
 import React from 'react'
 import Image from 'next/image'
-import { SignInPageData } from '@/app/data/sigin-in'
+import { SignInPageData } from '@/lib/data/sigin-in'
 
 export default function page() {
   return (

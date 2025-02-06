@@ -11,10 +11,9 @@ import NavBar from '@/components/nav/navbar';
 import SaathiDeviceReservationForm from '@/components/forms/saathi/saathiAddForm';
 import SaathiDeviceUpdateForm from '@/components/forms/saathi/saathiUpdateFrom';
 import conf from '@/conf/conf';
-
 import { useRouter } from 'next/navigation';
-import title from '../title';
 import myIntercepter from '@/lib/interceptor';
+import { Titles } from '@/lib/data/title';
 
 
 interface Device {
@@ -108,7 +107,7 @@ const DevicePage: React.FC = (): JSX.Element => {
 
   return (
     <div className='grid h-screen grid-rows-[auto_auto_1fr]'>
-      <NavBar title={title} />
+      <NavBar title={Titles.SaathiTitle} />
       <div className="flex justify-between max-h-16 items-center mx-4 py-4  bg-black rounded-t-md mt-4 px-4 ">
         <div className="  transition-all space-x-2 text-gray-400"><button onClick={() => setShowRx(false)} className={` ${showRx ? '' : ' text-white font-bold'}  border-primary px-2 rounded-sm  text-md uppercase`}>Tx Devices</button> <button onClick={() => setShowRx(true)} className={` ${!showRx ? '' : ' text-white font-bold'}  border-primary px-2 rounded-sm   text-md uppercase`}>Rx Devices</button></div>
         <div className=' flex-col md:flex-row md:space-x-4 hidden md:flex'>

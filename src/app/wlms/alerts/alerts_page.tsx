@@ -11,6 +11,7 @@ import UpdateAlertForm from '@/components/forms/wlms/alert/updateAlertForm';
 import NavBar from '@/components/nav/navbar';
 import conf from '@/conf/conf';
 import myIntercepter from '@/lib/interceptor';
+import { Titles } from '@/lib/data/title';
 
 interface Alert {
   uid: string;
@@ -93,17 +94,10 @@ const AlertPage: React.FC = (): JSX.Element => {
     setIsUpdateModalOpen(true);
   };
 
-  const title = [
-    { short: 'br', full: 'idge' },
-    { short: 'W', full: 'ater' },
-    { short: 'L', full: 'evel' },
-    { short: 'M', full: 'onitoring' },
-    { short: 'S', full: 'ystem' },
-  ];
 
   return (
     <div className='grid h-screen grid-rows-[auto_auto_1fr]'>
-      <NavBar title={title}></NavBar>
+      <NavBar title={Titles.BrWlmsTitle}></NavBar>
 
       <div className='flex justify-between items-center px-4 mt-4 rounded-t-md bg-black mx-4'>
         <h2 className='font-bold text-white py-4 uppercase text-2xl'>Alerts</h2>

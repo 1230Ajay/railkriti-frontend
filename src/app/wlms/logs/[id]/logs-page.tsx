@@ -2,6 +2,7 @@
 
 import NavBar from "@/components/nav/navbar";
 import conf from "@/conf/conf";
+import { Titles } from "@/lib/data/title";
 import myIntercepter from "@/lib/interceptor";
 
 import { useEffect, useState } from "react";
@@ -59,13 +60,6 @@ const fetchLog = async (id: string): Promise<Device> => {
 };
 
 
-const title =[
-  { short: 'br', full: 'idge' },
-  { short: 'W', full: 'ater' },
-  { short: 'L', full: 'evel' },
-  { short: 'M', full: 'onitoring' },
-  { short: 'S', full: 'ystem' },
-];
 // Page component
 const LogDetails = ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -94,10 +88,9 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
   }, [id]);
 
 
-
   return (
     <div className=" grid h-screen w-screen grid-rows-[auto_auto_1fr]  ">
-      <NavBar title={title} disableMenuBar={true} />
+      <NavBar title={Titles.BrWlmsTitle} disableMenuBar={true} />
       <div className='flex justify-between rounded-t-md mx-4 mt-4 bg-black items-center px-4'>
         <h2 className='font-bold text-white py-4 uppercase text-2xl flex items-center'>Logs <div className="ml-2 "> / {logs?.river_name} [{logs?.bridge_no}]</div></h2>
         <div className='space-x-4 items-center hidden lg:flex'>

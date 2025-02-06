@@ -20,6 +20,7 @@ import { PrimaryButton } from "@/components/buttons/primarybutton";
 import NavBar from "@/components/nav/navbar";
 import conf from "@/conf/conf";
 import myIntercepter from "@/lib/interceptor";
+import { Titles } from "@/lib/data/title";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
@@ -57,9 +58,6 @@ const Dashboard: React.FC = (): JSX.Element => {
     };
 
     useEffect(() => {
-
-
-
 
         const handleDevicesUpdate = (updatedDevices: any[]) => {
             console.log(updatedDevices);
@@ -219,17 +217,9 @@ const Dashboard: React.FC = (): JSX.Element => {
         device.river_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const title =[
-        { short: 'br', full: 'idge' },
-        { short: 'W', full: 'ater' },
-        { short: 'L', full: 'evel' },
-        { short: 'M', full: 'onitoring' },
-        { short: 'S', full: 'ystem' },
-      ];
-
     return (
         <div className="h-screen xl:grid  grid-rows-[auto_auto_auto_1fr] ">
-            <NavBar title={title} ></NavBar>
+            <NavBar title={Titles.BrWlmsTitle} ></NavBar>
 
             <DevicesStatics totalDevices={totalDevices} activeDevices={activeDevices} onlineDevices={onlineDevices} offlineDevices={offlineDevices} />
 

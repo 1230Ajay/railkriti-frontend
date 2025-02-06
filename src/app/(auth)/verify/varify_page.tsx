@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 // Ensure you import your RootState type
 import Image from 'next/image';
-import { SignInPageData } from '@/app/data/sigin-in';
+import { SignInPageData } from '@/lib/data/sigin-in';
 import myIntercepter from '@/lib/interceptor';
 import conf from '@/conf/conf';
 

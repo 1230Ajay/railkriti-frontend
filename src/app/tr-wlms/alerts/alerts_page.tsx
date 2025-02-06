@@ -11,6 +11,7 @@ import TRWLMSAlertForm from '@/components/forms/tr-wlms/alert/trwlmsAlertForm';
 import TRWLMSUpdateAlertForm from '@/components/forms/tr-wlms/alert/trwlmsUpdateAlertForm';
 import conf from '@/conf/conf';
 import myIntercepter from '@/lib/interceptor';
+import { Titles } from '@/lib/data/title';
 
 
 interface Alert {
@@ -94,18 +95,10 @@ const AlertPage: React.FC = ():JSX.Element => {
     setIsUpdateModalOpen(true);
   };
 
-  const title =[
-    { short: 'Tr', full: 'ack' },
-    { short: 'W', full: 'ater' },
-    { short: 'L', full: 'ogging' },
-    { short: 'M', full: 'onitering' },
-    { short: 'S', full: 'ystem' },
-  ];
 
   return (
     <div className=' grid h-screen grid-rows-[auto_auto_1fr]'>
-      <NavBar title={title}></NavBar>
-
+      <NavBar title={Titles.TrWlmsTitle}></NavBar>
       <div className='flex justify-between items-center px-4 mt-4 rounded-t-md bg-black mx-4'>
         <h2 className='font-bold text-white py-4 uppercase text-2xl'>Alerts</h2>
         <div className='space-x-4 items-center hidden lg:flex'>

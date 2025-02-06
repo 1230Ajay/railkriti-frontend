@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import React from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import Image from 'next/image';
-import { SignInPageData } from '@/app/data/sigin-in';
+import { SignInPageData } from '@/lib/data/sigin-in';
 
 
 export const metadata: Metadata = {
