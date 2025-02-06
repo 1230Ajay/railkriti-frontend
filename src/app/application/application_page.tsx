@@ -118,7 +118,7 @@ const Footer = () => (
       </p>
       <p>{FooterData.copyright.reserve}</p>
     </div>
-    <div className="capitalize space-y-1 lg:space-x-3 text-sm  lg:flex">
+    <div className="capitalize space-x-2 text-sm  lg:flex">
       {
         FooterData.links.map((link, index) => {
           return <div className="space-x-2 flex">

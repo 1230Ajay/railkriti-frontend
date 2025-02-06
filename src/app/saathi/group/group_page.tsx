@@ -12,15 +12,14 @@ import UpdateGroupForm from '@/components/forms/saathi/group/updateGroup';
 import conf from '@/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import { Titles } from '@/lib/data/title';
-
+import { MdKeyboardBackspace } from 'react-icons/md';
 
 interface Group {
   uid: string;
   name: string;
-
 }
 
-const GroupPage: React.FC = ():JSX.Element => {
+const GroupPage: React.FC = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
   const [addDevicePopUpState, setAddDevicePopUpState] = useState(false);
   const [updateDevicePopUpState, setUpdateDevicePopUpState] = useState(false);
@@ -31,6 +30,7 @@ const GroupPage: React.FC = ():JSX.Element => {
   useEffect(() => {
     getDevice();
   }, []);
+
 
   const getDevice = async () => {
     try {
@@ -78,7 +78,10 @@ const GroupPage: React.FC = ():JSX.Element => {
       <NavBar title={Titles.SaathiTitle} />
 
       <div className="flex justify-between max-h-16 items-center mx-4 py-4  bg-black rounded-t-md mt-4 px-4 ">
-        <h2 className="font-bold text-white text-xl uppercase">Group</h2>
+        <div className=' flex space-x-2'>
+          <button className="font-bold bg-white  rounded-full flex justify-center items-center h-8 w-8 text-black text-xl uppercase" onClick={()=>{window.history.back()}}><MdKeyboardBackspace/></button>
+          <h2 className="font-bold text-white text-xl uppercase">Group</h2>
+        </div>
         <div className=' flex-col md:flex-row md:space-x-4 hidden md:flex'>
           <input
             type='text'
@@ -107,9 +110,9 @@ const GroupPage: React.FC = ():JSX.Element => {
         </div>
 
         <div className='text-white rounded-md overflow-y-auto min-w-[720px] pb-4'>
-          {filteredDevices.map((device,index) => (
+          {filteredDevices.map((device, index) => (
             <div key={device.uid} className='px-4 text-xs capitalize md:text-base grid grid-cols-4 border-b border-gray-600 items-center py-1 text-center'>
-              <p className='uppercase text-start'>{index+1}</p>
+              <p className='uppercase text-start'>{index + 1}</p>
               <p className=' text-start'>{device.name}</p>
               <p className=' text-start'>{device.uid}</p>
               <div className='flex h-full items-center justify-center'>

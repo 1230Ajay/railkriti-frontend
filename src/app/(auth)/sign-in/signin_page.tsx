@@ -63,6 +63,7 @@ export default function SignInPage() {
         router.push('/application');
         setIsSubmitting(false);
         toast.success(response.data.message);
+        await sessionStorage.setItem('user',JSON.stringify(response.data.user));
       } else {
         setIsSubmitting(false);
         toast.error(response.data.message);
