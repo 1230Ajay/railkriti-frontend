@@ -287,7 +287,7 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
           options={sectionOptions}
           required
         />
-        <div className='md:col-span-2 flex justify-between mt-4'>
+        <div className='flex items-center w-full lg:col-span-3 mt-4 justify-center xl:justify-end space-x-8'>
           <PrimaryButton type="submit" >
             {loading ? 'Updating...' : 'Update Device'}
           </PrimaryButton>
