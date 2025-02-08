@@ -7,7 +7,7 @@ import { RiFileExcel2Fill } from 'react-icons/ri';
 import { BsFileEarmarkPdfFill, BsFillPrinterFill } from 'react-icons/bs';
 import DateInput from '@/components/text-fields/DateInput';
 import SelectInput from '@/components/text-fields/SelectInput';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import { Titles } from '@/lib/data/title';
 

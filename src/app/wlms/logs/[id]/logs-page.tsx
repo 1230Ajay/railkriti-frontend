@@ -1,7 +1,7 @@
 'use client';
 
 import NavBar from "@/components/nav/navbar";
-import conf from "@/conf/conf";
+import conf from "@/lib/conf/conf";
 import { Titles } from "@/lib/data/title";
 import myIntercepter from "@/lib/interceptor";
 

@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 import Link from "next/link";
 import myIntercepter from '@/lib/interceptor';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import { SignInPageData } from '@/lib/data/sigin-in';
 
 
@@ -63,8 +63,8 @@ export default function SignInPage() {
       if (response.data.status === 200) {
         router.push('/application');
         setIsSubmitting(false);
+        localStorage.setItem("user",JSON.stringify(response.data.user));
         toast.success(response.data.message);
-        sessionStorage.setItem("user", JSON.stringify(response.data.user));
       } else {
         setIsSubmitting(false);
         toast.error(response.data.message);

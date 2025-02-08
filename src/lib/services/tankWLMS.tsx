@@ -1,24 +1,22 @@
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import { io } from 'socket.io-client';
-import { getStoredJwt } from '../../getCoockies';
+import { getStoredJwt } from '../../../getCoockies';
 
-const socketSaathiRx = io(conf.SAATHI_RX_SOCKET_URL); 
+
+const tankWLMS = io(conf.TANK_WLMS_SOCKET_URL); 
 
 
 const handleConnect = async () => {
     const jwt = await getStoredJwt();
-    socketSaathiRx.emit('userConnect', { jwt });
+    tankWLMS.emit('userConnect', { jwt });
 };
 
 const executeHandleConnect = () => {
     let count = 0;
-    
-    console.log("count is : ",count)
+
     const intervalId = setInterval(async () => {
 
-        console.log(count);
-
-        if (socketSaathiRx.connected) {
+        if (tankWLMS.connected) {
             count++;
             await handleConnect();
 
@@ -32,8 +30,6 @@ const executeHandleConnect = () => {
 };
 
 
-socketSaathiRx.on('connect',executeHandleConnect);
+tankWLMS.on('connect',executeHandleConnect);
 
-
-
-export default socketSaathiRx;
+export default tankWLMS;

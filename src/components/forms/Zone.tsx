@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextInput from '../text-fields/TextInput';
 import { PrimaryButton } from '../buttons/primarybutton';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 
 const ZoneForm = ({ onClose = () => { } }) => {

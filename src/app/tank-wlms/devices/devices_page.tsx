@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { PrimaryButton } from '@/components/buttons/primarybutton';
 import Modal from '@/components/pop-ups/AddPopUp';
 import NavBar from '@/components/nav/navbar';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import TankWLMSDeviceAdd from '@/components/forms/tank-wlms/tankWLMSAdd';
 import TankWLMSDeviceUpdate from '@/components/forms/tank-wlms/tankWLMSUpdate';
 import myIntercepter from '@/lib/interceptor';

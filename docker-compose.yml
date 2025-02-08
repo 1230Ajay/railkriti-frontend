@@ -6,7 +6,6 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     restart: always
-    working_dir: /app
     volumes:
       - .:/app
     ports:

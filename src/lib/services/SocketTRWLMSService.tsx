@@ -1,7 +1,8 @@
 // socket.js
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import { io } from 'socket.io-client';
-import { getStoredJwt } from '../../getCoockies';
+import { getStoredJwt } from '../../../getCoockies';
+
 
 const socketTRWLMS = io(conf.TR_WLMS_SCOKET_URL); 
 

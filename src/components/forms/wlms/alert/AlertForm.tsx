@@ -5,7 +5,7 @@ import { MdOutlineAddCircle } from 'react-icons/md';
 import TimePicker from 'react-time-picker'; // Assuming you have this component installed
 import 'react-time-picker/dist/TimePicker.css'; // Make sure to import the necessary CSS
 import { toast } from 'react-toastify';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 
 interface AlertEntry {

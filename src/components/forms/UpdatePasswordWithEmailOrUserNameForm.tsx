@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 import { useRouter } from 'next/navigation';
 import myIntercepter from '@/lib/interceptor';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 
 const UpdatePasswordForm: React.FC = () => {
 

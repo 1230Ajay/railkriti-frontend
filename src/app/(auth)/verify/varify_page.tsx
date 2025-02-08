@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import Image from 'next/image';
 import { SignInPageData } from '@/lib/data/sigin-in';
 import myIntercepter from '@/lib/interceptor';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 
 
 

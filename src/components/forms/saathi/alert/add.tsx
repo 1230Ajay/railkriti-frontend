@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { IoMdRemoveCircle } from 'react-icons/io';
 import TextInput from '@/components/text-fields/TextInput';
 import { PrimaryButton } from '@/components/buttons/primarybutton';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import { error } from 'console';
 import myIntercepter from '@/lib/interceptor';
 

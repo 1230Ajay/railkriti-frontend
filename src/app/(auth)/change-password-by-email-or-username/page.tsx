@@ -9,7 +9,7 @@ export default function page() {
     
       
     <div className="absolute top-0 -z-10 w-full  h-full">
-        <Image src={`${SignInPageData.images.bg}`} alt="Sign in background" fill style={{ objectFit: 'cover' }} />
+        <Image src={`${SignInPageData.images.bg}`} alt="Sign in background" fill  style={{ objectFit: 'cover' }} />
       </div>
 
       <div className="absolute top-8 left-8 sm:w-72 h-8 lg:w-80 lg:h-10">

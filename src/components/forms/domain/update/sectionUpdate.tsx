@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import SelectInput from '@/components/text-fields/SelectInput';
 import TextInput from '@/components/text-fields/TextInput';
 import { PrimaryButton } from '@/components/buttons/primarybutton';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 
 

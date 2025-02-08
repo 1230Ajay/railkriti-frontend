@@ -4,7 +4,7 @@ import SelectInput from '../../text-fields/SelectInput';
 import DateInput from '../../text-fields/DateInput';
 import { PrimaryButton } from '../../buttons/primarybutton';
 import { toast } from 'react-toastify';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 
 interface SaathiDeviceUpdateFormProps {

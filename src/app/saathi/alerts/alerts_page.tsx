@@ -9,7 +9,7 @@ import Modal from '@/components/pop-ups/AddPopUp';
 import NavBar from '@/components/nav/navbar';
 import AddAlert from '@/components/forms/saathi/alert/add';
 import UpdateAlert from '@/components/forms/saathi/alert/update';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import { Titles } from '@/lib/data/title';
 

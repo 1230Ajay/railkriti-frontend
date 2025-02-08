@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TextInput from '../text-fields/TextInput';
 import { PrimaryButton } from '../buttons/primarybutton';
 import SelectInput from '../text-fields/SelectInput';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 
 const DivisionForm = ({ onClose = () => {} }) => {

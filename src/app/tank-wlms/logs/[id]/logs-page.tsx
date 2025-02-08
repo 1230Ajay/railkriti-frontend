@@ -1,7 +1,7 @@
 'use client';
 
 import NavBar from "@/components/nav/navbar";
-import conf from "@/conf/conf";
+import conf from "@/lib/conf/conf";
 
 import { useEffect, useState } from "react";
 import { BsFileEarmarkPdfFill, BsFillPrinterFill } from "react-icons/bs";

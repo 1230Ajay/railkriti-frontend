@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import IsAdmin from '@/helpers/getUserRoles';
 import allowedSidebarPages from '@/lib/data/SidebarData';
 
 interface SidebarProps {
@@ -14,15 +13,6 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [pages, setPages] = useState<any[]>([]); // Adjust the type if needed
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-
-  useEffect(() => {
-    const fetchUserRole = async () => {
-      const adminStatus = await IsAdmin(); // Check if user is admin
-      setIsAdmin(adminStatus);
-    };
-
-    fetchUserRole();
-  }, []);
 
   useEffect(() => {
     const fetchPages = async () => {

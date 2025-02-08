@@ -10,15 +10,14 @@ import { BsFileEarmarkPdfFill, BsFillPrinterFill } from "react-icons/bs";
 import { TbListDetails } from "react-icons/tb";
 import { RiFileExcel2Fill, RiRestartLine } from "react-icons/ri";
 import { GrMapLocation } from "react-icons/gr";
-
-import socket from "@/services/SocketService";
+import socket from "@/lib/services/SocketService";
 import { useDispatch, useSelector } from "react-redux";
 import { disableButton, enableButton, setTimer } from "@/features/device/deviceSlice";
 import { toast } from "react-toastify";
 import DevicesStatics from "@/components/DevicesStatics";
 import { PrimaryButton } from "@/components/buttons/primarybutton";
 import NavBar from "@/components/nav/navbar";
-import conf from "@/conf/conf";
+import conf from "@/lib/conf/conf";
 import myIntercepter from "@/lib/interceptor";
 import { Titles } from "@/lib/data/title";
 

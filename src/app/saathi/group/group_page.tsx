@@ -9,7 +9,7 @@ import Modal from '@/components/pop-ups/AddPopUp';
 import NavBar from '@/components/nav/navbar';
 import AddGroupForm from '@/components/forms/saathi/group/addGroup';
 import UpdateGroupForm from '@/components/forms/saathi/group/updateGroup';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import { Titles } from '@/lib/data/title';
 import { MdKeyboardBackspace } from 'react-icons/md';

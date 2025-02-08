@@ -1,13 +1,13 @@
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import { io } from 'socket.io-client';
-import { getStoredJwt } from '../../getCoockies';
+import { getStoredJwt } from '../../../getCoockies';
 
-const tankWLMS = io(conf.TANK_WLMS_SOCKET_URL); 
 
+const socketRailTaap = io(conf.RAILTAAP_SOCKET_URL);
 
 const handleConnect = async () => {
     const jwt = await getStoredJwt();
-    tankWLMS.emit('userConnect', { jwt });
+    socketRailTaap.emit('userConnect', { jwt });
 };
 
 const executeHandleConnect = () => {
@@ -17,7 +17,7 @@ const executeHandleConnect = () => {
 
         console.log(count);
 
-        if (tankWLMS.connected) {
+        if (socketRailTaap.connected) {
             count++;
             await handleConnect();
 
@@ -31,9 +31,8 @@ const executeHandleConnect = () => {
 };
 
 
-tankWLMS.on('connect',executeHandleConnect);
+socketRailTaap.on('connect',executeHandleConnect);
 
 
 
-
-export default tankWLMS;
+export default socketRailTaap;

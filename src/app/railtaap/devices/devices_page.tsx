@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { PrimaryButton } from '@/components/buttons/primarybutton';
 import Modal from '@/components/pop-ups/AddPopUp';
 import NavBar from '@/components/nav/navbar';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import RailTaapDeviceAdd from '@/components/forms/railtaap/railTaapDeviceAdd';
 import RailTaapDeviceUpdate from '@/components/forms/railtaap/railTaapDeviceUpdate';
 import myIntercepter from '@/lib/interceptor';

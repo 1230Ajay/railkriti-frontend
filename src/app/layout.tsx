@@ -1,6 +1,4 @@
 'use client'
-
-import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -10,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
 import { useEffect } from "react";
-import AutoLogout from "@/helpers/autoLogout";
 
 const fontSans = FontSans({
   subsets: ["latin"],

@@ -5,7 +5,7 @@ import DashboardNav from '@/components/DashboardNav';
 import UpdateZoneForm from '@/components/forms/domain/update/updateZone';
 import ZoneForm from '@/components/forms/Zone';
 import Modal from '@/components/pop-ups/AddPopUp';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { BsFileEarmarkPdfFill, BsFillPrinterFill } from 'react-icons/bs';

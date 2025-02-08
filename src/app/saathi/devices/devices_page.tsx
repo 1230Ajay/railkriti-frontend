@@ -10,7 +10,7 @@ import Modal from '@/components/pop-ups/AddPopUp';
 import NavBar from '@/components/nav/navbar';
 import SaathiDeviceReservationForm from '@/components/forms/saathi/saathiAddForm';
 import SaathiDeviceUpdateForm from '@/components/forms/saathi/saathiUpdateFrom';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import { useRouter } from 'next/navigation';
 import myIntercepter from '@/lib/interceptor';
 import { Titles } from '@/lib/data/title';

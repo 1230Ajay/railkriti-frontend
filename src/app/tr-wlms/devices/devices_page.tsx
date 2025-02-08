@@ -11,7 +11,7 @@ import Modal from '@/components/pop-ups/AddPopUp';
 import NavBar from '@/components/nav/navbar';
 import TRWLMSDeviceReservationForm from '@/components/forms/tr-wlms/trwlmsDeviceRegistration';
 import TRWLMSDeviceUpdateForm from '@/components/forms/tr-wlms/trwlmsupdateDeviceDetail';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import { Titles } from '@/lib/data/title';
 

@@ -11,7 +11,7 @@ import { RiFileExcel2Fill } from 'react-icons/ri';
 import { BsFileEarmarkPdfFill, BsFillPrinterFill } from 'react-icons/bs';
 import UserDetailsForm from '@/components/forms/user/updateUserDetails';
 import myIntercepter from '@/lib/interceptor';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 
 interface User {
   username: string;

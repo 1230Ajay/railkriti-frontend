@@ -4,7 +4,7 @@ import TextInput from '@/components/text-fields/TextInput';
 import SelectInput from '@/components/text-fields/SelectInput';
 import DateInput from '@/components/text-fields/DateInput';
 import { PrimaryButton } from '@/components/buttons/primarybutton';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 
 const TRWLMSDeviceReservationForm = ({ onClose = () => { } }) => {

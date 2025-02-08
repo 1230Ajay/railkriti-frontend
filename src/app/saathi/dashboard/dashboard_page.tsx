@@ -18,10 +18,11 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import DevicesStatics from "@/components/DevicesStatics";
 import NavBar from "@/components/nav/navbar";
-import socketSaathiTX from "@/services/socketSaathiTx";
-import socketSaathiRx from "@/services/socketSaathiRx";
+
 
 import { Titles } from "@/lib/data/title";
+import socketSaathiTX from "@/lib/services/socketSaathiTx";
+import socketSaathiRx from "@/lib/services/socketSaathiRx";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const Dashboard: React.FC = (): JSX.Element => {
@@ -287,8 +288,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                     <p className="lg:ml-4">Battery</p>
                     <p className=" text-center">status</p>
                     <p className=" text-center">restart</p>
-                    <p className={` text-end mr-4 `}> Details </p>
-
+                    <p className={` text-end mr-4 `}>Details</p>
                 </div>
 
                 {devicesRx.map((device, index) => (

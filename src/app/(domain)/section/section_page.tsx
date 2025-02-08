@@ -9,7 +9,7 @@ import { RiFileExcel2Fill } from 'react-icons/ri';
 import SectionForm from '@/components/forms/Section';
 import { TbListDetails } from 'react-icons/tb';
 import UpdateSectionForm from '@/components/forms/domain/update/sectionUpdate';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 
 interface Section {

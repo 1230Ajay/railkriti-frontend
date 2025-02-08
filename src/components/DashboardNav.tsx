@@ -17,10 +17,9 @@ import { SiPrivatedivision } from "react-icons/si";
 import { RiTimeZoneFill } from 'react-icons/ri';
 import Image from 'next/image';
 import UserDetailsForm from './forms/user/updateUserDetails';
-import IsAdmin from '@/helpers/getUserRoles';
 import Link from 'next/link';
 import myInterceptor from '@/lib/interceptor';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 
 type DashboardNavProps = {
   toggleSidebar: () => void;
@@ -42,30 +41,29 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isContactMessageOpen, setIsContactMessageOpen] = useState<boolean>(false);
   const [isadmin, setIsAdmin] = useState<boolean>(false);
-
+  const [user,setUser] = useState<any>();
   const router = useRouter();
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentDateTime(new Date());
     }, 1000);
-
+    
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
-    checkIsAdmin();
-  }, []);
-
-
-  const checkIsAdmin = async () => {
-    const admin = await IsAdmin();
-    if (
-      admin
-    ) {
-      setIsAdmin(true);
-    }
-  }
+    const setUserData = () => {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        setUser(JSON.parse(userData));  // Properly set user state
+      }
+    };
+  
+    setUserData();  // Call once on mount
+  }, []); // Empty dependency array to ensure it runs only once
+  
+  
 
   const formatDateTime = (date: Date) => {
     const hours = String(date.getHours()).padStart(2, '0');
@@ -88,14 +86,6 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
     router.push(route);
   }
 
-  let user = null;
-
-  try {
-    const storedUser = sessionStorage.getItem("user");
-    user = storedUser ? JSON.parse(storedUser) : null;
-  } catch (error) {
-    console.log("Error parsing user data from sessionStorage:", error);
-  }
 
 
   return (
@@ -227,3 +217,4 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
 };
 
 export default DashboardNav;
+

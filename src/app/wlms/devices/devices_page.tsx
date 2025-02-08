@@ -10,7 +10,7 @@ import Modal from '@/components/pop-ups/AddPopUp';
 import NavBar from '@/components/nav/navbar';
 import DeviceReservationForm from '@/components/forms/wlms/DeviceRegistration';
 import DeviceUpdateForm from '@/components/forms/wlms/updateDeviceDetail';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import { Titles } from '@/lib/data/title';
 

@@ -5,7 +5,7 @@ import { FaTrainSubway } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { BsFileEarmarkPdfFill, BsFillPrinterFill } from "react-icons/bs";
 import { RiFileExcel2Fill } from "react-icons/ri";
-import conf from "@/conf/conf";
+import conf from "@/lib/conf/conf";
 import myIntercepter from "@/lib/interceptor";
 import { Titles } from "@/lib/data/title";
 

@@ -7,7 +7,7 @@ import { setIdentifier } from '@/features/forgot-password/forgotPsswordSlice';
 import { SignInPageData } from '../../../lib/data/sigin-in';
 import Image from 'next/image';
 import myIntercepter from '@/lib/interceptor';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 
 export default function ChangeEmail() {
   const [identifier, setNewEmail] = useState<string>('');

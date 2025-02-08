@@ -75,7 +75,7 @@ export default function ApplicationPage() {
       <DashboardNav toggleSidebar={toggleSidebar} isHome={true} sidebarStatus={sidebarOpen} />
 
       <div className="lg:absolute h-full -z-10 opacity-20 overflow-clip w-full">
-        <Image src={ApplicationPageData.images.bg} alt="Background" layout="fill" style={{ objectFit: 'cover' }} />
+        <Image src={ApplicationPageData.images.bg} alt="Background" fill  style={{ objectFit: 'cover' }} />
       </div>
 
       <div className="mx-auto mt-8  lg:mt-0  flex items-start md:items-center justify-center  px-8 w-screen">
@@ -90,7 +90,7 @@ export default function ApplicationPage() {
               }}
               className="cursor-pointer  relative rounded-md bg-white/40 p-4 h-48 w-56"
             >
-              <Image src={app.image} className="h-full w-full p-1" alt="App" layout="fill" style={{ objectFit: 'contain' }} />
+              <Image src={app.image} className="h-full w-full p-1" alt="App" fill style={{ objectFit: 'contain' }} />
             </div>
           ))}
         </div>
@@ -121,7 +121,7 @@ const Footer = () => (
     <div className="capitalize space-x-2 text-sm  lg:flex">
       {
         FooterData.links.map((link, index) => {
-          return <div className="space-x-2 flex">
+          return <div key={index} className="space-x-2 flex">
             <a className="hover:text-primary" href={link.link}>{link.text}</a>
             <p className=' hidden lg:flex' >|</p>
           </div>

@@ -9,7 +9,7 @@ import { PrimaryButton } from '@/components/buttons/primarybutton';
 import Modal from '@/components/pop-ups/AddPopUp';
 
 import NavBar from '@/components/nav/navbar';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import AlertForm from '@/components/forms/tank-wlms/alert/AlertForm';
 import UpdateAlertForm from '@/components/forms/tank-wlms/alert/updateAlertForm';
 import myIntercepter from '@/lib/interceptor';

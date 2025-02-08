@@ -11,14 +11,14 @@ import { BsFileEarmarkPdfFill, BsFillPrinterFill } from "react-icons/bs";
 import { TbListDetails } from "react-icons/tb";
 import { RiFileExcel2Fill, RiRestartLine } from "react-icons/ri";
 import { GrMapLocation } from "react-icons/gr";
-import socket from "@/services/socketRailTaap";
+import socket from "@/lib/services/socketRailTaap";
 import { useDispatch, useSelector } from "react-redux";
 import { disableButton, enableButton, setTimer } from "@/features/device/deviceSlice";
 import { toast } from "react-toastify";
 import DevicesStatics from "@/components/DevicesStatics";
 import { PrimaryButton } from "@/components/buttons/primarybutton";
 import NavBar from "@/components/nav/navbar";
-import conf from "@/conf/conf";
+import conf from "@/lib/conf/conf";
 import myIntercepter from "@/lib/interceptor";
 import { getStoredJwt } from "../../../../getCoockies";
 import { Titles } from "@/lib/data/title";
@@ -277,7 +277,6 @@ const Dashboard: React.FC = (): JSX.Element => {
                     <p className={`  text-center `}>
                         sensor
                     </p>
-
                     <p className=" text-center">restart</p>
                     <p className={` text-end mr-4 `}>
                         Details
@@ -297,7 +296,6 @@ const Dashboard: React.FC = (): JSX.Element => {
                                         const encodedUrl = encodeURIComponent(`${device.km}-${device.location}`)
                                         const path = `/location/${device.lattitude}-${device.longitude}-${encodedUrl}`
                                         const url = `${window.location.origin}${path}`;
-
                                         window.open(url, '_blank', 'noopener,noreferrer');
                                     }
                                 } className="w-fit" />
@@ -329,7 +327,6 @@ const Dashboard: React.FC = (): JSX.Element => {
                                             }
                                         }
                                     }}
-            
                                 >
                                     <RiRestartLine />
                                 </button>

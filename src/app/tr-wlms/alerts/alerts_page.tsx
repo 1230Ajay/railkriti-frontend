@@ -9,7 +9,7 @@ import Modal from '@/components/pop-ups/AddPopUp';
 import NavBar from '@/components/nav/navbar';
 import TRWLMSAlertForm from '@/components/forms/tr-wlms/alert/trwlmsAlertForm';
 import TRWLMSUpdateAlertForm from '@/components/forms/tr-wlms/alert/trwlmsUpdateAlertForm';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import { Titles } from '@/lib/data/title';
 

@@ -11,17 +11,18 @@ import { BsFileEarmarkPdfFill, BsFillPrinterFill } from "react-icons/bs";
 import { TbListDetails } from "react-icons/tb";
 import { RiFileExcel2Fill, RiRestartLine } from "react-icons/ri";
 import { GrMapLocation } from "react-icons/gr";
-import socket from "@/services/tankWLMS";
+import socket from "@/lib/services/tankWLMS";
 import { useDispatch, useSelector } from "react-redux";
 import {  enableButton, setTimer } from "@/features/device/deviceSlice";
 import { toast } from "react-toastify";
 import DevicesStatics from "@/components/DevicesStatics";
 import { PrimaryButton } from "@/components/buttons/primarybutton";
 import NavBar from "@/components/nav/navbar";
-import conf from "@/conf/conf";
+
 import myIntercepter from "@/lib/interceptor";
 import { getStoredJwt } from "../../../../getCoockies";
 import { Titles } from "@/lib/data/title";
+import conf from "@/lib/conf/conf";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const Dashboard: React.FC = (): JSX.Element => {

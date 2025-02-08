@@ -10,7 +10,7 @@ import DashboardNav from '@/components/DashboardNav';
 import Modal from '@/components/pop-ups/AddPopUp';
 import DivisionForm from '@/components/forms/Divisoin';
 import UpdateDivisionForm from '@/components/forms/domain/update/updateDiv';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 
 interface Division {

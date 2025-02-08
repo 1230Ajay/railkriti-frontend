@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { setEmail, setMobileNumber } from '../../../features/login/loginSlice';
 import { toast } from 'react-toastify';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 
 const UserRegistrationForm = ({ onClose = () => { } }) => {

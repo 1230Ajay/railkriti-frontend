@@ -3,7 +3,7 @@ import TextInput from '../text-fields/TextInput';
 import SelectInput from '../text-fields/SelectInput';
 import { PrimaryButton } from '../buttons/primarybutton';
 import { useRouter } from 'next/navigation';
-import conf from '@/conf/conf';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 const SectionForm = ({ onClose = () => { } }) => {
 
