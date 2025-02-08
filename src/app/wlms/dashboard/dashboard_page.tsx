@@ -12,7 +12,7 @@ import { RiFileExcel2Fill, RiRestartLine } from "react-icons/ri";
 import { GrMapLocation } from "react-icons/gr";
 import socket from "@/lib/services/SocketService";
 import { useDispatch, useSelector } from "react-redux";
-import { disableButton, enableButton, setTimer } from "@/features/device/deviceSlice";
+import {  enableButton, setTimer } from "@/features/device/deviceSlice";
 import { toast } from "react-toastify";
 import DevicesStatics from "@/components/DevicesStatics";
 import { PrimaryButton } from "@/components/buttons/primarybutton";
@@ -267,7 +267,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                 </div>
 
                 {filteredDevices.map((device, index) => (
-                    <div key={device.uid} className=" ">
+                    <div key={index} className=" ">
                         <div className={`text-center min-w-[720px] text-xs md:text-base grid grid-cols-10 ${activeDetail === device.uid ? '' : 'border-b'} border-gray-600 items-center py-2`}>
                             <p className=" ml-4 text-start">{index + 1}</p>
                             <p className=" text-start uppercase">{device.bridge_no}</p>

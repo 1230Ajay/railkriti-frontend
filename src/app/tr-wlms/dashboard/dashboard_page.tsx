@@ -12,15 +12,11 @@ import { TbListDetails } from "react-icons/tb";
 import { RiFileExcel2Fill, RiRestartLine } from "react-icons/ri";
 import { GrMapLocation } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
-import { disableButton, enableButton, setTimer } from "@/features/device/deviceSlice";
+import { enableButton, setTimer } from "@/features/device/deviceSlice";
 import { toast } from "react-toastify";
-
-import { useRouter } from "next/navigation";
 import DevicesStatics from "@/components/DevicesStatics";
 import NavBar from "@/components/nav/navbar";
-import conf from "@/lib/conf/conf";
-import myIntercepter from "@/lib/interceptor";
-import { getStoredJwt } from "../../../../getCoockies";
+
 import { Titles } from "@/lib/data/title";
 import socketTRWLMS from "@/lib/services/SocketTRWLMSService";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
@@ -30,8 +26,6 @@ const Dashboard: React.FC = (): JSX.Element => {
     const [activeDetail, setActiveDetail] = useState<string | null>(null);
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
     const [devices, setDevices] = useState<any[]>([]);
-    const [chartData, setChartData] = useState<number[]>([]);
- 
     const [searchQuery, setSearchQuery] = useState('');  // Step 1: Add state for search query
 
     const dispatch = useDispatch();
@@ -83,21 +77,6 @@ const Dashboard: React.FC = (): JSX.Element => {
 
 
 
-
-    const toggleSidebar = () => {
-        setSearchState(!searchState);
-    };
-
-    const toggleDetail = (uid: string) => {
-        setActiveDetail((prevUid) => (prevUid === uid ? null : uid));
-    };
-
-    const handleDateChange = (date: Date | null) => {
-        setSelectedDate(date);
-    };
-
-
-
     const totalDevices = devices.length;
     const onlineDevices = devices.filter(device => device.is_online).length;
     const offlineDevices = totalDevices - onlineDevices;
@@ -107,14 +86,6 @@ const Dashboard: React.FC = (): JSX.Element => {
         device
     );
 
-
-    const title =[
-        { short: 'Tr', full: 'ack' },
-        { short: 'W', full: 'ater' },
-        { short: 'L', full: 'ogging' },
-        { short: 'M', full: 'onitering' },
-        { short: 'S', full: 'ystem' },
-      ];
 
     return (
         <div className="h-screen xl:grid grid-rows-[auto_auto_auto_1fr] ">
@@ -174,7 +145,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                 </div>
 
                 {filteredDevices.map((device, index) => (
-                    <div key={device.uid} className=" ">
+                    <div key={index} className=" ">
                         <div className={`text-center min-w-[720px] text-xs md:text-base grid grid-cols-10 ${activeDetail === device.uid ? '' : 'border-b'} border-gray-600 items-center py-2`}>
                             <p className=" ml-4 text-start">{index + 1}</p>
                             <p className=" text-start capitalize">{device.location}</p>
