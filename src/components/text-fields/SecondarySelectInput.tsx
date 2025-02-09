@@ -45,7 +45,7 @@ const SecondarySelectInput: React.FC<SelectInputProps> = ({
                     <option value="">{label}</option>
                     {options.map(option => (
                         <option key={option.value} className='text-white' value={option.value}>
-                            {option.role}
+                            {option.role.toUpperCase()}
                         </option>
                     ))}
                 </select>

@@ -40,7 +40,6 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
   const [isUserModalOpen, setUserModalOpen] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isContactMessageOpen, setIsContactMessageOpen] = useState<boolean>(false);
-  const [isadmin, setIsAdmin] = useState<boolean>(false);
   const [user,setUser] = useState<any>();
   const router = useRouter();
 
@@ -64,6 +63,10 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
   }, []); // Empty dependency array to ensure it runs only once
   
   
+  const isAdmin = ()=>{
+  //  console.log(user.role);
+   return true;
+  }
 
   const formatDateTime = (date: Date) => {
     const hours = String(date.getHours()).padStart(2, '0');
@@ -85,8 +88,6 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
   const redirect = async (route: string) => {
     router.push(route);
   }
-
-
 
   return (
     <div className="flex items-center justify-between py-4 h-20 px-4 bg-black  w-screen z-10">
@@ -124,7 +125,7 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
           <FaHome />
         </div>
 
-        {details.isHome && isadmin ? <div className="relative ">
+        {details.isHome && isAdmin() ? <div className="relative ">
           <div
             className={` p-2 hidden lg:flex  text-center rounded-full ${isContactMessageOpen ? 'bg-primary text-white' : 'bg-white text-primary'}`}
             onMouseEnter={() => setIsContactMessageOpen(true)}
@@ -148,7 +149,7 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
         </div> : <></>}
 
         <div className={`bg-white hidden lg:flex  text-primary cursor-pointer text-center rounded-full ${details.isHome ? '' : 'p-2'}`}>
-          {details.isHome ? isadmin ? <div className="relative">
+          {details.isHome ? isAdmin() ? <div className="relative">
             <div
               className={` p-2  text-center rounded-full ${isMenuOpen ? 'bg-primary text-white' : 'bg-white text-primary'}`}
               onMouseEnter={() => setIsMenuOpen(true)}
@@ -205,7 +206,7 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
 
       <Modal isOpen={isUserModalOpen}>
         <div className=' px-8 py-4 bg-black'>
-          <UserDetailsForm onCancel={() => setUserModalOpen(false)} uid={""} firstName={""} lastName={""} contactNo={""} email={""} designation={""} role={""} />
+          <UserDetailsForm onCancel={() => setUserModalOpen(false)} username={""} firstName={""} lastName={""} contactNo={""} email={""} designation={""} role={""} />
         </div>
       </Modal>
 

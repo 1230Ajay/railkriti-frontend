@@ -15,10 +15,13 @@ import conf from '@/lib/conf/conf';
 
 interface User {
   username: string;
-  role: any;
+  role: {
+    uid:string,
+    name:string
+  };
   uid: string;
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   email: string;
   mobile: string;
   designation: string;
@@ -28,7 +31,7 @@ interface User {
 
 export default function Page() {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [sections, setSections] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const [userUpdateFormState, setUserUpdateFormState] = useState<boolean>(false);
@@ -46,7 +49,8 @@ export default function Page() {
     const fetchSections = async () => {
       try {
         const response = await myIntercepter.get(`${conf.API_GATEWAY}/auth/users`);
-        setSections(response.data);
+        console.log(response.data);
+        setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -54,28 +58,23 @@ export default function Page() {
     fetchSections();
   }, []);
 
-  const formatRole = (role: string) => {
-    const [first, second] = role.split("_");
-    return `${first} ${second}`;
-  };
-
-  const filteredSections = sections.filter((user) =>
+  const filteredSections = users.filter((user) =>
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const updateUserStatus = async (user: User, activate: boolean) => {
     try {
-      const response = await myIntercepter.post(`${conf.API_GATEWAY}/api/${activate ? 'activate' : 'deactivate'}`, { uid: user.uid });
+      const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/update`, { identifier: user.username ,isVerified:activate});
       if (response.status === 200) {
-        setSections(prevSections =>
+        setUsers(prevSections =>
           prevSections.map(u =>
             u.uid === user.uid ? { ...u, isVerified: activate } : u
           )
         );
-        toast.success(`${user.firstname} ${user.lastname} has been ${activate ? 'activated' : 'deactivated'}`);
+        toast.success(`${user.firstName} ${user.lastName} has been ${activate ? 'activated' : 'deactivated'}`);
       }
     } catch (error) {
-      console.error(`Error ${activate ? 'activating' : 'deactivating'} user:`, error);
+      console.error(`Error ${!activate ? 'activating' : 'deactivating'} user:`, error);
     }
   };
 
@@ -108,8 +107,6 @@ export default function Page() {
         </div>
       </div>
 
-
-
       <div className="bg-black  mx-4 mb-4  overflow-scroll no-scrollbar px-4 rounded-b-md">
 
         <div className='border-t-2 border-b-2 text-white min-w-[720px]'>
@@ -131,7 +128,7 @@ export default function Page() {
             <div key={user.uid} className='px-4 text-xs capitalize md:text-base grid grid-cols-10 border-b border-gray-600 items-center py-1 text-center'>
               <p className='  text-start'>{index + 1}</p>
               <p className=' text-start'>{user.username}</p>
-              <p className=' text-start'>{user.firstname} {user.lastname}</p>
+              <p className=' text-start'>{user.firstName} {user.lastName}</p>
               <p className='col-span-2 lowercase'>{user.email}</p>
               <p>{user.mobile}</p>
               <p>{user.designation}</p>
@@ -141,7 +138,7 @@ export default function Page() {
                   onClick={() => updateUserStatus(user, !user.isVerified)}
                   className='text-3xl text-center rounded-md'
                 >
-                  {user.isVerified ? <CgToggleOff className='text-green-400' /> : <CgToggleOn className='text-primary' />}
+                  {!user.isVerified ? <CgToggleOff className='text-green-400' /> : <CgToggleOn className='text-primary' />}
                 </button>
               </div>
               <div className='flex h-full items-center justify-center'>
@@ -161,20 +158,18 @@ export default function Page() {
         <div className='bg-black overflow-y-scroll no-scrollbar rounded-md px-8 pt-4 pb-8 lg:pb-0'>
           {selectedUser && (
             <UserDetailsForm
-              uid={selectedUser.uid}
-              firstName={selectedUser.firstname}
-              lastName={selectedUser.lastname}
-              role={selectedUser.user_role_id}
+              username={selectedUser.username}
+              firstName={selectedUser.firstName}
+              lastName={selectedUser.lastName}
+              role={selectedUser.role}
               email={selectedUser.email}
               contactNo={selectedUser.mobile}
               designation={selectedUser.designation}
               onCancel={() => setUserUpdateFormState(false)}
-
             />
           )}
         </div>
       </Modal>
-
     </div>
   );
 }

@@ -1,12 +1,13 @@
 import { PrimaryButton } from '@/components/buttons/primarybutton';
 import SecondarySelectInput from '@/components/text-fields/SecondarySelectInput';
 import TextInput from '@/components/text-fields/TextInput';
+import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 interface UserDetailsFormProps {
-    uid:any,
+    username:any,
     firstName: any;
     lastName: any;
     contactNo: any;
@@ -18,17 +19,20 @@ interface UserDetailsFormProps {
 
 
 interface UserDetailsFormData {
-    uid:string,
-    firstname: string;
-    lastname: string;
+    identifier:string,
+    firstName: string;
+    lastName: string;
     mobile: string;
-    role: string;
+    role: {
+        uid:string,
+        name:string
+    };
     designation: string;
 }
 
 
 const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
-    uid,
+    username,
     firstName,
     lastName,
     contactNo,
@@ -45,37 +49,41 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
     const [designationState, setDesignation] = useState(designation);
     const [roles, setRoles] = useState([]);
 
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const formData: UserDetailsFormData = {
-            uid:uid,
-            firstname: firstNameState,
-            lastname: lastNameState,
+        const formData = {
+            identifier:username,
+            firstName: firstNameState,
+            lastName: lastNameState,
             mobile: contactNoState,
-            role: roleState,
+            roleId: roleState,
             designation: designationState,
         };
     
-
-        const res = await myIntercepter.put('/api/user/',formData)
+        const res = await myIntercepter.post(`${conf.API_GATEWAY}/auth/update`,formData)
       
         if(res.status===200){
             toast.success("user updated successfully")
             onCancel();
             window.location.reload();
         }
-        console.log(res)
-        // onSave(formData); // Uncomment this to handle save
+     
     };
 
     useEffect(() => {
         fetchRoles();
     }, []);
 
+
+    useEffect(() => {
+        setRoleState(role.uid);
+    }, [role]);
+
+
     const fetchRoles = async () => {
-        const res = await myIntercepter.get('/api/role');
-        setRoles(res.data);
+        const res = await myIntercepter.get(`${conf.API_GATEWAY}/auth/roles`);
+        const roles =  res.data.map((item:any) => ({value: item.uid,role: item.name}));
+        setRoles(roles);
     };
 
     return (
@@ -124,7 +132,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
                     <TextInput
                         label="Designation"
                         htmlFor="designation"
-                        value={designationState}
+                        value={designationState.toUpperCase()}
                         onChange={setDesignation}
                         required
                     />

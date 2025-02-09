@@ -82,7 +82,6 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
     const selectedZone = zoneOptions.find((zone:any) => zone.uid === selectedZoneUid);
     setZone(selectedZoneUid);
     setDivision(''); // Reset division when zone changes
-
     const response = await myIntercepter.get(`${conf.LOCTION}/api/sections/zone/${selectedZoneUid}`);
     await setSections(response.data);
 
