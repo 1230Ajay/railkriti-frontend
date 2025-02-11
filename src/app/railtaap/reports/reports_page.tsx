@@ -102,7 +102,7 @@ const Reports: React.FC = ():JSX.Element => {
   };
 
   const deviceOptions = devices.map(device => ({
-    value: device.km,
+    value: device.location,
     label: `${device.km} ( ${device.location} )`
   }));
 
@@ -146,8 +146,8 @@ const Reports: React.FC = ():JSX.Element => {
                   className="w-full border-none text-white bg-gray-800  px-2 capitalize shadow-sm"
                   required
                 >
-                  {deviceOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
+                  {deviceOptions.map((option,index) => (
+                    <option key={index} value={option.value}>
                       {option.label}
                     </option>
                   ))}

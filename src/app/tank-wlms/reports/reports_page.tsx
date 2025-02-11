@@ -69,7 +69,7 @@ const Reports: React.FC = ():JSX.Element => {
       const res = await myIntercepter.get(`${conf.TANK_WLMS}/api/device`);
       if (res.status === 200) {
         setDevices(res.data);
-        setSelectedDevice(res.data[0] || null); // Default to first device if available
+        setSelectedDevice(res.data[0]??null); // Default to first device if available
       }
     } catch (error) {
       setDevices([]);
@@ -98,7 +98,7 @@ const Reports: React.FC = ():JSX.Element => {
   };
 
   const deviceOptions = devices.map(device => ({
-    value: device.km,
+    value: device.location,
     label: `${device.km} ( ${device.location} )`
   }));
 
@@ -137,13 +137,14 @@ const Reports: React.FC = ():JSX.Element => {
                   value={selectedDevice ? selectedDevice.location : ''}
                   onChange={(e) => {
                     const selected = devices.find(device => device.location === e.target.value) || null;
+                    console.log(devices);
                     setSelectedDevice(selected);
                   }}
                   className="w-full border-none text-white bg-gray-800  px-2 capitalize shadow-sm"
                   required
                 >
-                  {deviceOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
+                  {deviceOptions.map((option,index) => (
+                    <option key={index} value={option.value}>
                       {option.label}
                     </option>
                   ))}

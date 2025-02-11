@@ -49,14 +49,14 @@ const Reports: React.FC = ():JSX.Element => {
     fetchDevices();
     // Set default dates
     const today = new Date();
-    const tommaroww = new Date(today);
+    const yesterday = new Date(today);
 
-    tommaroww.setDate(today.getDate() + 1);
+    yesterday.setDate(today.getDate() - 1);
 
-    setToDate(today.toLocaleDateString());
-    setFromDate(tommaroww.toLocaleDateString());
+    setToDate(formatDate(today));
+    setFromDate(formatDate(yesterday));
   }, []);
-
+  
   useEffect(() => {
     if (selectedDevice && fromDate && toDate) {
       fetchLogData();
