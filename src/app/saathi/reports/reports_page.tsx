@@ -51,8 +51,7 @@ const Reports: React.FC = (): JSX.Element => {
   const [toDate, setToDate] = useState<string>('');
   const [data, setData] = useState<LogData[]>([]);
   const [deviceType, setDeviceType] = useState<'transmitter' | 'receiver'>('transmitter');
-  const [error, setError] = useState<string | null>(null);
-
+ 
   // Options for Log Type and Device Type
   const LogTypeOptions = [
     { value: 'Train Detection', label: 'Train Detection' },
@@ -100,12 +99,12 @@ const Reports: React.FC = (): JSX.Element => {
       if (res.status === 200) {
         setDevices(res.data);
         setSelectedDevice(res.data[0] || null); // Select the first device by default
-        setError(null);
+
       }
     } catch (error) {
       setDevices([]);
       setSelectedDevice(null);
-      setError('Error fetching devices. Please try again later.');
+
       console.error('Error fetching devices:', error);
     }
   };
@@ -116,22 +115,23 @@ const Reports: React.FC = (): JSX.Element => {
       setData([]);
       if (selectedDevice) {
         const device = deviceType === 'transmitter' ? conf.SAATHI_TX : conf.SAATHI_RX;
-        const res = await myIntercepter.post(`${device}/api/log`, {
-          device_uid: selectedDevice.uid,
-          fromDate: fromDate,
-          toDate: toDate
+        const res = await myIntercepter.get(`${device}/api/logs/${selectedDevice.uid}`, {
+
+          params: {
+            start: fromDate,
+            end: toDate
+          }
         });
         if (res.status === 200) {
-          setData(res.data);
-          setError(null);
+          setData(res.data.device_logs);
+   
         } else {
           setData([]);
-          setError('No data found for the selected criteria.');
         }
       }
     } catch (error) {
       setData([]);
-      setError('Error fetching log data. Please try again later.');
+
       console.error('Error fetching log data:', error); // Log detailed error
     }
   };
@@ -324,13 +324,6 @@ const Reports: React.FC = (): JSX.Element => {
           </div>
         </div>
 
-        {/* Error Message */}
-        {error && <div className="text-red-500 text-center">{error}</div>}
-
-        {/* No Data Message */}
-        {data.length === 0 && !error && (
-          <div className="text-gray-500 text-center">No logs found for the selected device and date range.</div>
-        )}
 
         {/* Data Table for tx */}
         {deviceType == "transmitter" ? <div>
@@ -394,7 +387,7 @@ const Reports: React.FC = (): JSX.Element => {
 
 
                 <tbody className="text-center">
-                  {data.filter((log) => log.actions !== "ONLINE" && log.actions !== "OFFLINE" && log.actions !== "LOG").map((log, index) => (
+                  {data&& data.filter((log) => log.actions !== "ONLINE" && log.actions !== "OFFLINE" && log.actions !== "LOG").map((log, index) => (
                     <tr key={index}>
                       <td className="border p-2">{index + 1}</td>
                       <td className="border p-2">{convertUtcToIst(log.created_at)}</td>

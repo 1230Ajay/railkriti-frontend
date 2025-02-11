@@ -84,9 +84,9 @@ const Reports: React.FC = ():JSX.Element => {
   const fetchLogData = async () => {
     try {
       if (selectedDevice) {
-        const res = await myIntercepter.post(`${conf.RAILTAAP}/api/logs/report`, { uid: selectedDevice.uid, fromDate: fromDate, toDate: toDate });
+        const res = await myIntercepter.get(`${conf.RAILTAAP}/api/logs/${selectedDevice.uid}`,{params:{ start: fromDate, end: toDate }} );
         if (res.status === 200) {
-          setData(res.data);
+          setData(res.data.device_logs);
         }else{
           setData([])
         }
@@ -233,9 +233,9 @@ const Reports: React.FC = ():JSX.Element => {
           </div>
 
           <div className='flex uppercase'>
-            <div className='flex-1'>section : <span className='font-normal'>{selectedDevice?.section}</span></div>
-            <div className='flex-1'>division : <span className='font-normal'>{selectedDevice?.division}</span></div>
-            <div className='w-56 text-end'>zone : <span className='font-normal'>{selectedDevice?.zone}</span></div>
+            <div className='flex-1'>section : <span className='font-normal'>{selectedDevice?.section?.name}</span></div>
+            <div className='flex-1'>division : <span className='font-normal'>{selectedDevice?.section?.division?.name}</span></div>
+            <div className='w-56 text-end'>zone : <span className='font-normal'>{selectedDevice?.section?.division?.zone?.zonal_code}</span></div>
           </div>
 
 

@@ -57,14 +57,18 @@ const AlertPage: React.FC = (): JSX.Element => {
 
   const filterAlerts = () => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    const filtered = alerts.filter(
-      (alert) =>
-        alert.device.river_name.toLowerCase().includes(lowerCaseSearchTerm) ||
-        alert.mobile.toLowerCase().includes(lowerCaseSearchTerm) ||
-        (alert.email && alert.email.toLowerCase().includes(lowerCaseSearchTerm))
-    );
+  
+    const filtered = alerts.filter((alert) => {
+      return (
+        alert.device?.river_name?.toLowerCase().includes(lowerCaseSearchTerm) ||
+        alert.mobile?.toLowerCase().includes(lowerCaseSearchTerm) ||
+        alert.email?.toLowerCase().includes(lowerCaseSearchTerm)
+      );
+    });
+  
     setFilteredAlerts(filtered);
   };
+  
 
   const activateDeactivateAlert = async (alert: Alert) => {
     try {
@@ -143,8 +147,8 @@ const AlertPage: React.FC = (): JSX.Element => {
                   className='px-4 text-start text-xs md:text-base grid grid-cols-10 border-b border-gray-600 items-center py-1'
                 >
                   <p className='ml-2 '>{index + 1}</p>
-                  <p className='uppercase'>{alert.device.bridge_no}</p>
-                  <p className='capitalize'>{alert.device.river_name}</p>
+                  <p className='uppercase'>{alert.device?.bridge_no}</p>
+                  <p className='capitalize'>{alert.device?.river_name}</p>
                   <p>{alert.designation}</p>
                   <p className='text-center'>{alert.mobile}</p>
                   <p className='col-span-2'>{alert.email ? alert.email : '--:--'}</p>

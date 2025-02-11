@@ -59,9 +59,9 @@ const AlertPage: React.FC = (): JSX.Element => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     const filtered = alerts.filter(
       (alert) =>
-        alert.device.location.includes(lowerCaseSearchTerm) ||
-        alert.mobile.toLowerCase().includes(lowerCaseSearchTerm) ||
-        (alert.email && alert.email.toLowerCase().includes(lowerCaseSearchTerm))
+        alert.device?.location.includes(lowerCaseSearchTerm) ||
+        alert.mobile?.toLowerCase().includes(lowerCaseSearchTerm) ||
+        (alert.email && alert.email?.toLowerCase().includes(lowerCaseSearchTerm))
     );
     setFilteredAlerts(filtered);
   };
@@ -122,8 +122,8 @@ const AlertPage: React.FC = (): JSX.Element => {
         <div className='border-t-2 border-b-2 min-w-[780px] text-white py-3'>
           <div className='grid grid-cols-10 font-semibold capitalize px-4 text-xs md:text-base items-center text-start'>
             <p>Sr. No</p>
-            <p>Bridge no</p>
-            <p>River name</p>
+            <p>Km</p>
+            <p>Location</p>
             <p>Designation</p>
             <p className='text-center'>Mobile no</p>
             <p className='col-span-2 text-center'>Email ID</p>
@@ -143,8 +143,8 @@ const AlertPage: React.FC = (): JSX.Element => {
                   className='px-4 text-start text-xs md:text-base grid grid-cols-10 border-b border-gray-600 items-center py-1'
                 >
                   <p className='ml-2 '>{index + 1}</p>
-                  <p className='uppercase'>{alert.device.km}</p>
-                  <p className='capitalize'>{alert.device.location}</p>
+                  <p className='uppercase'>{alert.device?.km}</p>
+                  <p className='capitalize'>{alert.device?.location}</p>
                   <p>{alert.designation}</p>
                   <p className='text-center'>{alert.mobile}</p>
                   <p className='col-span-2'>{alert.email ? alert.email : '--:--'}</p>

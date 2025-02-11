@@ -32,8 +32,8 @@ interface Device {
       };
     };
   };
-  is_fixed:any,
-  installed_at:any;
+  is_fixed: any,
+  installed_at: any;
   isActive: boolean;
   imei?: string;
   latitude?: string;
@@ -43,7 +43,7 @@ interface Device {
   rail_level?: string;
   danger_level?: string;
   sensor_level?: string;
-  is_single_line?:boolean;
+  is_single_line?: boolean;
 }
 const DevicePage: React.FC = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -52,7 +52,7 @@ const DevicePage: React.FC = (): JSX.Element => {
   const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
   const [showRx, setShowRx] = useState(false); // Initialize as a boolean
   const [devices, setDevices] = useState<Device[]>([]);
-
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const router = useRouter()
 
 
@@ -74,7 +74,9 @@ const DevicePage: React.FC = (): JSX.Element => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredDevices = devices.filter(device => device);
+  const filteredDevices = devices.filter(device =>
+    device.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const openUpdateForm = (device: Device) => {
     setSelectedDevice(device);
@@ -87,12 +89,12 @@ const DevicePage: React.FC = (): JSX.Element => {
       const response = await myIntercepter.put(`${route}/api/device/${uid}`, {
         isActive: status
       });
-  
+
       if (response.status === 200) {
         const updatedDeviceList = devices.map((device) =>
           device.uid === uid ? { ...device, isActive: status } : device
         );
-  
+
         setDevices(updatedDeviceList); // Update devices with the correct 'isActive' field
         toast.success('Device status updated successfully');
       } else {
@@ -102,21 +104,27 @@ const DevicePage: React.FC = (): JSX.Element => {
       toast.error("An error occurred while changing device activation status.");
     }
   };
-  
+
 
 
   return (
     <div className='grid h-screen grid-rows-[auto_auto_1fr]'>
       <NavBar title={Titles.SaathiTitle} />
       <div className="flex justify-between max-h-16 items-center mx-4 py-4  bg-black rounded-t-md mt-4 px-4 ">
-        <div className="  transition-all space-x-2 text-gray-400"><button onClick={() => setShowRx(false)} className={` ${showRx ? '' : ' text-white font-bold'}  border-primary px-2 rounded-sm  text-md uppercase`}>Tx Devices</button> <button onClick={() => setShowRx(true)} className={` ${!showRx ? '' : ' text-white font-bold'}  border-primary px-2 rounded-sm   text-md uppercase`}>Rx Devices</button></div>
+        <div className="  transition-all space-x-2 text-gray-400"><button onClick={() => {
+          setShowRx(false);
+          setSearchQuery("");
+        }} className={` ${showRx ? '' : ' text-white font-bold'}  border-primary px-2 rounded-sm  text-md uppercase`}>Tx Devices</button> <button onClick={() => {
+          setShowRx(true)
+          setSearchQuery("");
+        }} className={` ${!showRx ? '' : ' text-white font-bold'}  border-primary px-2 rounded-sm   text-md uppercase`}>Rx Devices</button></div>
         <div className=' flex-col md:flex-row md:space-x-4 hidden md:flex'>
 
           <input
             type='text'
             placeholder='Search...'
-            value={""}
-            onChange={(e) => () => { }}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className='bg-white px-4 py-1 rounded-sm text-primary w-48'
           />
 
@@ -164,7 +172,7 @@ const DevicePage: React.FC = (): JSX.Element => {
             <div key={device.uid} className=' text-xs capitalize md:text-base grid grid-cols-9 border-b border-gray-600 items-center py-1 text-center'>
               <p className='uppercase'>{index + 1}</p>
               <p className=' text-start'>{device.name}</p>
-              <p>{`${device.is_fixed?"Fixed":"Mobile"} / ${device.installed_at}`}</p>
+              <p>{`${device.is_fixed ? "Fixed" : "Mobile"} / ${device.installed_at}`}</p>
               <p>{device.mobile_no}</p>
               <p className=' text-center uppercase'>{device.section.sectional_code}</p>
               <p className=' text-center uppercase'>{device.section.division.divisional_code}</p>

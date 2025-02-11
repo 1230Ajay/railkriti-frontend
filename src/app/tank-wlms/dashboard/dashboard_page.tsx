@@ -72,25 +72,9 @@ const Dashboard: React.FC = (): JSX.Element => {
         };
 
 
-        const executeHandleConnect = () => {
-            let count = 0;
-    
-            const intervalId = setInterval(async () => {
-                if (socket.connected) { 
-                    count++;
-                    await handleConnect();
-    
-                    if (count === 3) {
-                        clearInterval(intervalId); 
-                    }
-                } else {
-                    console.log('Socket not connected, skipping handleConnect');
-                }
-            }, 15000); 
-        };
 
 
-        socket.on('connect', executeHandleConnect);
+  
         socket.on('devices', handleDevicesUpdate);
         socket.on('disconnect', handleDisconnect);
 
@@ -239,9 +223,9 @@ const Dashboard: React.FC = (): JSX.Element => {
     const activeDevices = devices.filter(device => device.isActive).length;
 
     const filteredDevices = devices.filter(device =>
-     true
-    );
-
+        device.location.toLowerCase().includes(searchQuery.toLowerCase()) ||   device.km.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    
 
 
     return (

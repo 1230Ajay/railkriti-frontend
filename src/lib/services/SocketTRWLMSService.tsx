@@ -14,7 +14,7 @@ const executeHandleConnect = () => {
         if (socketTRWLMS.connected) { 
             count++;
             await handleConnect();
-
+            console.log(count);
             if (count === 3) {
                 clearInterval(intervalId); 
             }

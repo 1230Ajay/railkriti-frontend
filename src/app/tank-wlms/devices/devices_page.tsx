@@ -54,13 +54,8 @@ const DevicePage: React.FC = (): JSX.Element => {
     }
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
 
-  const filteredDevices = devices.filter(device =>
-    device.location.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+
 
   const openUpdateForm = (device: Device) => {
     setSelectedDevice(device);
@@ -100,6 +95,12 @@ const DevicePage: React.FC = (): JSX.Element => {
     }
   };
 
+
+  const filteredDevices = devices.filter(device =>
+    device.location.toLowerCase().includes(searchTerm.toLowerCase()) ||   device.km.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+
   return (
     <div className=' grid h-screen grid-rows-[auto_auto_1fr] '>
       <NavBar title={Titles.TankWlmsTitle} />
@@ -111,7 +112,7 @@ const DevicePage: React.FC = (): JSX.Element => {
             type='text'
             placeholder='Search...'
             value={searchTerm}
-            onChange={handleSearchChange}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className='bg-white px-4 py-1 rounded-sm text-primary w-full'
           />
           <div className='flex space-x-4 pt-2 md:pt-0 text-white'>
@@ -142,12 +143,12 @@ const DevicePage: React.FC = (): JSX.Element => {
           {filteredDevices.map((device) => (
             <div key={device.uid} className='px-4 text-xs capitalize md:text-base grid grid-cols-9 border-b border-gray-600 items-center py-1 text-center'>
               <p className='uppercase'>{device.km}</p>
-              <p>{device.location}</p>
-              <p>{device.mobile_no}</p>
-              <p>{device.reading_interval}</p>
-              <p className=' uppercase'>{device.section.name}</p>
-              <p className=' uppercase'>{device.section.division.name}</p>
-              <p className='uppercase'>{device.section.division.zone.zonal_code}</p>
+              <p>{device?.location}</p>
+              <p>{device?.mobile_no}</p>
+              <p>{device?.reading_interval}</p>
+              <p className=' uppercase'>{device.section?.name}</p>
+              <p className=' uppercase'>{device.section?.division?.name}</p>
+              <p className='uppercase'>{device.section?.division?.zone?.zonal_code}</p>
               <p className='text-4xl flex justify-center'>
                 {device.isActive ? (
                   <CgToggleOff onClick={() => activateDeactivate(device.uid, !device.isActive)} className='text-green-400' />
@@ -170,7 +171,7 @@ const DevicePage: React.FC = (): JSX.Element => {
 
       <Modal isOpen={addDevicePopUpState}>
         <div className='w-[90vw] bg-black overflow-y-scroll no-scrollbar rounded-md px-8 pt-4 pb-8 lg:pb-0'>
-         <TankWLMSDeviceAdd onClose={()=>setAddDevicePopUpState(false)}></TankWLMSDeviceAdd>
+          <TankWLMSDeviceAdd onClose={() => setAddDevicePopUpState(false)}></TankWLMSDeviceAdd>
         </div>
       </Modal>
 

@@ -59,7 +59,7 @@ const DevicePage: React.FC = (): JSX.Element => {
   };
 
   const filteredDevices = devices.filter(device =>
-    device.location.toLowerCase().includes(searchTerm.toLowerCase())
+    device.location?.toLowerCase().includes(searchTerm.toLowerCase()) || device.km?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const openUpdateForm = (device: Device) => {

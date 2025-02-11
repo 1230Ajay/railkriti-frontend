@@ -71,7 +71,7 @@ export default function Page() {
             u.uid === user.uid ? { ...u, isVerified: activate } : u
           )
         );
-        toast.success(`${user.firstName} ${user.lastName} has been ${activate ? 'activated' : 'deactivated'}`);
+        toast.success(`${user.firstName} ${user.lastName} has been ${!activate ? 'activated' : 'deactivated'}`);
       }
     } catch (error) {
       console.error(`Error ${!activate ? 'activating' : 'deactivating'} user:`, error);

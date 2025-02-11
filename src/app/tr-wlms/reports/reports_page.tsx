@@ -66,7 +66,7 @@ const Reports: React.FC = (): JSX.Element => {
 
   const fetchDevices = async () => {
     try {
-      const res = await myIntercepter.get(`${conf.TR_WLMS}/api/devices`);
+      const res = await myIntercepter.get(`${conf.TR_WLMS}/api/device`);
       console.log(res, "dtat we have got");
       if (res.status === 200) {
         setDevices(res.data);
@@ -81,7 +81,7 @@ const Reports: React.FC = (): JSX.Element => {
   const fetchLogData = async () => {
     try {
       if (selectedDevice) {
-        const res = await myIntercepter.post(`${conf.TR_WLMS}/api/logs/reports`, { uid: selectedDevice.uid, fromDate: fromDate, toDate: toDate });
+        const res = await myIntercepter.get(`${conf.TR_WLMS}/api/logs/${selectedDevice.uid}`,{params: {  start: fromDate, end: toDate }});
         if (res.status === 200) {
           setData(res.data.device_logs);
         } else {

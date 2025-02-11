@@ -82,10 +82,11 @@ const Dashboard: React.FC = (): JSX.Element => {
     const offlineDevices = totalDevices - onlineDevices;
     const activeDevices = devices.filter(device => device.isActive).length;
 
-    const filteredDevices = devices.filter(device =>
-        device
-    );
 
+    const filteredDevices = devices.filter(device =>
+        device.location.toLowerCase().includes(searchQuery.toLowerCase()) ||   device.km.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    
 
     return (
         <div className="h-screen xl:grid grid-rows-[auto_auto_auto_1fr] ">

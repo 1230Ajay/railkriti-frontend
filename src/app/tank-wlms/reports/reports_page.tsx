@@ -8,6 +8,7 @@ import DateInput from '@/components/text-fields/DateInput';
 import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import { Titles } from '@/lib/data/title';
+import { start } from 'repl';
 
 interface Device {
   km: any;
@@ -16,20 +17,15 @@ interface Device {
   uid: any;
   mean_temp:any,
   de_stress_temp:any,
-  zone:string,
-  division:string;
   reading_interval: any;
   section: any;
-  bridge_no: string;
-  river_name: string;
 }
 
 interface LogData {
-  temp: any;
+  tank_level: any;
   sensor_status: any;
   device_status: any;
-  level: any;
-  wl_msl: any;
+
   device_uid: string;
   created_at: string | number | Date;
   serial_no: string;
@@ -84,9 +80,9 @@ const Reports: React.FC = ():JSX.Element => {
   const fetchLogData = async () => {
     try {
       if (selectedDevice) {
-        const res = await myIntercepter.post(`${conf.TANK_WLMS}/api/logs/report`, { uid: selectedDevice.uid, fromDate: fromDate, toDate: toDate });
+        const res = await myIntercepter.get(`${conf.TANK_WLMS}/api/logs/${selectedDevice.uid}`, {params:{ start: fromDate, end: toDate} });
         if (res.status === 200) {
-          setData(res.data);
+          setData(res.data.device_logs);
         }else{
           setData([])
         }
@@ -229,9 +225,9 @@ const Reports: React.FC = ():JSX.Element => {
   
 
           <div className='flex uppercase'>
-            <div className='flex-1'>section : <span className='font-normal'>{selectedDevice?.section}</span></div>
-            <div className='flex-1'>division : <span className='font-normal'>{selectedDevice?.division}</span></div>
-            <div className='w-56 text-end'>zone : <span className='font-normal'>{selectedDevice?.zone}</span></div>
+            <div className='flex-1'>section : <span className='font-normal'>{selectedDevice?.section?.name}</span></div>
+            <div className='flex-1'>division : <span className='font-normal'>{selectedDevice?.section?.division?.name}</span></div>
+            <div className='w-56 text-end'>zone : <span className='font-normal'>{selectedDevice?.section?.division?.zone?.zonal_code}</span></div>
           </div>
 
 
@@ -248,7 +244,7 @@ const Reports: React.FC = ():JSX.Element => {
               <tr>
                 <th className="border w-1/12 p-2">S.no.</th>
                 <th className="border w-3/12 p-2">Date / Time</th>
-                <th className="border w-4/12 p-2">Temp</th>
+                <th className="border w-4/12 p-2">Tank Level</th>
               </tr>
             </thead>
             <tbody className='text-center  '>
@@ -256,7 +252,7 @@ const Reports: React.FC = ():JSX.Element => {
                 <tr key={index}>
                   <td className="border border-primary/50 p-2">{index + 1}</td>
                   <td className="border border-primary/50 p-2"> {convertUtcToIst(log.created_at)}</td>
-                  <td className="border border-primary/50 p-2">{log.temp}</td>
+                  <td className="border border-primary/50 p-2">{log.tank_level}</td>
                 </tr>
               ))}
             </tbody>

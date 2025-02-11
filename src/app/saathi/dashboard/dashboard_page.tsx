@@ -33,8 +33,8 @@ const Dashboard: React.FC = (): JSX.Element => {
     const [devicesRx, setDevicesRx] = useState<any[]>([]);
     const [showRx, setShowRx] = useState(false);
 
-    const [searchQuery, setSearchQuery] = useState('');  // Step 1: Add state for search query
-
+    const [searchQueryTx, setSearchQueryTx] = useState('');  // Step 1: Add state for search query
+    const [searchQueryRx, setSearchQueryRx] = useState(''); 
     const dispatch = useDispatch();
     const deviceButtonStates = useSelector((state: any) => state.button.deviceButtonStates);
 
@@ -56,12 +56,10 @@ const Dashboard: React.FC = (): JSX.Element => {
     }, [deviceButtonStates, dispatch]);
 
     const handleRestartClickTx = (deviceUid: string) => {
-        console.log("Rebotting tx")
         socketSaathiTX.emit('rebootDevice', { "uid": deviceUid });
     };
 
     const handleRestartClickRx = (deviceUid: string) => {
-        console.log("rebootinh rx");
         socketSaathiRx.emit('rebootDevice', { "uid": deviceUid });
     };
 
@@ -114,18 +112,6 @@ const Dashboard: React.FC = (): JSX.Element => {
 
 
 
-    const toggleSidebar = () => {
-        setSearchState(!searchState);
-    };
-
-    const toggleDetail = (uid: string) => {
-        setActiveDetail((prevUid) => (prevUid === uid ? null : uid));
-    };
-
-
-
-
-
     const totalDevicesTx = devicesTx.length;
     const onlineDevicesTx = devicesTx.filter(device => device.is_online).length;
     const offlineDevicesTx = totalDevicesTx - onlineDevicesTx;
@@ -138,13 +124,14 @@ const Dashboard: React.FC = (): JSX.Element => {
     const activeDevicesRx = devicesRx.filter(device => device.isActive).length;
 
 
-    // const filteredDevicesTx = devicesTx.filter(device =>
-    //     device
-    // );
 
-    // const filteredDevicesRx = devicesTx.filter(device =>
-    //     device
-    // );
+    const filteredDevicesTx = devicesTx.filter(device =>
+        device.name.toLowerCase().includes(searchQueryTx.toLowerCase()) 
+    );
+
+    const filteredDevicesRx = devicesRx.filter(device =>
+        device.name.toLowerCase().includes(searchQueryRx.toLowerCase()) 
+    );
 
 
 
@@ -169,10 +156,12 @@ const Dashboard: React.FC = (): JSX.Element => {
                     <input
                         type='text'
                         placeholder='Search...'
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        value={ showRx?searchQueryRx: searchQueryTx}
+                        onChange={(e) => showRx?setSearchQueryRx(e.target.value): setSearchQueryTx(e.target.value)}
                         className='bg-white px-4 py-1 rounded-sm text-primary w-full'
                     />
+
+                    
 
                     <div className='flex space-x-4 pt-2 md:pt-0 text-white  '>
                         <RiFileExcel2Fill className='bg-green-600 h-8 w-8 p-1 rounded-sm' />
@@ -208,7 +197,7 @@ const Dashboard: React.FC = (): JSX.Element => {
 
                 </div>
 
-                {devicesTx.map((device, index) => (
+                {filteredDevicesTx.map((device, index) => (
                     <div key={index} className=" ">
                         <div className={`text-center min-w-[720px] text-xs md:text-base grid grid-cols-9 ${activeDetail === device.uid ? '' : 'border-b'} border-gray-600 items-center py-2`}>
                             <p className=" ml-4 text-start">{index + 1}</p>
@@ -291,7 +280,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                     <p className={` text-end mr-4 `}>Details</p>
                 </div>
 
-                {devicesRx.map((device, index) => (
+                {filteredDevicesRx.map((device, index) => (
                     <div key={index} className=" ">
                         <div className={`text-center min-w-[720px] text-xs md:text-base grid grid-cols-9 ${activeDetail === device.uid ? '' : 'border-b'} border-gray-600 items-center py-2`}>
                             <p className=" ml-4 text-start">{index + 1}</p>
