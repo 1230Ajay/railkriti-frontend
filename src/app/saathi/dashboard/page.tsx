@@ -1,15 +1,12 @@
 import React from 'react'
 import Dashboard from './dashboard_page'
 import { Metadata } from 'next';
+import { SaathiMetaData } from '@/lib/data/metaData';
 
 
-export const metadata: Metadata = {
-    title: 'Dashboard | Saathi',
-    description: 'Default page description for SEO.',
-    icons: {
-        icon: '/favicon.ico', // Replace with the path to your favicon file
-      },
-  };
+export const metadata: Metadata = new SaathiMetaData().getMetaData().Dashboard;
+
+
 
 function page() {
   return (

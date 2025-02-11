@@ -1,15 +1,10 @@
 import React from 'react'
 import Dashboard from './dashboard_page'
 import { Metadata } from 'next';
+import { BrWlmsMetaData } from '@/lib/data/metaData';
 
 
-export const metadata: Metadata = {
-    title: 'Dashboard | BR-WLMS',
-    description: 'Default page description for SEO.',
-    icons: {
-        icon: '/favicon.ico', // Replace with the path to your favicon file
-      },
-  };
+export const metadata: Metadata = new BrWlmsMetaData().getMetaData().Dashboard
 
 function page() {
   return (

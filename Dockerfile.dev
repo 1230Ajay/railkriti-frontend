@@ -13,9 +13,6 @@ RUN npm install --legacy-peer-deps && npm cache clean --force
 # Copy the rest of the application files
 COPY . .
 
-# Ensure next.js build is done before running
-RUN npm run build
-
 # Expose necessary port
 EXPOSE 3007
 

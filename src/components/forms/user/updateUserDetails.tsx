@@ -57,28 +57,24 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
             lastName: lastNameState,
             mobile: contactNoState,
             roleId: roleState,
-            designation: designationState,
+            designation: designationState
         };
     
-        const res = await myIntercepter.post(`${conf.API_GATEWAY}/auth/update`,formData)
-      
+        const res = await myIntercepter.post(`${conf.API_GATEWAY}/auth/update`,formData);
         if(res.status===200){
             toast.success("user updated successfully")
             onCancel();
             window.location.reload();
         }
-     
     };
 
     useEffect(() => {
         fetchRoles();
     }, []);
 
-
     useEffect(() => {
         setRoleState(role.uid);
     }, [role]);
-
 
     const fetchRoles = async () => {
         const res = await myIntercepter.get(`${conf.API_GATEWAY}/auth/roles`);

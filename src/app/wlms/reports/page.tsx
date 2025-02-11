@@ -1,16 +1,11 @@
 import React from 'react'
 import Reports from './reports_page'
 import { Metadata } from 'next'
+import { BrWlmsMetaData } from '@/lib/data/metaData'
 
 
 
-export const metadata:Metadata = {
- title:'Reports | BR-WLMS',
- description:"reports for railways devices installed by robokriti india private limited",
- icons: {
-  icon: '/favicon.ico', // Replace with the path to your favicon file
-},
-}
+export const metadata: Metadata = new BrWlmsMetaData().getMetaData().Report;
 
 function page() {
   return (

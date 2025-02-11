@@ -3,16 +3,11 @@
 import ContactDetails from "@/components/ContactDetails";
 import ContactForm from "@/components/forms/ContactForm";
 import NavBar from "@/components/nav/navbar";
+import { BrWlmsMetaData } from "@/lib/data/metaData";
 import { Titles } from "@/lib/data/title";
 import { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: 'Contact | BR-WLMS',
-  description: 'Support Robokriti india private limited for WLMS',
-  icons: {
-    icon: '/favicon.ico', // Replace with the path to your favicon file
-  },
-};
+export const metadata: Metadata = new BrWlmsMetaData().getMetaData().Contact;
 
 const Contacts = () => {
 

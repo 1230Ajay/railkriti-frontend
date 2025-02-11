@@ -10,17 +10,17 @@ export class Titles{
      } 
 
      static  TankWlmsTitle ={
-        titleSm:"Tank-WLMS",
+        titleSm:"Tn-WLMS",
         titleXl:"Tank Water Level Monitoring System"
      } 
 
      static  RailtaapTitle ={
-        titleSm:"Railtaap",
-        titleXl:"Continues Rail Temp Monitoring System"
+        titleSm:"RAILTAAP",
+        titleXl:"RAILTAAP - Rail Temp Monitoring System"
      } 
 
      static  SaathiTitle ={
         titleSm:"SAATHI",
-        titleXl:"Saathi Pre Warning System"
+        titleXl:"SAATHI - Pre Warning System"
      } 
 }

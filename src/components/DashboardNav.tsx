@@ -20,6 +20,7 @@ import UserDetailsForm from './forms/user/updateUserDetails';
 import Link from 'next/link';
 import myInterceptor from '@/lib/interceptor';
 import conf from '@/lib/conf/conf';
+import { toast } from 'react-toastify';
 
 type DashboardNavProps = {
   toggleSidebar: () => void;
@@ -40,14 +41,14 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
   const [isUserModalOpen, setUserModalOpen] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isContactMessageOpen, setIsContactMessageOpen] = useState<boolean>(false);
-  const [user,setUser] = useState<any>();
+  const [user, setUser] = useState<any>();
   const router = useRouter();
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentDateTime(new Date());
     }, 1000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
@@ -55,29 +56,24 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
     const setUserData = () => {
       const userData = localStorage.getItem("user");
       if (userData) {
-        setUser(JSON.parse(userData));  // Properly set user state
+        setUser(JSON.parse(userData));
       }
     };
-  
-    setUserData();  // Call once on mount
-  }, []); // Empty dependency array to ensure it runs only once
-  
-  
-  const isAdmin = ()=>{
-  //  console.log(user.role);
-   return true;
+    setUserData(); 
+  }, []);
+
+
+  const isAdmin = () => {
+    if (user) {
+      const role = user.role.name;
+      if(role==="admin"){
+        return true;
+      }
+    }
+    return false;
   }
 
-  const formatDateTime = (date: Date) => {
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-    const day = date.getDate();
-    const month = date.toLocaleString('en-US', { month: 'long' });
-    const year = date.getFullYear();
 
-    return `${hours}:${minutes}:${seconds}; ${day} ${month} ${year}`;
-  };
   const handleSignOut = async () => {
     const res = await myInterceptor.post(`${conf.API_GATEWAY}/auth/logout`, {})
     if (res.status === 200) {
@@ -92,11 +88,13 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
   return (
     <div className="flex items-center justify-between py-4 h-20 px-4 bg-black  w-screen z-10">
       <div className="flex items-center h-full text-4xl space-x-4 font-semibold text-white cursor-pointer">
-        {details.disableMenuBar ? <></> : <div>
-          {details.isHome ? <></> : <div className="text-5xl" onClick={details.toggleSidebar}>
-            {details.sidebarStatus ? <CgClose /> : <BiMenu />}
-          </div>}
-        </div>
+        {
+          details.disableMenuBar ? <></> : <div>
+            {details.isHome ? <></> : <div className="text-5xl" onClick={details.toggleSidebar}>
+              {details.sidebarStatus ? <CgClose /> : <BiMenu />}
+            </div>
+            }
+          </div>
         }
 
         {details.isHome ? <div>
@@ -115,12 +113,7 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
       </div>
 
       <div className=" flex space-x-3 lg:space-x-6 text-white h-full items-center capitalize font-semibold pr-8">
-        <div className="hidden lg:block">
-          <p>{formatDateTime(currentDateTime)}</p>
-        </div>
-
-
-
+ 
         <div onClick={() => router.push('/application')} className="bg-white cursor-pointer flex p-2 text-primary text-center rounded-full hover:text-white hover:bg-primary transition-all duration-75">
           <FaHome />
         </div>
@@ -141,8 +134,8 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
             >
               <ul className="py-1 bg-black border-gray-300 border rounded-md">
                 <IconButton icon={FaUsersBetweenLines} name="Users" onClick={() => router.push("/users")} />
-                <IconButton icon={MdContactPhone} name="Contact" onClick={() => console.log("Contact details")} />
-                <IconButton icon={FaSms} name="Custom" onClick={() => console.log("Custom")} />
+                <IconButton icon={MdContactPhone} name="Contact" onClick={() =>  toast.info("Contacts is in under maintainance")} />
+                <IconButton icon={FaSms} name="Custom" onClick={() => toast.info("Custom is in under maintainance")} />
               </ul>
             </div>
           )}

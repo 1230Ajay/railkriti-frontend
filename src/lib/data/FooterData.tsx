@@ -6,16 +6,16 @@ export const FooterData = {
     },
     links: [
         {
-            text: "Terms & Condtions", link: "#"
+            text: "Terms & Condtions", link: "https://robokriti.in/tnc"
         },
         {
-            text: "Warranty Policy", link: "#"
+            text: "Warranty Policy", link: "https://robokriti.in/warrenty-policy"
         },
         {
-            text: "Privacy Policy", link: "#"
+            text: "Privacy Policy", link: "https://robokriti.in/privacy"
         },
         {
-            text: "Contact Us", link: "#"
+            text: "Contact Us", link: "https://robokriti.in/contact"
         }
     
     ]

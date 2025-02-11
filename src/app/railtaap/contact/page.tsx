@@ -5,14 +5,9 @@ import ContactForm from "@/components/forms/ContactForm";
 import NavBar from "@/components/nav/navbar";
 import { Metadata } from "next";
 import { Titles } from "@/lib/data/title";
+import { RailTaapMetaData } from "@/lib/data/metaData";
 
-export const metadata: Metadata = {
-  title: 'Contact | Rail Taap',
-  description: 'Support Robokriti india private limited for WLMS',
-  icons: {
-    icon: '/favicon.ico', // Replace with the path to your favicon file
-  },
-};
+export const metadata: Metadata = new RailTaapMetaData().getMetaData().Contact
 
 
 const Contacts = () => {

@@ -5,14 +5,10 @@ import ContactForm from "@/components/forms/ContactForm";
 import NavBar from "@/components/nav/navbar";
 import { Metadata } from "next";
 import { Titles } from "@/lib/data/title";
+import { SaathiMetaData } from "@/lib/data/metaData";
 
-export const metadata: Metadata = {
-  title: 'Contact | Saathi',
-  description: 'Support Robokriti india private limited for WLMS',
-  icons: {
-    icon: '/favicon.ico', // Replace with the path to your favicon file
-  },
-};
+
+export const metadata: Metadata = new SaathiMetaData().getMetaData().Contact;
 
 
 
