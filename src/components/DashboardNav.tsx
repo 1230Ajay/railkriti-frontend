@@ -98,7 +98,7 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
         }
 
         {details.isHome ? <div>
-          <div>
+          <div onClick={()=>router.push('/application')}>
             <Image src="/assets/logo/logo-dark.png" alt="Logo" width={360} height={80} />
           </div>
         </div> : <Link href={'dashboard'} className="flex items-end lg:space-x-2 cursor-pointer">
