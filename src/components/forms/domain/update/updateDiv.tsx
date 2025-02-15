@@ -74,7 +74,6 @@ const UpdateDivisionForm: React.FC<UpdateDivisionFormProps> = ({ data, onClose =
       </div>
       <SelectInput
         label="Zone"
-        htmlFor="zone"
         value={zone_uid}
         onChange={handleZoneChange}
         options={zoneOptions.map((zone) => ({ value: zone.uid, name: zone.name }))}
@@ -82,7 +81,6 @@ const UpdateDivisionForm: React.FC<UpdateDivisionFormProps> = ({ data, onClose =
 
       <TextInput
         label="Division"
-        htmlFor="division"
         value={division}
         onChange={setDivision}
         required
@@ -90,7 +88,6 @@ const UpdateDivisionForm: React.FC<UpdateDivisionFormProps> = ({ data, onClose =
 
       <TextInput
         label="Divisional Code"
-        htmlFor="divisional_code"
         value={divisional_code}
         onChange={setDivisionalCode}
         required

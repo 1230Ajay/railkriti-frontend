@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TextInput from '../../text-fields/TextInput';
-import SelectInput from '../../text-fields/SelectInput';
+
 import { PrimaryButton } from '../../buttons/primarybutton';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
@@ -9,174 +9,117 @@ import { setEmail, setMobileNumber } from '../../../features/login/loginSlice';
 import { toast } from 'react-toastify';
 import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
+import { useFormik } from 'formik';
+import { signUpDto } from '@/app/(auth)/sign-up/dto/signUpDto';
+
+
+const initialValues = {
+  username: "",
+  password: "",
+  confirmPassword: "",
+  designation: "",
+  firstName: "",
+  lastName: "",
+  mobile: "",
+  email: ""
+}
 
 const UserRegistrationForm = ({ onClose = () => { } }) => {
   const [isRailwayEmployee, setIsRailwayEmployee] = useState(false); // Checkbox state
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [designation, setDesignation] = useState('');
-  const [zone_uid, setZone] = useState('');
-  const [division_uid, setDivision] = useState('');
-  const [sections_uid, setSections] = useState<string[]>([]);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [email, setEmailState] = useState('');
-
-  const [zoneOptions, setZoneOptions] = useState([]);
-  const [divisionOptions, setDivisionOptions] = useState([]);
-  const [sectionOptions, setSectionOptions] = useState([]);
-
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const router = useRouter();
   const dispatch = useDispatch();
 
-  // Fetch zones on component mount
-  useEffect(() => {
-    const fetchZones = async () => {
+  const { values, handleBlur, errors, touched, handleChange, handleReset, handleSubmit } = useFormik({
+    initialValues: initialValues,
+    validationSchema: signUpDto,
+    onSubmit: async (data) => {
+      if (data.password !== data.confirmPassword) {
+        console.log("passwore does not match")
+        toast.error('Passwords do not match');
+        return;
+      }
+
+      // Prepare the userData object
+      const userData = {
+        username: data.username,
+        password: data.password,
+        designation: data.designation,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        mobile: data.mobile,
+        email: data.email,
+      };
+
       try {
-        const zones = await myIntercepter.get(`${conf.LOCTION}/api/zone`);
-        setZoneOptions(zones.data);
-      } catch (error) {
-        console.error('Error fetching zones:', error);
-      }
-    };
-    fetchZones();
-  }, []);
-
-  // Fetch divisions based on selected zone
-  useEffect(() => {
-    const fetchDivisions = async () => {
-      if (zone_uid) {
-        try {
-          const response = await myIntercepter.get(`${conf.LOCTION}/api/zone/${zone_uid}`);
-          setDivisionOptions(response.data.divisions);
-        } catch (error) {
-          console.error('Error fetching divisions:', error);
+        const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/sign-up`, userData);
+        if (response.data.status === 201) {
+          await dispatch(setEmail(data.email));
+          await dispatch(setMobileNumber(data.mobile));
+          await router.push('/verify');
+          toast.success(response?.data?.message || 'user Created successfully');
+          onClose();
+        }else{
+          toast.error(response?.data?.message || 'Something went wrong while creating user');
         }
+      } catch (error: any) {
+        console.error('Error registering user:', error);
+        toast.error(error.response?.data?.error || 'Something went wrong while creating user');
       }
-    };
-    fetchDivisions();
-  }, [zone_uid]);
-
-  // Fetch sections based on selected division
-  useEffect(() => {
-    const fetchSections = async () => {
-      if (division_uid) {
-        try {
-          const response = await myIntercepter.get(`${conf.LOCTION}/api/division/${division_uid}`);
-          console.log(response.data)
-          setSectionOptions(response.data.sections);
-        } catch (error) {
-          console.error('Error fetching sections:', error);
-        }
-      }
-    };
-
-    fetchSections();
-  }, [division_uid]);
-
-  const handleZoneChange = async (selectedZoneUid: React.SetStateAction<string>) => {
-    const selectedZone = zoneOptions.find((zone:any) => zone.uid === selectedZoneUid);
-    setZone(selectedZoneUid);
-    setDivision(''); // Reset division when zone changes
-    const response = await myIntercepter.get(`${conf.LOCTION}/api/sections/zone/${selectedZoneUid}`);
-    await setSections(response.data);
-
-  };
-
-  const handleDivisionChange = async (selectedDivision: React.SetStateAction<string>) => {
-    setDivision(selectedDivision);
-    const response = await myIntercepter.get(`${conf.LOCTION}/api/sections/division/${selectedDivision}`);
-    await setSections(response.data);
-  };
-
-  const handleSectionChange = (uid:any)=>{
-    const section = [uid]
-     setSections(section);
-  }
-
-
-  const handleSubmit = async (event: { preventDefault: () => void; }) => {
-    event.preventDefault();
-
-    if (password !== confirmPassword) {
-      console.log("passwore does not match")
-      toast.error('Passwords do not match');
-      return;
     }
+  })
 
-    // Prepare the userData object
-    const userData = {
-      username,
-      password,
-      designation,
-      firstName,
-      lastName,
-      mobile,
-      email,
-      ...(isRailwayEmployee && {
-        allotedSections:sections_uid
-      }),
-    };
-  
-    try {
-      const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/sign-up`, userData);
-      console.log('User registered successfully:', response.data);
-      await dispatch(setEmail(email));
-      await dispatch(setMobileNumber(mobile));
-      await router.push('/verify');
-      onClose();
-    } catch (error:any) {
-      console.error('Error registering user:', error);
-      toast.error(error.response?.data?.error || 'Something went wrong while creating user');
-    }
-  };
 
   return (
     <div className='rounded-md '>
       <div className='font-bold uppercase text-xl text-white mb-4'>
         <h2>Register User</h2>
       </div>
-      <form onSubmit={handleSubmit} >
+      <form autoComplete='off' onSubmit={handleSubmit}>
 
         <div className="grid md:w-[70vw] grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
           <TextInput
             label="First Name"
-            htmlFor="firstName"
-            value={firstName}
-            onChange={setFirstName}
-            required
+            name='firstName'
+            value={values.firstName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.firstName && touched.firstName ? errors.firstName : ""}
           />
           <TextInput
             label="Last Name"
-            htmlFor="lastName"
-            value={lastName}
-            onChange={setLastName}
-            required
+
+            name='lastName'
+            value={values.lastName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.lastName && touched.lastName ? errors.lastName : ""}
           />
           <TextInput
             label="Username"
-            htmlFor="username"
-            value={username}
-            onChange={setUsername}
-            required
+            name='username'
+            value={values.username}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.username && touched.username ? errors.username : ""}
           />
-          <div className="relative">
+          <div className="relative ">
             <TextInput
               label="Password"
-              htmlFor="password"
+      
+              name='password'
               type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={setPassword}
-              required
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors.password && touched.password ? errors.password : ""}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-3 pt-4 flex items-center text-gray-500"
+              className={`absolute inset-y-0 right-0 pr-3 pt-4  ${errors.confirmPassword && touched.confirmPassword ? "pt-0" : ""} flex items-center text-gray-500`}
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
@@ -184,85 +127,52 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
           <div className="relative">
             <TextInput
               label="Confirm Password"
-              htmlFor="confirmPassword"
+            
+              name='confirmPassword'
               type={showPassword ? 'text' : 'password'}
-              value={confirmPassword}
-              onChange={setConfirmPassword}
-              required
+              value={values.confirmPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors.confirmPassword && touched.confirmPassword ? errors.confirmPassword : ""}
             />
             <button
               type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-3 pt-4 flex items-center text-gray-500"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className={`absolute inset-y-0 right-0 pr-3 pt-4 flex items-center text-gray-500 ${errors.confirmPassword && touched.confirmPassword ? "pt-0" : ""}`}
             >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
+              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
           <TextInput
             label="Designation"
-            htmlFor="designation"
-            value={designation}
-            onChange={setDesignation}
-            required
+       
+            name='designation'
+            value={values.designation}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.designation && touched.designation ? errors.designation : ""}
           />
           <TextInput
             label="Mobile"
-            htmlFor="mobile"
-            value={mobile}
-            onChange={setMobile}
-            required
+      
+            name='mobile'
+            value={values.mobile}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.mobile && touched.mobile ? errors.mobile : ""}
           />
           <TextInput
             label="Email"
-            htmlFor="email"
-            value={email}
-            onChange={setEmailState}
-            required
+     
+            name='email'
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.email && touched.email ? errors.email : ""}
           />
         </div>
 
-        <div className='col-span-3 grid'>
-          <div className="col-span-1 md:col-span-2 xl:col-span-3">
-            <label className="flex items-center space-x-3">
-              <input
-                type="checkbox"
-                className="form-checkbox text-primary h-5 w-5 text-gray-600"
-                checked={isRailwayEmployee}
-                onChange={() => setIsRailwayEmployee(!isRailwayEmployee)}
-              />
-              <span className="text-white">Are you a railway employee?</span>
-            </label>
-          </div>
-        </div>
-
-        {isRailwayEmployee && (
-          <div className='grid md:grid-cols-3 mt-4 gap-x-8'>
-            <SelectInput
-              label="Zone"
-              htmlFor="zone"
-              value={zone_uid}
-              onChange={handleZoneChange}
-              options={zoneOptions} 
-              required={true}
-            />
-            <SelectInput
-              label="Division"
-              htmlFor="division"
-              value={division_uid}
-              onChange={handleDivisionChange}
-              options={divisionOptions}
-           // Disable division select until a zone is selected
-            />
-            <SelectInput
-              label="Sections"
-              htmlFor="sections"
-              value={sections_uid}
-              onChange={handleSectionChange}
-              options={sectionOptions}
-              // Disable sections select until a division is selected
-            />
-          </div>
-        )}
+        
 
         <div className='md:flex md:mt-4 justify-between items-center'>
           <div className='text-white flex space-x-1 mb-4 md:mb-0'>
@@ -270,21 +180,8 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
             <a href="/sign-in" className='text-primary'>Login</a>
           </div>
           <div className='flex space-x-4'>
-            <PrimaryButton className='w-24 text-lg' onClick={() => {
-              setUsername('');
-              setPassword('');
-              setConfirmPassword('');
-              setDesignation('');
-              setZone('');
-              setDivision('');
-              setSections([]);
-              setFirstName('');
-              setLastName('');
-              setMobile('');
-              setEmailState('');
-              setIsRailwayEmployee(false); // Reset checkbox state
-            } } type={'reset'}>Reset</PrimaryButton>
-            <PrimaryButton onClick={()=>{}} type="submit" className='w-24 text-lg'>Submit</PrimaryButton>
+            <PrimaryButton className='w-24 text-lg' onClick={() => handleReset} type={'reset'}>Reset</PrimaryButton>
+            <PrimaryButton onClick={() => { }} type="submit" className='w-24 text-lg'>Submit</PrimaryButton>
           </div>
         </div>
       </form>

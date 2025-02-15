@@ -113,7 +113,7 @@ const TRWLMSDeviceReservationForm = ({ onClose = () => { } }) => {
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
         <TextInput
           label="location"
-          htmlFor="location"
+
           value={location}
           onChange={setLocation}
           required
@@ -123,7 +123,7 @@ const TRWLMSDeviceReservationForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="km"
-          htmlFor="km"
+    
           value={km}
           onChange={setKm}
           required
@@ -133,7 +133,7 @@ const TRWLMSDeviceReservationForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Mobile Number"
-          htmlFor="mobileNumber"
+  
           value={mobileNumber}
           onChange={setMobileNumber}
           required
@@ -142,7 +142,7 @@ const TRWLMSDeviceReservationForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="IMEI Number"
-          htmlFor="imeiNumber"
+ 
           value={imeiNumber}
           onChange={setImeiNumber}
           required
@@ -169,7 +169,7 @@ const TRWLMSDeviceReservationForm = ({ onClose = () => { } }) => {
 
         <SelectInput
           label="Zone"
-          htmlFor="zone"
+
           value={zone}
           onChange={setZone}
           options={zoneOptions}
@@ -177,7 +177,7 @@ const TRWLMSDeviceReservationForm = ({ onClose = () => { } }) => {
         />
         <SelectInput
           label="Division"
-          htmlFor="division"
+    
           value={division}
           onChange={setDivision}
           options={divisionOptions}
@@ -185,7 +185,7 @@ const TRWLMSDeviceReservationForm = ({ onClose = () => { } }) => {
         />
         <SelectInput
           label="Section"
-          htmlFor="section"
+ 
           value={section}
           onChange={setSection}
           options={sectionOptions}
@@ -194,7 +194,7 @@ const TRWLMSDeviceReservationForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Lattitude"
-          htmlFor="lattidtude"
+       
           value={lattitude}
           onChange={setlattitude}
           required
@@ -202,7 +202,7 @@ const TRWLMSDeviceReservationForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Longitude"
-          htmlFor="longitude"
+      
           value={longitude}
           onChange={setLongitude}
           required
@@ -213,7 +213,7 @@ const TRWLMSDeviceReservationForm = ({ onClose = () => { } }) => {
 
         <SelectInput
           label="Installed at"
-          htmlFor="isOnTrack"
+    
           value={isOnTrack}
           onChange={setIsOnTrack}
           options={[{uid:true, value: true, name: "Track" },{uid:false, value: false, name: "LHS" }]}

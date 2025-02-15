@@ -180,49 +180,49 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
         <TextInput
           label="Bridge Number"
-          htmlFor="bridgeNumber"
+ 
           value={bridgeNumber}
           onChange={setBridgeNumber}
           required
         />
         <TextInput
           label="River Name"
-          htmlFor="riverName"
+
           value={riverName}
           onChange={setRiverName}
           required
         />
         <TextInput
           label="Mobile Number"
-          htmlFor="mobileNumber"
+
           value={mobileNumber}
           onChange={setMobileNumber}
           required
         />
         <TextInput
           label="IMEI Number"
-          htmlFor="imeiNumber"
+
           value={imeiNumber}
           onChange={setImeiNumber}
           required
         />
         <TextInput
           label="Longitude"
-          htmlFor="longitude"
+
           value={longitude}
           onChange={setLongitude}
           required
         />
         <TextInput
           label="Latitude"
-          htmlFor="latitude"
+
           value={latitude}
           onChange={setLatitude}
           required
         />
         <SelectInput
           label="Reading Interval"
-          htmlFor="readingInterval"
+
           value={readingInterval}
           onChange={setReadingInterval}
           options={readingIntervalOptions}
@@ -230,21 +230,21 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
         />
         <TextInput
           label="Rail Level (MSL)"
-          htmlFor="rail_level"
+
           value={railLevel}
           onChange={setRailLevel}
           required
         />
         <TextInput
           label="Danger Level (MSL)"
-          htmlFor="danger_level"
+
           value={dangerLevel}
           onChange={setDangerLevel}
           required
         />
         <TextInput
           label="Sensor Level (RL)"
-          htmlFor="sensor_level"
+
           value={sensorLevel}
           onChange={setSensorLevel}
           required
@@ -265,7 +265,7 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
         />
         <SelectInput
           label="Zone"
-          htmlFor="zone"
+
           value={zone}
           onChange={setZone}
           options={zoneOptions}
@@ -273,7 +273,7 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
         />
         <SelectInput
           label="Division"
-          htmlFor="division"
+
           value={division}
           onChange={setDivision}
           options={divisionOptions}
@@ -281,7 +281,7 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
         />
         <SelectInput
           label="Section"
-          htmlFor="section"
+
           value={section}
           onChange={setSection}
           options={sectionOptions}

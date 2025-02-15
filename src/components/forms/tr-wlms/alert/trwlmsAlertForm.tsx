@@ -212,7 +212,7 @@ const TRWLMSAlertForm = ({ onClose = () => { } }) => {
             <div></div>
             <TextInput
               label="Designation"
-              htmlFor="designation"
+  
               value={name}
               onChange={setName}
               required
@@ -220,7 +220,7 @@ const TRWLMSAlertForm = ({ onClose = () => { } }) => {
          
             <TextInput
               label="Mobile No"
-              htmlFor="mobileNumber"
+       
               value={mobileNumber}
               onChange={setMobileNumber}
               required
@@ -228,7 +228,7 @@ const TRWLMSAlertForm = ({ onClose = () => { } }) => {
 
             <TextInput
               label="Email"
-              htmlFor="email"
+       
               value={email}
               onChange={setEmail}
               required

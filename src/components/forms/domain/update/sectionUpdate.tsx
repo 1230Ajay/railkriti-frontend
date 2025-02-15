@@ -117,14 +117,12 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({ data, onClose }) 
 
         <SelectInput
           label="Zone"
-          htmlFor="zone"
           value={zoneUid}
           onChange={handleZoneChange}
           options={zoneOptions}
         />
         <SelectInput
           label="Division"
-          htmlFor="division"
           value={divisionUid}
           onChange={handleDivisionChange}
           options={divisionOptions}
@@ -133,7 +131,6 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({ data, onClose }) 
 
         <TextInput
           label="Section"
-          htmlFor="section"
           value={section}
           onChange={setSection}
           required
@@ -141,7 +138,6 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({ data, onClose }) 
 
         <TextInput
           label="Sectional Code"
-          htmlFor="sectional_code"
           value={sectionalCode}
           onChange={setSectionalCode}
           required

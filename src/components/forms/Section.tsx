@@ -92,14 +92,14 @@ const SectionForm = ({ onClose = () => { } }) => {
 
         <SelectInput
           label="Zone"
-          htmlFor="zone"
+
           value={zone_uid}
           onChange={handleZoneChange}
           options={zoneOptions}
         />
         <SelectInput
           label="Division"
-          htmlFor="division"
+
           value={division_uid}
           onChange={handleDivisionChange}
           options={divisionOptions}
@@ -109,7 +109,7 @@ const SectionForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Section"
-          htmlFor="section"
+
           value={section}
           onChange={setSection}
           required
@@ -117,7 +117,7 @@ const SectionForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Sectional Code"
-          htmlFor="divisional_code"
+
           value={sectional_code}
           onChange={setSectionalCode}
           required

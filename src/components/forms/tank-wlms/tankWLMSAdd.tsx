@@ -129,7 +129,6 @@ const TankWLMSDeviceAdd: React.FC<TankWLMSAdd> = ({ onClose = () => { } }) => {
         
         <TextInput
           label="Km"
-          htmlFor="km"
           value={km}
           onChange={setKm}
           required
@@ -137,7 +136,6 @@ const TankWLMSDeviceAdd: React.FC<TankWLMSAdd> = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Location"
-          htmlFor="location"
           value={location}
           onChange={setLocation}
           required
@@ -149,7 +147,7 @@ const TankWLMSDeviceAdd: React.FC<TankWLMSAdd> = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Mobile Number"
-          htmlFor="mobileNumber"
+
           value={mobileNumber}
           onChange={setMobileNumber}
           required
@@ -157,7 +155,6 @@ const TankWLMSDeviceAdd: React.FC<TankWLMSAdd> = ({ onClose = () => { } }) => {
 
         <TextInput
           label="IMEI Number"
-          htmlFor="imeiNumber"
           value={imeiNumber}
           onChange={setImeiNumber}
           required
@@ -165,7 +162,6 @@ const TankWLMSDeviceAdd: React.FC<TankWLMSAdd> = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Longitude"
-          htmlFor="longitude"
           value={longitude}
           onChange={setLongitude}
           required
@@ -173,7 +169,6 @@ const TankWLMSDeviceAdd: React.FC<TankWLMSAdd> = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Lattitude"
-          htmlFor="lattidtude"
           value={lattitude}
           onChange={setlattitude}
           required
@@ -181,7 +176,6 @@ const TankWLMSDeviceAdd: React.FC<TankWLMSAdd> = ({ onClose = () => { } }) => {
 
         <SelectInput
           label="Reading Interval"
-          htmlFor="readingInterval"
           value={readingInterval}
           onChange={setReadingInterval}
           options={readingIntervalOptions}
@@ -206,7 +200,6 @@ const TankWLMSDeviceAdd: React.FC<TankWLMSAdd> = ({ onClose = () => { } }) => {
 
         <SelectInput
           label="Zone"
-          htmlFor="zone"
           value={zone}
           onChange={setZone}
           options={zoneOptions}
@@ -215,7 +208,6 @@ const TankWLMSDeviceAdd: React.FC<TankWLMSAdd> = ({ onClose = () => { } }) => {
 
         <SelectInput
           label="Division"
-          htmlFor="division"
           value={division}
           onChange={setDivision}
           options={divisionOptions}
@@ -224,7 +216,6 @@ const TankWLMSDeviceAdd: React.FC<TankWLMSAdd> = ({ onClose = () => { } }) => {
 
         <SelectInput
           label="Section"
-          htmlFor="section"
           value={section}
           onChange={setSection}
           options={sectionOptions}

@@ -14,6 +14,9 @@ import myIntercepter from '@/lib/interceptor';
 import conf from '@/lib/conf/conf';
 
 interface User {
+  allotedSections: any;
+  zone_uid: any;
+  division_uid:any;
   username: string;
   role: {
     uid:string,
@@ -164,6 +167,9 @@ export default function Page() {
               role={selectedUser.role}
               email={selectedUser.email}
               contactNo={selectedUser.mobile}
+              zone_uid={selectedUser.zone_uid}
+              division_uid={selectedUser.division_uid}
+              allotedSections={selectedUser.allotedSections||[]}
               designation={selectedUser.designation}
               onCancel={() => setUserUpdateFormState(false)}
             />

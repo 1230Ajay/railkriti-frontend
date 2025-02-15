@@ -199,7 +199,7 @@ const DashboardNav: React.FC<DashboardNavProps> = (details: DashboardNavProps) =
 
       <Modal isOpen={isUserModalOpen}>
         <div className=' px-8 py-4 bg-black'>
-          <UserDetailsForm onCancel={() => setUserModalOpen(false)} username={""} firstName={""} lastName={""} contactNo={""} email={""} designation={""} role={""} />
+          <UserDetailsForm onCancel={() => setUserModalOpen(false)} username={""} firstName={""} lastName={""} contactNo={""} email={""} designation={""} role={""} zone_uid={undefined} division_uid={undefined} allotedSections={undefined} />
         </div>
       </Modal>
 

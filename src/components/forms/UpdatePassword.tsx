@@ -9,6 +9,7 @@ uid: any,
   onCancel: () => void;
 }
 
+
 const UpdatePasswordForm: React.FC<UpdatePasswordFormProps> = ({ uid, onCancel }) => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -50,7 +51,7 @@ const UpdatePasswordForm: React.FC<UpdatePasswordFormProps> = ({ uid, onCancel }
       <h2 className='font-bold text-xl text-white uppercase'>Update Password</h2>
       <TextInput
         label="Current Password"
-        htmlFor="current-password"
+ 
         value={currentPassword}
         onChange={setCurrentPassword}
         required
@@ -58,7 +59,7 @@ const UpdatePasswordForm: React.FC<UpdatePasswordFormProps> = ({ uid, onCancel }
       />
       <TextInput
         label="New Password"
-        htmlFor="new-password"
+
         value={newPassword}
         onChange={setNewPassword}
         required
@@ -66,7 +67,7 @@ const UpdatePasswordForm: React.FC<UpdatePasswordFormProps> = ({ uid, onCancel }
       />
       <TextInput
         label="Confirm New Password"
-        htmlFor="confirm-password"
+
         value={confirmPassword}
         onChange={setConfirmPassword}
         required

@@ -186,49 +186,49 @@ const RailTaapDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
         <TextInput
           label="Km"
-          htmlFor="km"
+   
           value={km}
           onChange={setKm}
           required
         />
         <TextInput
           label="Location"
-          htmlFor="location"
+        
           value={location}
           onChange={setLocation}
           required
         />
         <TextInput
           label="Mobile Number"
-          htmlFor="mobileNumber"
+      
           value={mobileNumber}
           onChange={setMobileNumber}
           required
         />
         <TextInput
           label="IMEI Number"
-          htmlFor="imeiNumber"
+
           value={imeiNumber}
           onChange={setImeiNumber}
           required
         />
         <TextInput
           label="Longitude"
-          htmlFor="longitude"
+
           value={longitude}
           onChange={setLongitude}
           required
         />
         <TextInput
           label="Latitude"
-          htmlFor="latitude"
+
           value={latitude}
           onChange={setLatitude}
           required
         />
         <SelectInput
           label="Reading Interval"
-          htmlFor="readingInterval"
+  
           value={readingInterval}
           onChange={setReadingInterval}
           options={readingIntervalOptions}
@@ -236,14 +236,13 @@ const RailTaapDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose
         />
         <TextInput
           label="Mean Temp"
-          htmlFor="meanTemp"
+
           value={meanTemp}
           onChange={setMeanTemp}
           required
         />
         <TextInput
           label="De Stressing Temp"
-          htmlFor="deStressingTemp"
           value={deProcessingTemp}
           onChange={setDeProcessingTemp}
           required
@@ -265,7 +264,7 @@ const RailTaapDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose
         />
         <SelectInput
           label="Zone"
-          htmlFor="zone"
+
           value={zone}
           onChange={setZone}
           options={zoneOptions}
@@ -273,7 +272,7 @@ const RailTaapDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose
         />
         <SelectInput
           label="Division"
-          htmlFor="division"
+
           value={division}
           onChange={setDivision}
           options={divisionOptions}
@@ -281,7 +280,6 @@ const RailTaapDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose
         />
         <SelectInput
           label="Section"
-          htmlFor="section"
           value={section}
           onChange={setSection}
           options={sectionOptions}
@@ -290,7 +288,6 @@ const RailTaapDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose
 
         <SelectInput
           label="Installed At"
-          htmlFor="installedAt"
           value={installedAt}
           onChange={setInstalledAt}
           options={installedAtOptions}

@@ -15,10 +15,10 @@ const ContactForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit} className="  shadow-lg rounded-md space-y-4">
-      <TextInput label={'Name'} htmlFor={'name'} value={''} onChange={function (value: string): void {
+      <TextInput label={'Name'}  value={''} onChange={function (value: string): void {
               throw new Error('Function not implemented.');
           } } />
-            <TextInput label={'Email'} htmlFor={'email'} value={''} onChange={function (value: string): void {
+            <TextInput label={'Email'} value={''} onChange={function (value: string): void {
               throw new Error('Function not implemented.');
           } } />
       <div>

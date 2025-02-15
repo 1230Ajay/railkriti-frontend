@@ -132,28 +132,28 @@ const TRWLMSDeviceUpdateForm: React.FC<TRWLMSDeviceUpdateFormProps> = ({ device,
 
         <TextInput
           label="location"
-          htmlFor="location"
+ 
           value={location}
           onChange={setLocation}
           required
         />
         <TextInput
           label="Km"
-          htmlFor="km"
+    
           value={km}
           onChange={setKm}
           required
         />
         <TextInput
           label="Mobile Number"
-          htmlFor="mobileNumber"
+ 
           value={mobileNumber}
           onChange={setMobileNumber}
           required
         />
         <TextInput
           label="IMEI Number"
-          htmlFor="imeiNumber"
+ 
           value={imeiNumber}
           onChange={setImeiNumber}
           required
@@ -176,7 +176,7 @@ const TRWLMSDeviceUpdateForm: React.FC<TRWLMSDeviceUpdateFormProps> = ({ device,
         />
         <SelectInput
           label="Zone"
-          htmlFor="zone"
+
           value={zone}
           onChange={setZone}
           options={zoneOptions}
@@ -184,7 +184,7 @@ const TRWLMSDeviceUpdateForm: React.FC<TRWLMSDeviceUpdateFormProps> = ({ device,
         />
         <SelectInput
           label="Division"
-          htmlFor="division"
+    
           value={division}
           onChange={setDivision}
           options={divisionOptions}
@@ -192,7 +192,7 @@ const TRWLMSDeviceUpdateForm: React.FC<TRWLMSDeviceUpdateFormProps> = ({ device,
         />
         <SelectInput
           label="Section"
-          htmlFor="section"
+     
           value={section}
           onChange={setSection}
           options={sectionOptions}
@@ -201,14 +201,14 @@ const TRWLMSDeviceUpdateForm: React.FC<TRWLMSDeviceUpdateFormProps> = ({ device,
 
         <TextInput
           label="Latitude"
-          htmlFor="latitude"
+  
           value={latitude}
           onChange={setLatitude}
           required
         />
         <TextInput
           label="Longitude"
-          htmlFor="longitude"
+ 
           value={longitude}
           onChange={setLongitude}
           required
@@ -218,7 +218,7 @@ const TRWLMSDeviceUpdateForm: React.FC<TRWLMSDeviceUpdateFormProps> = ({ device,
 
         <SelectInput
           label="Installed at"
-          htmlFor="isOnTrack"
+   
           value={isOnTrack}
           onChange={setIsOnTrack}
           options={[{ uid: true, value: true, name: "Track" }, { uid: false, value: false, name: "LHS" }]}

@@ -53,7 +53,7 @@ const DivisionForm = ({ onClose = () => {} }) => {
       </div>
       <SelectInput
         label="Zone"
-        htmlFor="zone"
+       
         value={zone_uid}
         onChange={handleZoneChange}
         options={zoneOptions}
@@ -61,7 +61,7 @@ const DivisionForm = ({ onClose = () => {} }) => {
 
       <TextInput
         label="Division"
-        htmlFor="division"
+    
         value={division}
         onChange={setDivision}
         required
@@ -69,7 +69,7 @@ const DivisionForm = ({ onClose = () => {} }) => {
 
       <TextInput
         label="Divisional Code"
-        htmlFor="divisional_code"
+    
         value={divisional_code}
         onChange={setDivisionalCode}
         required

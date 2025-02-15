@@ -51,7 +51,7 @@ const UpdateGroupForm: React.FC<UpdateGroupFormProp> = ({ group, onClose }) => {
             <form onSubmit={handleSubmit} className="">
                 <TextInput
                     label="Name"
-                    htmlFor="name"
+    
                     value={name}
                     onChange={setName}
                     required

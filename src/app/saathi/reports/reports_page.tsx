@@ -180,7 +180,6 @@ const Reports: React.FC = (): JSX.Element => {
             {/* Device Type Select Input */}
             <SelectInput
               label='Device Type'
-              htmlFor='DeviceType'
               value={deviceType}
               onChange={(e) => setDeviceType(e)}
               options={DeviceTypeOptions}

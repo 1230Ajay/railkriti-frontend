@@ -61,13 +61,13 @@
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: #ffffff;
-    transition: background-color 5000s ease-in-out 0s;
-    box-shadow: inset 0 0 20px 20px #23232329;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #ffffff;
+  transition: background-color 5000s ease-in-out 0s;
+  box-shadow: inset 0 0 20px 20px #23232329;
 }
 
 .date-input-white-icon::-webkit-calendar-picker-indicator {
@@ -80,11 +80,18 @@ input:-webkit-autofill:active{
 }
 
 
-  @layer base {
-    * {
-      @apply border-current;
-    }
-    body {
-      @apply bg-current bg-gray-800;
-    }
+@layer base {
+  * {
+    @apply border-current;
   }
+
+  body {
+    @apply bg-current bg-gray-800;
+  }
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: white !important;
+  background-color: transparent !important;
+  transition: background-color 5000s ease-in-out 0s;
+}

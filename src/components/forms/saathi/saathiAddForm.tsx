@@ -175,7 +175,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
                 <TextInput
                     label="Name"
-                    htmlFor="name"
+             
                     value={name}
                     onChange={setName}
                     required
@@ -186,7 +186,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
                 <SelectInput
                     label="Group"
-                    htmlFor="Group"
+        
                     value={group}
                     onChange={setGroup}
                     options={groupOptions}
@@ -198,7 +198,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
                 <TextInput
                     label="Mobile Number"
-                    htmlFor="mobileNumber"
+             
                     value={mobileNumber}
                     onChange={setMobileNumber}
                     required
@@ -207,7 +207,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
                 <TextInput
                     label="IMEI Number"
-                    htmlFor="imeiNumber"
+         
                     value={imeiNumber}
                     onChange={setImeiNumber}
                     required
@@ -234,7 +234,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
                 <SelectInput
                     label="Zone"
-                    htmlFor="zone"
+        
                     value={zone}
                     onChange={setZone}
                     options={zoneOptions}
@@ -242,7 +242,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
                 />
                 <SelectInput
                     label="Division"
-                    htmlFor="division"
+      
                     value={division}
                     onChange={setDivision}
                     options={divisionOptions}
@@ -250,7 +250,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
                 />
                 <SelectInput
                     label="Section"
-                    htmlFor="section"
+   
                     value={section}
                     onChange={setSection}
                     options={sectionOptions}
@@ -259,7 +259,6 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
                 <TextInput
                     label="Lattitude"
-                    htmlFor="lattidtude"
                     value={lattitude}
                     onChange={setlattitude}
                     required
@@ -267,7 +266,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
                 <TextInput
                     label="Longitude"
-                    htmlFor="longitude"
+       
                     value={longitude}
                     onChange={setLongitude}
                     required
@@ -277,7 +276,6 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
                 <SelectInput
                     label="DeviceType"
-                    htmlFor="deviceType"
                     value={deviceType}
                     onChange={setDeviceType}
                     options={[{ uid: true, value: true, name: "Transmitter" }, { uid: false, value: false, name: "Reciever" }]}
@@ -288,7 +286,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
                 <SelectInput
                     label="SystemType"
-                    htmlFor="SystemType"
+           
                     value={systemType}
                     onChange={setSystemType}
                     options={[{ uid: true, value: true, name: "Fixed" }, { uid: false, value: false, name: "Mobile" }]}
@@ -297,7 +295,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
                 <SelectInput
                     label="InstalledAt"
-                    htmlFor="installedAt"
+ 
                     value={installedAt}
                     onChange={setInstalledAt}
                     options={[{ uid: "BRIDGE", value: "BRIDGE", name: "Bridge" }, { uid: "CROSSING", value: "CROSSING", name: "Crossing" },{ uid: "TRACK", value: "TRACK", name: "Track" }]}
@@ -307,7 +305,6 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
                 {
                     deviceType === "true" ? <SelectInput
                         label="Direction"
-                        htmlFor="Direction"
                         value={Direction}
                         onChange={setDirection}
                         options={[{ uid: true, value: true, name: "UP" }, { uid: false, value: false, name: "DOWN" }]}
@@ -318,7 +315,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
 <SelectInput
                     label="Line"
-                    htmlFor="line"
+    
                     value={isOnSingle}
                     onChange={setIsOnSingle}
                     options={[{ uid: true, value: true, name: "Single" }, { uid: false, value: false, name: "double" }]}

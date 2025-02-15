@@ -47,7 +47,6 @@ const AddGroupForm: React.FC<AddGroupProps> = ({ onClose }) => {
             <form onSubmit={handleSubmit} className=" space-y-4">
                 <TextInput
                     label="Name"
-                    htmlFor="name"
                     value={name}
                     onChange={setName}
                     required

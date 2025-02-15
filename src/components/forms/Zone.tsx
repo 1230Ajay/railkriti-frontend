@@ -34,7 +34,7 @@ const ZoneForm = ({ onClose = () => { } }) => {
       </div>
       <TextInput
         label="Zone"
-        htmlFor="zone"
+
         value={zone}
         onChange={setZone}
         required
@@ -42,7 +42,6 @@ const ZoneForm = ({ onClose = () => { } }) => {
 
       <TextInput
         label="Zonal Code"
-        htmlFor="zonal_code"
         value={zonal_code}
         onChange={setZoneCode}
         required

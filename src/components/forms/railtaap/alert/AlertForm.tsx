@@ -245,21 +245,21 @@ const AlertForm = ({ onClose = () => { } }) => {
             <div></div>
             <TextInput
               label="Designation"
-              htmlFor="designation"
+ 
               value={name}
               onChange={setName}
               required
             />
             <TextInput
               label="Mobile No"
-              htmlFor="mobileNumber"
+   
               value={mobileNumber}
               onChange={setMobileNumber}
               required
             />
             <TextInput
               label="Email"
-              htmlFor="email"
+
               value={email}
               onChange={setEmail}
               required

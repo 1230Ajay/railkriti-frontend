@@ -133,7 +133,7 @@ const RailTaapDeviceAdd: React.FC<railTaapAdd> = ({ onClose = () => { } }) => {
         
         <TextInput
           label="Km"
-          htmlFor="km"
+  
           value={km}
           onChange={setKm}
           required
@@ -141,7 +141,7 @@ const RailTaapDeviceAdd: React.FC<railTaapAdd> = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Location"
-          htmlFor="location"
+
           value={location}
           onChange={setLocation}
           required
@@ -151,23 +151,23 @@ const RailTaapDeviceAdd: React.FC<railTaapAdd> = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Mean Temp"
-          htmlFor="meanTemp"
+    
           value={meanTemp.toString()}
-          onChange={(value) => setMeanTemp(parseInt(value))}
+          onChange={(value:any) => setMeanTemp(parseInt(value))}
           required
         />
 
         <TextInput
           label="De-Stressing Temp"
-          htmlFor="deSteressingTemp"
+ 
           value={deSteressingTemp.toString()}
-          onChange={(value) => setDeSteressingTemp(parseInt(value))}
+          onChange={(value:any) => setDeSteressingTemp(parseInt(value))}
           required
         />
 
         <TextInput
           label="Mobile Number"
-          htmlFor="mobileNumber"
+        
           value={mobileNumber}
           onChange={setMobileNumber}
           required
@@ -175,7 +175,7 @@ const RailTaapDeviceAdd: React.FC<railTaapAdd> = ({ onClose = () => { } }) => {
 
         <TextInput
           label="IMEI Number"
-          htmlFor="imeiNumber"
+
           value={imeiNumber}
           onChange={setImeiNumber}
           required
@@ -183,7 +183,7 @@ const RailTaapDeviceAdd: React.FC<railTaapAdd> = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Longitude"
-          htmlFor="longitude"
+
           value={longitude}
           onChange={setLongitude}
           required
@@ -191,7 +191,7 @@ const RailTaapDeviceAdd: React.FC<railTaapAdd> = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Lattitude"
-          htmlFor="lattidtude"
+
           value={lattitude}
           onChange={setlattitude}
           required
@@ -199,7 +199,7 @@ const RailTaapDeviceAdd: React.FC<railTaapAdd> = ({ onClose = () => { } }) => {
 
         <SelectInput
           label="Reading Interval"
-          htmlFor="readingInterval"
+
           value={readingInterval}
           onChange={setReadingInterval}
           options={readingIntervalOptions}
@@ -224,7 +224,7 @@ const RailTaapDeviceAdd: React.FC<railTaapAdd> = ({ onClose = () => { } }) => {
 
         <SelectInput
           label="Zone"
-          htmlFor="zone"
+
           value={zone}
           onChange={setZone}
           options={zoneOptions}
@@ -233,7 +233,7 @@ const RailTaapDeviceAdd: React.FC<railTaapAdd> = ({ onClose = () => { } }) => {
 
         <SelectInput
           label="Division"
-          htmlFor="division"
+
           value={division}
           onChange={setDivision}
           options={divisionOptions}
@@ -242,7 +242,7 @@ const RailTaapDeviceAdd: React.FC<railTaapAdd> = ({ onClose = () => { } }) => {
 
         <SelectInput
           label="Section"
-          htmlFor="section"
+
           value={section}
           onChange={setSection}
           options={sectionOptions}
@@ -252,7 +252,7 @@ const RailTaapDeviceAdd: React.FC<railTaapAdd> = ({ onClose = () => { } }) => {
         {/* New installed_at field */}
         <SelectInput
           label="Installed At"
-          htmlFor="installedAt"
+
           value={installedAt}
           onChange={setInstalledAt}
           options={installedAtOptions}

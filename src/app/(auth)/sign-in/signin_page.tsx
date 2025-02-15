@@ -9,21 +9,22 @@ import Link from "next/link";
 import myIntercepter from '@/lib/interceptor';
 import conf from '@/lib/conf/conf';
 import { SignInPageData } from '@/lib/data/sigin-in';
+import { useFormik } from 'formik';
+import { SignInDto } from './dto/signin.dto';
 
 
 
-
+const initialValues = {
+  identifier: "",
+  password: "",
+  captcha: ""
+}
 
 export default function SignInPage() {
-  const [identifier, setIdentifier] = useState('');
-  const [password, setPassword] = useState('');
+
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [userCaptchaInput, setUserCaptchaInput] = useState('');
   const [generatedCaptcha, setGeneratedCaptcha] = useState('');
-
   const router = useRouter();
-
-
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -34,6 +35,46 @@ export default function SignInPage() {
     generateCaptcha();
   }, []);
 
+
+
+  const { values, touched, errors, handleBlur, handleChange, handleReset, handleSubmit } = useFormik(
+    {
+      initialValues: initialValues,
+      validationSchema: SignInDto,
+      onSubmit: async (data) => {
+    
+        if (data.captcha !== generatedCaptcha) {
+          toast.error("Incorrect CAPTCHA answer. Please try again.");
+          generateCaptcha();
+          return;
+        }
+    
+        setIsSubmitting(true);
+        try {
+          const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/sign-in`, {
+            identifier: data.identifier,
+            password: data.password
+          }
+          );
+    
+          if (response.data.status === 200) {
+            router.push('/application');
+            setIsSubmitting(false);
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+            toast.success(response.data.message);
+          } else {
+            setIsSubmitting(false);
+            toast.error(response.data.message);
+          }
+    
+        } catch (error: any) {
+          toast.error('Error logging in: ' + error.message);
+        }
+      }
+    }
+  )
+
+
   const generateCaptcha = () => {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
     let captcha = '';
@@ -41,38 +82,6 @@ export default function SignInPage() {
       captcha += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     setGeneratedCaptcha(captcha);
-  };
-
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (userCaptchaInput !== generatedCaptcha) {
-      toast.error("Incorrect CAPTCHA answer. Please try again.");
-      generateCaptcha();
-      return;
-    }
-
-    setIsSubmitting(true);
-    try {
-      const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/sign-in`, {
-        identifier,
-        password
-      }
-      );
-
-      if (response.data.status === 200) {
-        router.push('/application');
-        setIsSubmitting(false);
-        localStorage.setItem("user",JSON.stringify(response.data.user));
-        toast.success(response.data.message);
-      } else {
-        setIsSubmitting(false);
-        toast.error(response.data.message);
-      }
-
-    } catch (error: any) {
-      toast.error('Error logging in: ' + error.message);
-    }
   };
 
 
@@ -89,29 +98,30 @@ export default function SignInPage() {
       <div className="w-full max-w-sm py-12 px-8 bg-black rounded-md border-red-500 box-shadow-1">
         <h2 className="text-2xl font-bold text-center text-white mb-6 uppercase">Sign In</h2>
 
-        <form onSubmit={onSubmit} className="space-y-4">
-          <div className="relative">
+        <form onSubmit={handleSubmit} className="">
+          <div className="relative mb-1">
             <input
               id="identifier"
               name="identifier"
               type="text"
               placeholder="Enter your email or username"
-              value={identifier}
-              onChange={(e) => setIdentifier(e.target.value)}
-              required
+              value={values.identifier}
+              onChange={handleChange}
+              onBlur={handleBlur}
               className="w-full py-2 pr-10 border-b border-white bg-transparent focus:ring-transparent focus:bg-transparent focus:border-primary focus:outline-none text-white"
             />
             <FaEnvelope className="absolute right-2 bottom-3 text-white" />
           </div>
-          <div className="relative">
+          { errors.identifier && touched.identifier? <p className=' text-primary text-xs '>{errors.identifier}</p>:null}
+          <div className="relative mt-3 mb-1">
             <input
               id="password"
               name="password"
               type={showPassword ? 'text' : 'password'}
               placeholder="Enter Your Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
               className="w-full py-2 border-b border-white bg-transparent focus:ring-transparent focus:border-primary focus:outline-none text-white"
             />
             {showPassword ? (
@@ -126,7 +136,8 @@ export default function SignInPage() {
               />
             )}
           </div>
-          <div className="flex mb-4 justify-between">
+          {errors.password && touched.password?<p className='text-primary text-xs '>{errors.password}</p>:null}
+          <div className="flex mb-4 mt-5 justify-between">
             <div className="flex items-center">
               <input
                 id="checkbox"
@@ -148,14 +159,18 @@ export default function SignInPage() {
               className="ml-3 text-gray-200 cursor-pointer"
               onClick={generateCaptcha}
             />
-            <input
-              type="text"
-              placeholder="Enter Captcha"
-              value={userCaptchaInput}
-              onChange={(e) => setUserCaptchaInput(e.target.value)}
-              required
-              className="ml-4 py-1 border-b text-center  w-36 border-white bg-transparent focus:ring-transparent focus:border-primary focus:outline-none text-white"
-            />
+            <div>
+              <input
+                type="text"
+                placeholder="Enter Captcha"
+                value={values.captcha}
+                name="captcha"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="ml-4 py-1 border-b text-center  w-36 border-white bg-transparent focus:ring-transparent focus:border-primary focus:outline-none text-white"
+              />
+              {errors.captcha && touched.captcha? <p className='ml-4 mt-1 text-primary text-xs'>{errors.captcha}</p>:null}
+            </div>
           </div>
           <div>
             <button

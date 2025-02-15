@@ -199,14 +199,14 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
                 <TextInput
                     label="Name"
-                    htmlFor="name"
+             
                     value={name}
                     onChange={setName}
                     required
                 />
                 <SelectInput
                     label="Group"
-                    htmlFor="Group"
+     
                     value={group}
                     onChange={setGroup}
                     options={groupOptions}
@@ -218,7 +218,7 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
 
                 <TextInput
                     label="Mobile Number"
-                    htmlFor="mobileNumber"
+
                     value={mobileNumber}
                     onChange={setMobileNumber}
                     required
@@ -227,7 +227,7 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
 
                 <TextInput
                     label="IMEI Number"
-                    htmlFor="imeiNumber"
+
                     value={imeiNumber}
                     onChange={setImeiNumber}
                     required
@@ -254,7 +254,7 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
 
                 <SelectInput
                     label="Zone"
-                    htmlFor="zone"
+        
                     value={zone}
                     onChange={setZone}
                     options={zoneOptions}
@@ -262,7 +262,7 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
                 />
                 <SelectInput
                     label="Division"
-                    htmlFor="division"
+            
                     value={division}
                     onChange={setDivision}
                     options={divisionOptions}
@@ -270,7 +270,7 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
                 />
                 <SelectInput
                     label="Section"
-                    htmlFor="section"
+           
                     value={section}
                     onChange={setSection}
                     options={sectionOptions}
@@ -279,7 +279,7 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
 
                 <TextInput
                     label="Lattitude"
-                    htmlFor="lattidtude"
+           
                     value={lattitude}
                     onChange={setlattitude}
                     required
@@ -287,7 +287,7 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
 
                 <TextInput
                     label="Longitude"
-                    htmlFor="longitude"
+            
                     value={longitude}
                     onChange={setLongitude}
                     required
@@ -297,8 +297,6 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
 
                 <TextInput
                     label="DeviceType"
-                    htmlFor="deviceType"
-
                     value={deviceType === "true" ? "Transmitter" : "Reciever"}
                     onChange={() => setDeviceType(deviceType)}
                     required={true}
@@ -309,7 +307,7 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
 
                 <SelectInput
                     label="SystemType"
-                    htmlFor="SystemType"
+    
                     value={systemType}
                     onChange={setSystemType}
                     options={[{ uid: true, value: true, name: "Fixed" }, { uid: false, value: false, name: "Mobile" }]}
@@ -319,7 +317,7 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
 
                 <SelectInput
                     label="InstalledAt"
-                    htmlFor="installedAt"
+             
                     value={installedAt}
                     onChange={setInstalledAt}
                     options={[{ uid: "BRIDGE", value: "BRIDGE", name: "Bridge" }, { uid: "CROSSING", value: "CROSSING", name: "Crossing" }, { uid: "TRACK", value: "TRACK", name: "Track" }]}
@@ -329,7 +327,7 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
                 {
                     deviceType === "true" ? <SelectInput
                         label="Direction"
-                        htmlFor="Direction"
+    
                         value={direction}
                         onChange={setDirection}
                         options={[{ uid: true, value: true, name: "UP" }, { uid: false, value: false, name: "DOWN" }]}
@@ -339,7 +337,7 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
 
                 <SelectInput
                     label="Line"
-                    htmlFor="line"
+    
                     value={isOnSingle}
                     onChange={setIsOnSingle}
                     options={[{ uid: true, value: true, name: "Single" }, { uid: false, value: false, name: "double" }]}

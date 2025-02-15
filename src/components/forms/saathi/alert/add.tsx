@@ -215,7 +215,6 @@ const AddAlert:React.FC<AddAlertProps> = ({ onClose = () => { } ,showRx }) => {
             <div></div>
             <TextInput
               label="Designation"
-              htmlFor="designation"
               value={name}
               onChange={setName}
               required
@@ -223,7 +222,6 @@ const AddAlert:React.FC<AddAlertProps> = ({ onClose = () => { } ,showRx }) => {
          
             <TextInput
               label="Mobile No"
-              htmlFor="mobileNumber"
               value={mobileNumber}
               onChange={setMobileNumber}
               required
@@ -231,7 +229,6 @@ const AddAlert:React.FC<AddAlertProps> = ({ onClose = () => { } ,showRx }) => {
 
             <TextInput
               label="Email"
-              htmlFor="email"
               value={email}
               onChange={setEmail}
               required

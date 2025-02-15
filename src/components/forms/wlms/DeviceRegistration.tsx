@@ -128,7 +128,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Bridge Number"
-          htmlFor="bridgeNumber"
+     
           value={bridgeNumber}
           onChange={setBridgeNumber}
           required
@@ -136,7 +136,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="River Name"
-          htmlFor="riverName"
+
           value={riverName}
           onChange={setRiverName}
           required
@@ -146,7 +146,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Mobile Number"
-          htmlFor="mobileNumber"
+
           value={mobileNumber}
           onChange={setMobileNumber}
           required
@@ -155,7 +155,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="IMEI Number"
-          htmlFor="imeiNumber"
+   
           value={imeiNumber}
           onChange={setImeiNumber}
           required
@@ -164,7 +164,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Longitude"
-          htmlFor="longitude"
+  
           value={longitude}
           onChange={setLongitude}
           required
@@ -173,7 +173,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Lattitude"
-          htmlFor="lattidtude"
+ 
           value={lattitude}
           onChange={setlattitude}
           required
@@ -181,7 +181,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
 
         <SelectInput
           label="Reading Interval"
-          htmlFor="readingInterval"
+ 
           value={readingInterval}
           onChange={setReadingInterval}
           options={readingIntervalOptions}
@@ -190,7 +190,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Rail Level (MSL)"
-          htmlFor="rail_level"
+     
           value={rail_level}
           onChange={setRailLevel}
           required
@@ -200,7 +200,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Danger Level (MSL)"
-          htmlFor="danger_level"
+   
           value={danger_level}
           onChange={setDangerLevel}
           required
@@ -210,7 +210,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Sensor Level (RL)"
-          htmlFor="sensor_level"
+   
           value={sensor_level}
           onChange={setSensorLevel}
           required
@@ -233,7 +233,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
 
         <SelectInput
           label="Zone"
-          htmlFor="zone"
+
           value={zone}
           onChange={setZone}
           options={zoneOptions}
@@ -241,7 +241,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
         />
         <SelectInput
           label="Division"
-          htmlFor="division"
+
           value={division}
           onChange={setDivision}
           options={divisionOptions}
@@ -249,7 +249,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
         />
         <SelectInput
           label="Section"
-          htmlFor="section"
+
           value={section}
           onChange={setSection}
           options={sectionOptions}

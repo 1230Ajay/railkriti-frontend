@@ -51,14 +51,14 @@ const UpdateZoneForm: React.FC<UpdateZoneFormProps> = ({ data, onClose = () => {
       </div>
       <TextInput
         label="Zone"
-        htmlFor="zone"
+     
         value={zone}
         onChange={setZone}
         required
       />
       <TextInput
         label="Zonal Code"
-        htmlFor="zonal_code"
+  
         value={zonal_code}
         onChange={setZoneCode}
         required
