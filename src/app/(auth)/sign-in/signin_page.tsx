@@ -61,6 +61,7 @@ export default function SignInPage() {
             router.push('/application');
             setIsSubmitting(false);
             localStorage.setItem("user", JSON.stringify(response.data.user));
+            localStorage.setItem("login_time",Date.now().toString());
             toast.success(response.data.message);
           } else {
             setIsSubmitting(false);
