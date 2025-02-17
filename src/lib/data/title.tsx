@@ -16,7 +16,7 @@ export class Titles{
 
      static  RailtaapTitle ={
         titleSm:"RAILTAAP",
-        titleXl:"RAILTAAP - Rail Temp Monitoring System"
+        titleXl:"RAILTAAP - Rail Temperature Monitoring System"
      } 
 
      static  SaathiTitle ={
