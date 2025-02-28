@@ -84,7 +84,7 @@ const Dashboard: React.FC = (): JSX.Element => {
 
 
     const filteredDevices = devices.filter(device =>
-        device.location.toLowerCase().includes(searchQuery.toLowerCase()) ||   device.km.toLowerCase().includes(searchQuery.toLowerCase())
+       ( device.location.toLowerCase().includes(searchQuery.toLowerCase()) ||   device.km.toLowerCase().includes(searchQuery.toLowerCase()))&& device?.isActive
       );
     
 

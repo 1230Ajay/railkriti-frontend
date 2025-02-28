@@ -13,7 +13,7 @@ import { RiFileExcel2Fill, RiRestartLine } from "react-icons/ri";
 import { GrMapLocation } from "react-icons/gr";
 import socket from "@/lib/services/tankWLMS";
 import { useDispatch, useSelector } from "react-redux";
-import {  enableButton, setTimer } from "@/features/device/deviceSlice";
+import { enableButton, setTimer } from "@/features/device/deviceSlice";
 import { toast } from "react-toastify";
 import DevicesStatics from "@/components/DevicesStatics";
 import { PrimaryButton } from "@/components/buttons/primarybutton";
@@ -53,7 +53,7 @@ const Dashboard: React.FC = (): JSX.Element => {
     }, [deviceButtonStates, dispatch]);
 
     const handleRestartClick = (deviceUid: string) => {
-            socket.emit('rebootDevice', { "uid": deviceUid })
+        socket.emit('rebootDevice', { "uid": deviceUid })
     };
 
     useEffect(() => {
@@ -74,7 +74,7 @@ const Dashboard: React.FC = (): JSX.Element => {
 
 
 
-  
+
         socket.on('devices', handleDevicesUpdate);
         socket.on('disconnect', handleDisconnect);
 
@@ -93,24 +93,24 @@ const Dashboard: React.FC = (): JSX.Element => {
     }, [selectedDate, activeDetail]);
 
 
-    const getDateRange = (selectedDate:any) => {
+    const getDateRange = (selectedDate: any) => {
         const startDate = new Date(selectedDate);
         startDate.setHours(0, 0, 0, 0);
-      
+
         const endDate = new Date(selectedDate);
         endDate.setHours(23, 59, 59, 999);
-      
+
         return { start: startDate, end: endDate };
-      };
+    };
 
 
     const fetchChartData = async (uid: string) => {
 
-        
+
         try {
             const dates = getDateRange(selectedDate)
             const response = await myIntercepter.get(`${conf.TANK_WLMS}/api/logs/${uid}`, {
-               params:dates
+                params: dates
             });
             const data = response.data.device_logs;
             const processedData = processChartData(data);
@@ -124,7 +124,7 @@ const Dashboard: React.FC = (): JSX.Element => {
         const hourlyData = Array(24).fill(null);
         data.forEach((entry) => {
             const hour = new Date(entry.created_at).getHours();
-            hourlyData[hour] =  entry.tank_level; // Assuming 'level' is the value you want to plot
+            hourlyData[hour] = entry.tank_level; // Assuming 'level' is the value you want to plot
         });
         return hourlyData;
     };
@@ -223,9 +223,9 @@ const Dashboard: React.FC = (): JSX.Element => {
     const activeDevices = devices.filter(device => device.isActive).length;
 
     const filteredDevices = devices.filter(device =>
-        device.location.toLowerCase().includes(searchQuery.toLowerCase()) ||   device.km.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    
+        (device.location.toLowerCase().includes(searchQuery.toLowerCase()) || device.km.toLowerCase().includes(searchQuery.toLowerCase())) && device?.isActive
+    );
+
 
 
     return (
@@ -290,7 +290,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                                         const encodedUrl = encodeURIComponent(`${device.km}-${device.location}`)
                                         const path = `/location/${device.lattitude}-${device.longitude}-${encodedUrl}`
                                         const url = `${window.location.origin}${path}`;
-                                        
+
                                         window.open(url, '_blank', 'noopener,noreferrer');
                                     }
                                 } className="w-fit" />
@@ -309,20 +309,20 @@ const Dashboard: React.FC = (): JSX.Element => {
                             </div>
                             <div className="flex justify-center items-center ">
                                 <button
-                                    className={`flex  w-fit items-center justify-center ${ !device.relay_status ? 'bg-gray-600' : 'bg-green-600'} rounded-full p-2`}
+                                    className={`flex  w-fit items-center justify-center ${!device.relay_status ? 'bg-gray-600' : 'bg-green-600'} rounded-full p-2`}
                                     onClick={() => {
                                         if (device.is_online) {
                                             toast.error(`Device is allready online`);
                                         } else {
-                                           if(device.relay_status){
-                                            handleRestartClick(device.uid)
-                                            toast.success(`${device.km} (${device.location}) is being restarted`);
-                                           }else{
-                                            toast.error(`Device is offline`);
-                                           }
+                                            if (device.relay_status) {
+                                                handleRestartClick(device.uid)
+                                                toast.success(`${device.km} (${device.location}) is being restarted`);
+                                            } else {
+                                                toast.error(`Device is offline`);
+                                            }
                                         }
                                     }}
-                                   disabled={!device.relay_status}
+                                    disabled={!device.relay_status}
                                 >
                                     <RiRestartLine />
                                 </button>
@@ -360,7 +360,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                                             <div className=" flex items-center space-x-2 " >
                                                 Tank Level : <p className=" text-primary ml-2">{device.tank_level}</p>
                                             </div>
-                                        
+
 
                                         </div>
 
@@ -374,7 +374,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                                 </div>
 
                                 <div className="min-w-[720px] h-[32vh] flex justify-center items-center pr-4 ">
-                                <Line data={lineChartData} options={lineChartOptions} />
+                                    <Line data={lineChartData} options={lineChartOptions} />
                                     {/*<div className=" text-4xl capitalize text-primary">under maintainance</div>  */}
                                 </div>
                             </div>

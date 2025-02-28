@@ -55,7 +55,7 @@ const Dashboard: React.FC = (): JSX.Element => {
     }, [deviceButtonStates, dispatch]);
 
     const handleRestartClick = (deviceUid: string) => {
-            socket.emit('rebootDevice', { "uid": deviceUid });
+        socket.emit('rebootDevice', { "uid": deviceUid });
     };
 
     useEffect(() => {
@@ -230,7 +230,7 @@ const Dashboard: React.FC = (): JSX.Element => {
     const activeDevices = devices.filter(device => device.isActive).length;
 
     const filteredDevices = devices.filter(device =>
-        device.location.toLowerCase().includes(searchQuery.toLowerCase()) ||  device.km.toLowerCase().includes(searchQuery.toLowerCase())
+        (device.location.toLowerCase().includes(searchQuery.toLowerCase()) || device.km.toLowerCase().includes(searchQuery.toLowerCase())) && device?.isActive
     );
 
     return (
