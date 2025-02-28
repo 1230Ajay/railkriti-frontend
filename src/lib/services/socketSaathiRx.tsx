@@ -11,6 +11,7 @@ const handleConnect = async () => {
 };
 
 const executeHandleConnect = () => {
+    console.log("connected rx");
     let count = 0;
     
     console.log("count is : ",count)

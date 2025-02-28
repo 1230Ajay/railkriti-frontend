@@ -42,7 +42,7 @@ export async function middleware(request: NextRequest) {
 const checkLogOut = (request: NextRequest): NextResponse | null => {
     const loginTime = getLoginTime(request);
     const parsedTime = loginTime ? Number(loginTime) : null;
-    const hasTimePassed = isTimePassed(parsedTime, 30);
+    const hasTimePassed = isTimePassed(parsedTime, 60);
     
     if (hasTimePassed) {
         const response = NextResponse.redirect(new URL('/sign-in', request.url));
@@ -55,7 +55,7 @@ const checkLogOut = (request: NextRequest): NextResponse | null => {
 
 const getLoginTime = (request: NextRequest): number => {
     const storedTime = request.cookies.get("login_time")?.value;
-    return storedTime ? Number(storedTime) : Date.now() - 60 * 60 * 1000; // 1 hour before current time
+    return storedTime ? Number(storedTime) : Date.now() - 60 * 60 * 1000;
 };
 
 export const config = {
