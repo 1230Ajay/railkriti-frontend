@@ -37,7 +37,9 @@ const TextInput: React.FC<TextInputProps> = ({
                 name={name}
                 value={value}
                 placeholder={placeHolder || label}
-                onChange={onChange}
+                onChange={(val:any)=>{
+                    onChange(val.target.value)
+                }}
                 className={`w-full py-1 px-2 bg-gray-800  text-white rounded-md shadow-sm ${disabled ? 'cursor-not-allowed' : ''}`}
                 required={required}
                 onBlur={onBlur}

@@ -9,7 +9,7 @@ const https = {
   RAILTAAP: `https://railkriti.co.in:8090/railtaap`,
   NOTIFICATION: `https://railkriti.co.in:8090/notification`,
   TANK_WLMS: `https://railkriti.co.in:8090/tank-wlms`,
-
+  VINIMAY_URL: `https://railkriti.co.in:8090/vinimay`,
   // socket urls
   BR_WLMS_SOCKET_URL: "https://railkriti.co.in:3001",
   TR_WLMS_SCOKET_URL: "https://railkriti.co.in:3004",
@@ -17,6 +17,7 @@ const https = {
   SAATHI_RX_SOCKET_URL: "https://railkriti.co.in:3006",
   RAILTAAP_SOCKET_URL: "https://railkriti.co.in:3009",
   TANK_WLMS_SOCKET_URL: "https://railkriti.co.in:3010",
+
 }
 
 const http = {
@@ -30,14 +31,15 @@ const http = {
   RAILTAAP: `http://localhost:8090/railtaap`,
   NOTIFICATION: `http://localhost:8090/backend/notification`,
   TANK_WLMS: `http://localhost:8090/tank-wlms`,
-
+  VINIMAY_URL: `http://localhost:8090/vinimay`,
   // socket urls
   BR_WLMS_SOCKET_URL: "http://localhost:3001",
   TR_WLMS_SCOKET_URL: "http://localhost:3004",
   SAATHI_TX_SOCKET_URL: "http://localhost:3005",
   SAATHI_RX_SOCKET_URL: "http://localhost:3006",
   RAILTAAP_SOCKET_URL: "http://localhost:3009",
-  TANK_WLMS_SOCKET_URL: "http://localhost:3010"
+  TANK_WLMS_SOCKET_URL: "http://localhost:3010",
+
 }
 
 const conf = {
