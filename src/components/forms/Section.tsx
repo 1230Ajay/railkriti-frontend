@@ -38,7 +38,7 @@ const SectionForm = ({ onClose = () => { } }) => {
       if (zone_uid) {
         try {
           const response = await myIntercepter.get(`${conf.LOCTION}/api/zone/${zone_uid}`);
-          setDivisionOptions(response.data);
+          setDivisionOptions(response.data.divisions);
         } catch (error) {
           console.error('Error fetching divisions:', error);
         }
