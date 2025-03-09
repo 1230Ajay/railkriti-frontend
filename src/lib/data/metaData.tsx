@@ -70,3 +70,10 @@ export class BrWlmsMetaData extends BaseMetaData {
   }
 }
 
+
+export class VinimayMetaData extends BaseMetaData {
+  constructor() {
+    super("Vinimay");
+  }
+}
+

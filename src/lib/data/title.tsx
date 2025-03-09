@@ -23,4 +23,9 @@ export class Titles{
         titleSm:"SAATHI",
         titleXl:"SAATHI - Pre Warning System"
      } 
+
+     static  VinimayTitle ={
+      titleSm:"Vinimay",
+      titleXl:"Vinimay - PN Genrator"
+   } 
 }

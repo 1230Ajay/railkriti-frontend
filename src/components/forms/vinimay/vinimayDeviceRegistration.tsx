@@ -203,17 +203,6 @@ const VinimayDeviceReservationForm = ({ onClose = () => { } }) => {
         />
 
 
-
-
-        <SelectInput
-          label="Installed at"
-    
-          value={isOnTrack}
-          onChange={setIsOnTrack}
-          options={[{uid:true, value: true, name: "Track" },{uid:false, value: false, name: "LHS" }]}
-          required={true}
-        />
-
         <div className='flex items-center w-full lg:col-span-3 mt-4 justify-center xl:justify-end space-x-8'>
           <PrimaryButton type={'button'} className='w-24 text-lg' onClick={onClose}>Cancel</PrimaryButton>
           <PrimaryButton type={'reset'} className='w-24 text-lg' onClick={() => {

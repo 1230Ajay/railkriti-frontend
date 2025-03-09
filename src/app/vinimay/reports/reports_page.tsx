@@ -121,7 +121,7 @@ const Reports: React.FC = (): JSX.Element => {
 
   return (
     <div className='grid grid-rows-[auto_auto_1fr] h-screen'>
-      <NavBar title={Titles.TrWlmsTitle} />
+      <NavBar title={Titles.VinimayTitle} />
 
       <div className="bg-black rounded-md p-4 mt-4 mx-4">
         <h2 className='font-bold text-xl text-white uppercase pb-2'>Reports {selectedDevice?.location}</h2>

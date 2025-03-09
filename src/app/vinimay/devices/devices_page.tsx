@@ -96,7 +96,7 @@ const DevicePage: React.FC = ():JSX.Element => {
 
   return (
     <div className=' grid h-screen grid-rows-[auto_auto_1fr] '>
-      <NavBar title={Titles.TrWlmsTitle} />
+      <NavBar title={Titles.VinimayTitle} />
 
       <div className="flex justify-between max-h-16 items-center mx-4 py-4  bg-black rounded-t-md mt-4 px-4 ">
         <h2 className="font-bold text-white text-xl uppercase">Devices</h2>

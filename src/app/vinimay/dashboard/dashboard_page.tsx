@@ -60,7 +60,7 @@ const Dashboard: React.FC = (): JSX.Element => {
 
     return (
         <div className="h-screen xl:grid grid-rows-[auto_auto_auto_1fr] ">
-            <NavBar title={Titles.TrWlmsTitle}  ></NavBar>
+            <NavBar title={Titles.VinimayTitle}  ></NavBar>
 
             <DevicesStatics totalDevices={totalDevices} activeDevices={activeDevices} onlineDevices={onlineDevices} offlineDevices={offlineDevices} />
 

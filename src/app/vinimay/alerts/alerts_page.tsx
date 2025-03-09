@@ -32,7 +32,7 @@ const AlertPage: React.FC = ():JSX.Element => {
 
   return (
     <div className=' grid h-screen grid-rows-[auto_auto_1fr]'>
-      <NavBar title={Titles.TrWlmsTitle}></NavBar>
+      <NavBar title={Titles.VinimayTitle}></NavBar>
 
 
        
