@@ -215,8 +215,9 @@ const Dashboard: React.FC = (): JSX.Element => {
                                 <div className='flex mr-4 h-full items-center justify-end'>
                                     <button
                                         onClick={() => {
-                                            const path = `/saathi/logs_tx/${device.uid}`
-                                            const url = `${window.location.origin}${path}`;
+                                            const path_tx = `/saathi/logs_tx/${device.uid}`;
+                                            const path_rx = `/saathi/logs_rx/${device.uid}`
+                                            const url = `${window.location.origin}${ isTxDevice(device)? path_tx:path_rx}`;
                                             window.open(url, '_blank', 'noopener,noreferrer');
                                         }}
                                         className='bg-white text-primary w-fit px-4 rounded-full shadow-md font-semibold py-1 text-teal-500 hover:shadow-none'
