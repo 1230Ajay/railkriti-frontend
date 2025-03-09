@@ -11,6 +11,7 @@ import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import { useFormik } from 'formik';
 import { signUpDto } from '@/app/(auth)/sign-up/dto/signUpDto';
+import TextInput2 from '@/components/text-fields/TextInput2';
 
 
 const initialValues = {
@@ -80,7 +81,7 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
       <form autoComplete='off' onSubmit={handleSubmit}>
 
         <div className="grid md:w-[70vw] grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
-          <TextInput
+          <TextInput2
             label="First Name"
             name='firstName'
             value={values.firstName}
@@ -88,7 +89,7 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
             onBlur={handleBlur}
             error={errors.firstName && touched.firstName ? errors.firstName : ""}
           />
-          <TextInput
+          <TextInput2
             label="Last Name"
 
             name='lastName'
@@ -97,7 +98,7 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
             onBlur={handleBlur}
             error={errors.lastName && touched.lastName ? errors.lastName : ""}
           />
-          <TextInput
+          <TextInput2
             label="Username"
             name='username'
             value={values.username}
@@ -106,7 +107,7 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
             error={errors.username && touched.username ? errors.username : ""}
           />
           <div className="relative ">
-            <TextInput
+            <TextInput2
               label="Password"
       
               name='password'
@@ -125,7 +126,7 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
             </button>
           </div>
           <div className="relative">
-            <TextInput
+            <TextInput2
               label="Confirm Password"
             
               name='confirmPassword'
@@ -143,16 +144,15 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
               {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
-          <TextInput
+          <TextInput2
             label="Designation"
-       
             name='designation'
             value={values.designation}
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors.designation && touched.designation ? errors.designation : ""}
           />
-          <TextInput
+          <TextInput2
             label="Mobile"
       
             name='mobile'
@@ -161,7 +161,7 @@ const UserRegistrationForm = ({ onClose = () => { } }) => {
             onBlur={handleBlur}
             error={errors.mobile && touched.mobile ? errors.mobile : ""}
           />
-          <TextInput
+          <TextInput2
             label="Email"
      
             name='email'
