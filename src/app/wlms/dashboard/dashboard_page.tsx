@@ -289,7 +289,7 @@ const Dashboard: React.FC = (): JSX.Element => {
 
                 <HeaderTable columns={BrDashboardTableHeaderData} />
                 {filteredDevices.map((device: Device, index) => {
-                    device.s_no = index;
+                    device.s_no = index+1;
                     device.battery = `${device.battery}`;
                     device.sensor_status = device.sensor_status && device.is_online;
                     return (
