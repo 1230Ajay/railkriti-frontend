@@ -101,7 +101,6 @@ const AlertPage: React.FC = (): JSX.Element => {
 
   return (
     <div className='grid h-screen grid-rows-[auto_auto_1fr]'>
-      <NavBar title={Titles.BrWlmsTitle}></NavBar>
 
       <div className='flex justify-between items-center px-4 mt-4 rounded-t-md bg-black mx-4'>
         <h2 className='font-bold text-white py-4 uppercase text-2xl'>Alerts</h2>
