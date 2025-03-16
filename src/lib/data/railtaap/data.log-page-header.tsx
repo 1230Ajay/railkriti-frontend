@@ -1,9 +1,5 @@
 export const RailtaapLogTableHeaderData = [
     {
-        name: "Sr. No",
-        className: "text-center"
-    },
-    {
         name: "Battery",
         className: "text-center"
     },

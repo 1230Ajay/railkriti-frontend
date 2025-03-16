@@ -88,7 +88,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
   };
 
   const columns = [
-    { name: 'S. No.', key: "s_no", className: "text-start" },
+
     { name: 'S. No.', key: "battery", className: "text-start" },
     { name: 'S. No.', key: "temp", className: "text-start" },
     { name: 'S. No.', key: "time", className: "text-center" },
