@@ -1,5 +1,4 @@
 const https = {
-  
   API_GATEWAY: "https://railkriti.co.in:8090",
   LOCTION: `https://railkriti.co.in:8090/location`,
   BR_WLMS: `https://railkriti.co.in:8090/br-wlms`,
@@ -17,7 +16,6 @@ const https = {
   SAATHI_RX_SOCKET_URL: "https://railkriti.co.in:3006",
   RAILTAAP_SOCKET_URL: "https://railkriti.co.in:3009",
   TANK_WLMS_SOCKET_URL: "https://railkriti.co.in:3010",
-
 }
 
 const http = {
@@ -43,7 +41,7 @@ const http = {
 }
 
 const conf = {
-  ...https
+  ...http
 }
 
 export default conf;

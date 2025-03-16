@@ -1,15 +1,19 @@
 'use client';
 
+import HeaderTable from "@/components/headers/header.table";
+import { HeaderTile } from "@/components/headers/header.tile";
 import NavBar from "@/components/nav/navbar";
+import TableRow from "@/components/tiles/tile.table-row";
 import conf from "@/lib/conf/conf";
+import { BrLogTableHeaderData } from "@/lib/data/br-wlms/data.log-page.header";
 import { Titles } from "@/lib/data/title";
 import myIntercepter from "@/lib/interceptor";
-
 import { useEffect, useState } from "react";
 import { BsFileEarmarkPdfFill, BsFillPrinterFill } from "react-icons/bs";
 import { RiFileExcel2Fill } from "react-icons/ri";
 
 interface Log {
+  s_no:any;
   uid: string;
   device_uid: string;
   battery: number;
@@ -18,6 +22,9 @@ interface Log {
   device_status: boolean;
   sensor_status: boolean;
   created_at: string;
+  time:any;
+  date:any;
+  is_online:any;
 }
 
 interface Device {
@@ -27,10 +34,10 @@ interface Device {
   device_logs: Log[];
 }
 
-const getDateRange = (selectedDate:any) => {
+const getDateRange = (selectedDate: any) => {
   const startDate = new Date(selectedDate);
   startDate.setHours(0, 0, 0, 0);
-  startDate.setDate(startDate.getDate()-3);
+  startDate.setDate(startDate.getDate() - 3);
 
   const endDate = new Date(selectedDate);
   endDate.setHours(23, 59, 59, 999);
@@ -46,11 +53,11 @@ const fetchLog = async (id: string): Promise<Device> => {
 
   try {
 
-    
-  const dates = getDateRange(Date.now());
 
-    const res = await myIntercepter.get(`${conf.BR_WLMS}/api/logs/${id}`,{
-      params:dates
+    const dates = getDateRange(Date.now());
+
+    const res = await myIntercepter.get(`${conf.BR_WLMS}/api/logs/${id}`, {
+      params: dates
     });
     return res.data;
   } catch (error) {
@@ -88,32 +95,29 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
   }, [id]);
 
 
+  const columns = [
+    { name: 'S. No.', key: "s_no", className: "text-start" },
+    { name: 'S. No.', key: "battery", className: "text-start" },
+    { name: 'S. No.', key: "level", className: "text-start" },
+    { name: 'S. No.', key: "wl_msl", className: "text-start" },
+    { name: 'S. No.', key: "time", className: "text-center" },
+    { name: 'S. No.', key: "date", className: "text-center" },
+    { name: 'S. No.', key: "is_online", className: "" },
+    { name: 'S. No.', key: "sensor_status", className: "" },
+  ]
+
+
   return (
-    <div className=" grid h-screen w-screen grid-rows-[auto_auto_1fr]  ">
-      <div className='flex justify-between rounded-t-md mx-4 mt-4 bg-black items-center px-4'>
-        <h2 className='font-bold text-white py-4 uppercase text-2xl flex items-center'>Logs <div className="ml-2 "> / {logs?.river_name} [{logs?.bridge_no}]</div></h2>
-        <div className='space-x-4 items-center hidden lg:flex'>
+    <div className=" grid h-[calc(100vh)] w-screen grid-rows-[auto_auto_1fr]">
+      <NavBar disableMenuBar={true} title={Titles.BrWlmsTitle} />
+      <HeaderTile title={`LOGS / ${logs?.river_name} (${logs?.bridge_no})`} actions={[
 
-          <div className='flex rounded-md space-x-4 w-fit text-white justify-center items-center'>
-            <RiFileExcel2Fill className='bg-green-600 h-8 w-8 p-1 rounded-sm' />
-            <BsFileEarmarkPdfFill className='bg-red-600 h-8 w-8 p-1 rounded-sm' />
-            <BsFillPrinterFill className='bg-blue-600 h-8 w-8 p-1 rounded-sm' />
-          </div>
-        </div>
-      </div>
-
+        { icon: <RiFileExcel2Fill className="bg-green-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export Excel") },
+        { icon: <BsFileEarmarkPdfFill className="bg-red-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export PDF") },
+        { icon: <BsFillPrinterFill className="bg-blue-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Print") },
+      ]} />
       <div className='overflow-scroll px-4 mx-4 rounded-b-md mb-4 bg-black no-scrollbar '>
-        <div className='border-b-2 border-t-2 capitalize text-white grid grid-cols-8  py-2 text-center min-w-[780px]'>
-          <p>Sr. No</p>
-          <p>Battery</p>
-          <p>Level</p>
-          <p>WL MSL</p>
-
-          <p>Time</p>
-          <p>Date</p>
-          <p>Device Status</p>
-          <p>Sensor</p>
-        </div>
+        <HeaderTable columns={BrLogTableHeaderData} />
         {loading ? (
           <div className='text-white text-center'>Loading...</div>
         ) : error ? (
@@ -121,30 +125,15 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
         ) : (
           <div className='text-white  rounded-md min-w-[780px]'>
             {logs && logs.device_logs.length > 0 ? (
-              logs.device_logs.map((log, index) => (
-                <div
-                  className='text-xs md:text-base grid grid-cols-8 border-b border-gray-600 items-center py-1 text-center'
-                  key={log.uid}
-                >
-                  <div>{index + 1}</div>
-                  <div>{log.battery}%</div>
-                  <div>{log.level.toFixed(2)}</div>
-                  <div>{log.wl_msl.toFixed(2)}</div>
-
-                  <div>{new Date(log.created_at).toLocaleTimeString('en-GB')}</div>
-                  <div>{new Date(log.created_at).toLocaleDateString()}</div>
-                  <div className="flex justify-center">
-                    <p className={`uppercase w-fit px-4 rounded-full py-1 font-semibold ${log.device_status ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`}>
-                      {log.device_status ? 'Online' : 'Offline'}
-                    </p>
-                  </div>
-                  <div className="flex justify-center">
-                    <p className={`uppercase w-fit px-4 rounded-full py-1 font-semibold ${log.sensor_status && log.device_status ? 'bg-green-600 text-white ' : 'bg-red-600 text-white'}`}>
-                      {log.sensor_status && log.device_status ? "ON" : "OFF"}
-                    </p>
-                  </div>
-                </div>
-              ))
+              logs.device_logs.map((log:Log, index) => {
+                log.s_no = index+1;
+                log.date = new Date(log.created_at).toLocaleDateString()
+                log.time = new Date(log.created_at).toLocaleTimeString()
+                log.is_online = log.device_status;
+                return (
+                  <TableRow data={log} columns={columns} />
+                )
+              })
             ) : (
               <div className='text-white text-center'>No logs available</div>
             )}

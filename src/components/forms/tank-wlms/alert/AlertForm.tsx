@@ -64,9 +64,8 @@ const AlertForm = ({ onClose = () => { } }) => {
 
   const fetchDevices = async () => {
     try {
-      const response = await fetch(`${conf.TANK_WLMS}/api/device`);
-      const data = await response.json();
-      setDevices(data);
+      const response = await myIntercepter.get(`${conf.TANK_WLMS}/api/device`);
+      setDevices(response.data);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching devices:', error);
@@ -132,15 +131,11 @@ const AlertForm = ({ onClose = () => { } }) => {
         sms_update: smsChecked,
       };
 
-      const response = await fetch(`${conf.TANK_WLMS}/api/alerts`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(alertData),
-      });
+  
+      const response = await myIntercepter.post(`${conf.TANK_WLMS}/api/alerts`, alertData);
+      
 
-      if (response.ok) {
+      if (response.status===200) {
         await fetchDevices(); // Refresh devices if necessary
         await fetchAlerts();  // Fetch updated alerts
 
