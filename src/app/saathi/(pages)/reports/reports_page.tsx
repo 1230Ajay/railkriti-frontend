@@ -11,6 +11,8 @@ import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import { Titles } from '@/lib/data/title';
 import generatePDF, { usePDF } from 'react-to-pdf';
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 // Define the structure of a Device
 interface Device {
   name: string;
@@ -184,6 +186,63 @@ const Reports: React.FC = (): JSX.Element => {
 
 
 
+  const exportToExcel = () => {
+    const worksheetData = [];
+  
+    // Add Metadata to the Header
+    worksheetData.push(["Name:", selectedDevice?.name]);
+    worksheetData.push(["Type:", deviceType === "transmitter"?"Transmitter":"Reciever"]);
+    worksheetData.push(["Mobile No:", selectedDevice?.mobile_no]);
+    worksheetData.push(["Direction:", selectedDevice?.isUpside? "UP":"Down"]);
+    worksheetData.push(["Group:", selectedDevice?.name]);
+    worksheetData.push(["Section:", selectedDevice?.section.name]);
+    worksheetData.push(["Division:", selectedDevice?.section.division.divisional_code]);
+    worksheetData.push(["Zone:", selectedDevice?.section.division.zone.zonal_code]);
+    worksheetData.push([]); // Empty row for spacing
+  
+    // Add Table Headers
+    const headers =
+      logType === "Train Detection"
+        ? ["S.no.", "Date / Time", "Train Detection"]
+        : ["S.no.", "Date / Time", "Device Status", "Sensor Status"];
+  
+    worksheetData.push(headers);
+  
+    // Add Table Data
+    if (Array.isArray(data) && data.length > 0) {
+      data.forEach((log, index) => {
+        if (logType === "Train Detection") {
+          if (log.isTrainDetected) {
+            worksheetData.push([
+              index + 1,
+              convertUtcToIst(log.created_at),
+              log.isTrainDetected ? "Train Detected" : "-",
+            ]);
+          }
+        } else {
+          worksheetData.push([
+            index + 1,
+            convertUtcToIst(log.created_at),
+            log.device_status ? "Device Online" : "Device Offline",
+            log.sensor_status ? "Sensor Working" : "Sensor Error",
+          ]);
+        }
+      });
+    }
+  
+    // Create a new worksheet
+    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  
+    // Generate Excel file
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+  
+    // Save file
+    const dataBlob = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(dataBlob, `Exported_Data_${new Date().toISOString()}.xlsx`);
+  };
+
   return (
     <div className='px-4'>
 
@@ -275,7 +334,7 @@ const Reports: React.FC = (): JSX.Element => {
               <RiFileExcel2Fill
                 className='bg-green-600 h-8 w-8 p-1 rounded-sm cursor-pointer'
                 title="Export to Excel"
-                onClick={() => {/* Implement Excel export functionality */ }}
+                onClick={() => { exportToExcel()}}
               />
               <BsFileEarmarkPdfFill
                 className='bg-red-600 h-8 w-8 p-1 rounded-sm cursor-pointer'
@@ -295,9 +354,9 @@ const Reports: React.FC = (): JSX.Element => {
       <div className=' h-4'></div>
 
       {/* Reports Section */}
-      <div className=' bg-white px-8 '>
+      <div ref={printRef} className=' bg-white px-8 '>
         <div className='h-8'></div>
-        <div ref={printRef} className="overflow-auto no-scrollbar bg-gray-100  rounded-md  space-y-8">
+        <div  className="overflow-auto no-scrollbar bg-gray-100  rounded-md  space-y-8">
 
           <div className='flex justify-between'>
             <Image src="/assets/logo/logo3.png" height={100} width={150} alt="Company Logo" />
