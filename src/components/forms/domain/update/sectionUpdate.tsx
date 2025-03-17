@@ -31,7 +31,7 @@ interface SectionData {
 }
 
 interface UpdateSectionFormProps {
-  data:any;
+  data: any;
   onClose: () => void;
 }
 
@@ -69,7 +69,7 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({ data, onClose }) 
       if (zoneUid) {
         try {
           const response = await myIntercepter.get(`${conf.LOCTION}/api/zone/${zoneUid}`);
-          setDivisionOptions(response.data);
+          setDivisionOptions(response.data.divisions);
         } catch (error) {
           console.error('Error fetching divisions:', error);
         }
@@ -126,9 +126,7 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({ data, onClose }) 
           value={divisionUid}
           onChange={handleDivisionChange}
           options={divisionOptions}
-       // Disable division select until a zone is selected
         />
-
         <TextInput
           label="Section"
           value={section}
@@ -145,7 +143,7 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({ data, onClose }) 
 
         <div className='col-span-1 md:col-span-2 xl:col-span-3 items-center flex justify-end space-x-4 mt-4'>
           <div className='space-x-8'>
-   
+
             <PrimaryButton type="button" className='w-24 text-lg' onClick={onClose}>Cancel</PrimaryButton>
             <PrimaryButton type="submit" className='w-24 text-lg'>Update</PrimaryButton>
           </div>

@@ -32,7 +32,7 @@ interface Device {
     name: string;
     division: {
       name: string;
-      divisional_code:string;
+      divisional_code: string;
       zone: {
         zonal_code: string;
         name: string;
@@ -45,10 +45,10 @@ interface Device {
   longitude?: string;
   start_date?: string;
   end_date?: string;
-  zone_name:string;
-  section_name:string;
-  division_name:string;
-  s_no:any;
+  zone_name: string;
+  section_name: string;
+  division_name: string;
+  s_no: any;
 }
 
 const DevicePage: React.FC = (): JSX.Element => {
@@ -115,7 +115,7 @@ const DevicePage: React.FC = (): JSX.Element => {
 
 
   return (
-    <div className=' grid h-[calc(100vh-80px)] grid-rows-[auto_1fr] '>
+    <div className=' grid  grid-rows-[auto_1fr] '>
 
       <HeaderTile title="Vinimay Devices" onSearchChange={setSearchTerm} actions={[
         { icon: <PrimaryButton >Add</PrimaryButton>, onClick: () => setAddDevicePopUpState(true) },
@@ -123,13 +123,12 @@ const DevicePage: React.FC = (): JSX.Element => {
         { icon: <BsFileEarmarkPdfFill className="bg-red-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export PDF") },
         { icon: <BsFillPrinterFill className="bg-blue-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Print") },
       ]} />
+
       <div className="bg-black  mx-4 mb-4  overflow-scroll no-scrollbar px-4 rounded-b-md">
         <HeaderTable columns={VinimayDeviceTableHeaderData} />
-
         <div className='text-white rounded-md overflow-y-auto min-w-[720px] pb-4'>
           {filteredDevices.map((device, index) => {
             device.s_no = index + 1;
-    
             device.section_name = device.section.name;
             device.division_name = device.section.division.divisional_code;
             device.zone_name = device.section.division.zone.zonal_code;
@@ -137,10 +136,7 @@ const DevicePage: React.FC = (): JSX.Element => {
               <TableRow data={device} columns={columns} actions={[
                 {
                   icon: device.isActive ? (
-                    <CgToggleOff className='text-green-400 text-3xl' />
-                  ) : (
-                    <CgToggleOn className='text-primary text-3xl' />)
-                  ,
+                    <CgToggleOff className='text-green-400 text-3xl' />) : (<CgToggleOn className='text-primary text-3xl' />),
                   onClick: () => activateDeactivate(device.uid, !device.isActive)
                 },
                 {

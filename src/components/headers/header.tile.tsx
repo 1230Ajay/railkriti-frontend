@@ -44,6 +44,7 @@ export function HeaderTile({ title, onSearchChange, actions }: HeaderTileProps) 
             ))}
           </div>
         )}
+        
       </div>
     </div>
   );

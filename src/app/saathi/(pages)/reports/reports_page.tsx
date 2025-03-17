@@ -169,8 +169,6 @@ const Reports: React.FC = (): JSX.Element => {
 
   return (
     <div className='grid grid-rows-[auto_auto_1fr] min-h-screen'>
-      {/* Navigation Bar */}
-      <NavBar title={Titles.SaathiTitle} />
 
       {/* Filters Section */}
       <div className="bg-black rounded-md p-4 mt-4 mx-4">
