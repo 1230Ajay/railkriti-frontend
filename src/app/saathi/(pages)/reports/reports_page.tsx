@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import NavBar from '@/components/nav/navbar';
 import { RiFileExcel2Fill } from 'react-icons/ri';
@@ -21,8 +21,10 @@ interface Device {
     name: string;
     division: {
       name: string;
+      divisional_code:string;
       zone: {
         name: string;
+        zonal_code:string;
       };
     };
   };
@@ -165,7 +167,20 @@ const Reports: React.FC = (): JSX.Element => {
   };
 
   // Title configuration for NavBar
+  const printRef = useRef<HTMLDivElement>(null);
 
+  const handlePrint = () => {
+    if (printRef.current) {
+      // Temporarily apply print styles
+      const originalContents = document.body.innerHTML;
+      const printContents = printRef.current.innerHTML;
+
+      document.body.innerHTML = printContents;
+      window.print();
+      document.body.innerHTML = originalContents; // Restore original contents
+      window.location.reload(); // Reload to fix event listeners
+    }
+  };
 
   return (
     <div className='grid grid-rows-[auto_auto_1fr] min-h-screen'>
@@ -262,12 +277,12 @@ const Reports: React.FC = (): JSX.Element => {
               <BsFileEarmarkPdfFill
                 className='bg-red-600 h-8 w-8 p-1 rounded-sm cursor-pointer'
                 title="Export to PDF"
-                onClick={() => {/* Implement PDF export functionality */ }}
+                onClick={handlePrint}
               />
               <BsFillPrinterFill
                 className='bg-blue-600 h-8 w-8 p-1 rounded-sm cursor-pointer'
                 title="Print Report"
-                onClick={() => window.print()}
+                onClick={()=>{}}
               />
             </div>
           </div>
@@ -275,7 +290,7 @@ const Reports: React.FC = (): JSX.Element => {
       </div>
 
       {/* Reports Section */}
-      <div className="overflow-auto no-scrollbar bg-white mt-4 mx-4 mb-4 rounded-md py-8 px-8 space-y-8">
+      <div ref={printRef} className="overflow-auto no-scrollbar bg-white mt-4 mx-4 mb-4 rounded-md py-8 px-8 space-y-8">
         {/* Header with Logo and Company Info */}
         <div className='flex justify-between'>
           <Image src="/assets/logo/logo3.png" height={100} width={150} alt="Company Logo" />
@@ -288,12 +303,12 @@ const Reports: React.FC = (): JSX.Element => {
         </div>
 
         {/* Report Title */}
-        <div className="uppercase font-bold text-center text-3xl font-serif border-t pt-6 border-primary">
+        <div className="uppercase   font-semibold text-center text-3xl font-serif border-t pt-6 border-primary">
           Saathi (Pre Warning System)
         </div>
 
         {/* Device and Report Information */}
-        <div className='capitalize font-bold space-y-2'>
+        <div className='capitalize font-semibold space-y-2'>
           <div className='flex'>
             <div className='flex-1'>Name: <span className='font-normal'>{selectedDevice ? selectedDevice.name : '-'}</span></div>
             <div className='flex-1'>Type: <span className='font-normal'>{deviceType === 'transmitter' ? "Transmitter" : 'Receiver'}</span></div>
@@ -302,18 +317,18 @@ const Reports: React.FC = (): JSX.Element => {
 
           <div className='flex'>
             <div className='flex-1'>Direction: <span className='font-normal'>{selectedDevice?.isUpside ? "UP" : "Down"}</span></div>
-            <div className='flex-1'>Group: <span className='font-normal'>{selectedDevice?.section.division.zone.name}</span></div>
+            <div className='flex-1'>Group: <span className='font-normal'>{selectedDevice?.name.slice(0,-3)}</span></div>
             <div className='w-56 text-end'> {/* Placeholder for additional info */}</div>
           </div>
 
           <div className='flex'>
             <div className='flex-1'>Section: <span className='font-normal'>{selectedDevice?.section.name}</span></div>
-            <div className='flex-1'>Division: <span className='font-normal'>{selectedDevice?.section.division.name}</span></div>
-            <div className='w-56 text-end'>Zone: <span className='font-normal'>{selectedDevice?.section.division.zone.name}</span></div>
+            <div className='flex-1'>Division: <span className='font-normal'>{selectedDevice?.section.division.divisional_code}</span></div>
+            <div className='w-56 text-end'>Zone: <span className='font-normal'>{selectedDevice?.section.division.zone.zonal_code}</span></div>
           </div>
 
           {/* Report Type and Date Range */}
-          <div className="font-bold uppercase text-center mt-8 text-2xl">
+          <div className="font-semibold uppercase text-center mt-8 text-2xl">
             {logType === "Train Detection" ? "Train Detection Data" : 'Device & Sensor Status'}
           </div>
           <div className='flex justify-center text-sm space-x-1'>

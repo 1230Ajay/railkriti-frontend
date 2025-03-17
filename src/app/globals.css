@@ -48,6 +48,12 @@
     --input: 0 0% 14.9%;
     --ring: 0 72.2% 50.6%;
   }
+
+  @media print {
+    header, footer, .no-print, title {
+      display: none !important;
+    }
+  }
 }
 
 
@@ -95,3 +101,4 @@ input:-webkit-autofill {
   background-color: transparent !important;
   transition: background-color 5000s ease-in-out 0s;
 }
+
