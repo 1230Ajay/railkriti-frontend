@@ -10,7 +10,7 @@ import SelectInput from '@/components/text-fields/SelectInput';
 import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import { Titles } from '@/lib/data/title';
-
+import generatePDF, { usePDF } from 'react-to-pdf';
 // Define the structure of a Device
 interface Device {
   name: string;
@@ -21,10 +21,10 @@ interface Device {
     name: string;
     division: {
       name: string;
-      divisional_code:string;
+      divisional_code: string;
       zone: {
         name: string;
-        zonal_code:string;
+        zonal_code: string;
       };
     };
   };
@@ -53,7 +53,7 @@ const Reports: React.FC = (): JSX.Element => {
   const [toDate, setToDate] = useState<string>('');
   const [data, setData] = useState<LogData[]>([]);
   const [deviceType, setDeviceType] = useState<'transmitter' | 'receiver'>('transmitter');
- 
+
   // Options for Log Type and Device Type
   const LogTypeOptions = [
     { value: 'Train Detection', label: 'Train Detection' },
@@ -126,7 +126,7 @@ const Reports: React.FC = (): JSX.Element => {
         });
         if (res.status === 200) {
           setData(res.data.device_logs);
-   
+
         } else {
           setData([]);
         }
@@ -182,11 +182,14 @@ const Reports: React.FC = (): JSX.Element => {
     }
   };
 
+
+
   return (
-    <div className='grid grid-rows-[auto_auto_1fr] min-h-screen'>
+    <div className='px-4'>
 
       {/* Filters Section */}
-      <div className="bg-black rounded-md p-4 mt-4 mx-4">
+      <div className=' h-4'></div>
+      <div className="bg-black rounded-md p-4 ">
         <h2 className='font-bold text-xl text-white uppercase pb-2'>Reports</h2>
         <div className="flex flex-col items-center lg:flex-row">
           <form onSubmit={(e) => e.preventDefault()} className="w-full grid md:grid-cols-2 gap-4 lg:grid-cols-5">
@@ -277,136 +280,86 @@ const Reports: React.FC = (): JSX.Element => {
               <BsFileEarmarkPdfFill
                 className='bg-red-600 h-8 w-8 p-1 rounded-sm cursor-pointer'
                 title="Export to PDF"
-                onClick={handlePrint}
+                onClick={()=>generatePDF(printRef,{filename:`saathi-report-${new Date().toDateString()}`})}
               />
               <BsFillPrinterFill
                 className='bg-blue-600 h-8 w-8 p-1 rounded-sm cursor-pointer'
                 title="Print Report"
-                onClick={()=>{}}
+                onClick={handlePrint}
               />
             </div>
           </div>
         </div>
+
       </div>
+      <div className=' h-4'></div>
 
       {/* Reports Section */}
-      <div ref={printRef} className="overflow-auto no-scrollbar bg-white mt-4 mx-4 mb-4 rounded-md py-8 px-8 space-y-8">
-        {/* Header with Logo and Company Info */}
-        <div className='flex justify-between'>
-          <Image src="/assets/logo/logo3.png" height={100} width={150} alt="Company Logo" />
-          <div className='flex flex-col ml-4'>
-            <h1 className='uppercase font-bold text-[16px] text-primary'>Robokriti India Private Limited</h1>
-            <p>235 Phase 4, Star City, Katangi Road,</p>
-            <p>Karmeta, Jabalpur, MP, India</p>
-            <p>0761 4046444; info@robokriti.com</p>
-          </div>
-        </div>
+      <div className=' bg-white px-8 '>
+        <div className='h-8'></div>
+        <div ref={printRef} className="overflow-auto no-scrollbar bg-gray-100  rounded-md  space-y-8">
 
-        {/* Report Title */}
-        <div className="uppercase   font-semibold text-center text-3xl font-serif border-t pt-6 border-primary">
-          Saathi (Pre Warning System)
-        </div>
-
-        {/* Device and Report Information */}
-        <div className='capitalize font-semibold space-y-2'>
-          <div className='flex'>
-            <div className='flex-1'>Name: <span className='font-normal'>{selectedDevice ? selectedDevice.name : '-'}</span></div>
-            <div className='flex-1'>Type: <span className='font-normal'>{deviceType === 'transmitter' ? "Transmitter" : 'Receiver'}</span></div>
-            <div className='w-56 text-end'>Mobile No: <span className='font-normal'>{selectedDevice ? selectedDevice.mobile_no : '-'}</span></div>
+          <div className='flex justify-between'>
+            <Image src="/assets/logo/logo3.png" height={100} width={150} alt="Company Logo" />
+            <div className='flex flex-col'>
+              <h1 className='uppercase font-bold text-[16px] text-primary'>Robokriti India Private Limited</h1>
+              <p>235 Phase 4, Star City, Katangi Road,</p>
+              <p>Karmeta, Jabalpur, MP, India</p>
+              <p>0761 4046444; info@robokriti.com</p>
+            </div>
           </div>
 
-          <div className='flex'>
-            <div className='flex-1'>Direction: <span className='font-normal'>{selectedDevice?.isUpside ? "UP" : "Down"}</span></div>
-            <div className='flex-1'>Group: <span className='font-normal'>{selectedDevice?.name.slice(0,-3)}</span></div>
-            <div className='w-56 text-end'> {/* Placeholder for additional info */}</div>
+
+          <div className="uppercase   font-semibold text-center text-3xl font-serif border-t pt-6 border-primary">
+            Saathi (Pre Warning System)
           </div>
 
-          <div className='flex'>
-            <div className='flex-1'>Section: <span className='font-normal'>{selectedDevice?.section.name}</span></div>
-            <div className='flex-1'>Division: <span className='font-normal'>{selectedDevice?.section.division.divisional_code}</span></div>
-            <div className='w-56 text-end'>Zone: <span className='font-normal'>{selectedDevice?.section.division.zone.zonal_code}</span></div>
+          <div className='capitalize font-semibold space-y-2'>
+            <div className='flex'>
+              <div className='flex-1'>Name: <span className='font-normal'>{selectedDevice ? selectedDevice.name : '-'}</span></div>
+              <div className='flex-1'>Type: <span className='font-normal'>{deviceType === 'transmitter' ? "Transmitter" : 'Receiver'}</span></div>
+              <div className='w-56 text-end'>Mobile No: <span className='font-normal'>{selectedDevice ? selectedDevice.mobile_no : '-'}</span></div>
+            </div>
+
+            <div className='flex'>
+              <div className='flex-1'>Direction: <span className='font-normal'>{selectedDevice?.isUpside ? "UP" : "Down"}</span></div>
+              <div className='flex-1'>Group: <span className='font-normal'>{selectedDevice?.name.slice(0, -3)}</span></div>
+              <div className='w-56 text-end'> </div>
+            </div>
+
+            <div className='flex'>
+              <div className='flex-1'>Section: <span className='font-normal'>{selectedDevice?.section.name}</span></div>
+              <div className='flex-1'>Division: <span className='font-normal'>{selectedDevice?.section.division.divisional_code}</span></div>
+              <div className='w-56 text-end'>Zone: <span className='font-normal'>{selectedDevice?.section.division.zone.zonal_code}</span></div>
+            </div>
+
+         
+            <div className="font-semibold uppercase text-center mt-8 text-2xl">
+              {logType === "Train Detection" ? "Train Detection Data" : 'Device & Sensor Status'}
+            </div>
+            <div className='flex justify-center text-sm space-x-1'>
+              <div>( From {fromDate} To {toDate} )</div>
+            </div>
           </div>
 
-          {/* Report Type and Date Range */}
-          <div className="font-semibold uppercase text-center mt-8 text-2xl">
-            {logType === "Train Detection" ? "Train Detection Data" : 'Device & Sensor Status'}
-          </div>
-          <div className='flex justify-center text-sm space-x-1'>
-            <div>( From {fromDate} To {toDate} )</div>
-          </div>
-        </div>
 
-
-        {/* Data Table for tx */}
-        {deviceType == "transmitter" ? <div>
-          {logType === "Train Detection" ? (
-            <table className="border-collapse table-auto w-full text-sm text-left border text-black mt-8">
-              <thead className="border-2 font-semibold text-primary text-center bg-gray-100">
-                <tr>
-                  <th className="border p-2">S.no.</th>
-                  <th className="border p-2">Date / Time</th>
-                  <th className="border p-2">Train Detection</th>
-                </tr>
-              </thead>
-              <tbody className="text-center">
-                {Array.isArray(data) && data.filter((log) => log.isTrainDetected).map((log, index) => (
-                  <tr key={index}>
-                    <td className="border p-2">{index + 1}</td>
-                    <td className="border p-2">{convertUtcToIst(log.created_at)}</td>
-                    <td className="border p-2">{log.isTrainDetected ? "Train Detected" : "-"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <table className="border-collapse table-auto w-full text-sm text-left border text-black mt-8">
-              <thead className="border-2 font-semibold text-primary text-center bg-gray-100">
-                <tr>
-                  <th className="border p-2">S.no.</th>
-                  <th className="border p-2">Date / Time</th>
-                  <th className="border p-2">Device Status</th>
-                  <th className="border p-2">Sensor Status</th>
-                </tr>
-              </thead>
-              <tbody className="text-center">
-                {data.map((log, index) => (
-                  <tr key={index}>
-                    <td className="border p-2">{index + 1}</td>
-                    <td className="border p-2">{convertUtcToIst(log.created_at)}</td>
-                    <td className="border p-2">
-                      {log.device_status ? "Device Online" : "Device Offline"}
-                    </td>
-                    <td className="border p-2">
-                      {log.sensor_status ? "Sensor Working" : "Sensor Error"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-
-        </div> :
-          <div>
+     
+          {deviceType == "transmitter" ? <div>
             {logType === "Train Detection" ? (
               <table className="border-collapse table-auto w-full text-sm text-left border text-black mt-8">
                 <thead className="border-2 font-semibold text-primary text-center bg-gray-100">
                   <tr>
                     <th className="border p-2">S.no.</th>
                     <th className="border p-2">Date / Time</th>
-                    <th className="border p-2">Train Detection & Acknowledgement</th>
+                    <th className="border p-2">Train Detection</th>
                   </tr>
                 </thead>
-
-
                 <tbody className="text-center">
-                  {data&& data.filter((log) => log.actions !== "ONLINE" && log.actions !== "OFFLINE" && log.actions !== "LOG").map((log, index) => (
+                  {Array.isArray(data) && data.filter((log) => log.isTrainDetected).map((log, index) => (
                     <tr key={index}>
                       <td className="border p-2">{index + 1}</td>
                       <td className="border p-2">{convertUtcToIst(log.created_at)}</td>
-                      <td className="border p-2">
-                        {log.actions}
-                      </td>
-
+                      <td className="border p-2">{log.isTrainDetected ? "Train Detected" : "-"}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -418,28 +371,83 @@ const Reports: React.FC = (): JSX.Element => {
                     <th className="border p-2">S.no.</th>
                     <th className="border p-2">Date / Time</th>
                     <th className="border p-2">Device Status</th>
+                    <th className="border p-2">Sensor Status</th>
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {Array.isArray(data) && data.length > 0 ? (
-                    data
-                      .filter((log) => log.actions === "ONLINE" || log.actions === "OFFLINE")
-                      .map((log, index) => (
-                        <tr key={index}>
-                          <td className="border p-2">{index + 1}</td>
-                          <td className="border p-2">{convertUtcToIst(log.created_at)}</td>
-                          <td className="border p-2">{log.actions}</td>
-                        </tr>
-                      ))
-                  ) : (
-                    <tr>
-                      <td >No data available</td>
+                  {data.map((log, index) => (
+                    <tr key={index}>
+                      <td className="border p-2">{index + 1}</td>
+                      <td className="border p-2">{convertUtcToIst(log.created_at)}</td>
+                      <td className="border p-2">
+                        {log.device_status ? "Device Online" : "Device Offline"}
+                      </td>
+                      <td className="border p-2">
+                        {log.sensor_status ? "Sensor Working" : "Sensor Error"}
+                      </td>
                     </tr>
-                  )}
+                  ))}
                 </tbody>
               </table>
             )}
-          </div>}
+
+          </div> :
+            <div>
+              {logType === "Train Detection" ? (
+                <table className="border-collapse table-auto w-full text-sm text-left border text-black mt-8">
+                  <thead className="border-2 font-semibold text-primary text-center bg-gray-100">
+                    <tr>
+                      <th className="border p-2">S.no.</th>
+                      <th className="border p-2">Date / Time</th>
+                      <th className="border p-2">Train Detection & Acknowledgement</th>
+                    </tr>
+                  </thead>
+
+
+                  <tbody className="text-center">
+                    {data && data.filter((log) => log.actions !== "ONLINE" && log.actions !== "OFFLINE" && log.actions !== "LOG").map((log, index) => (
+                      <tr key={index}>
+                        <td className="border p-2">{index + 1}</td>
+                        <td className="border p-2">{convertUtcToIst(log.created_at)}</td>
+                        <td className="border p-2">
+                          {log.actions}
+                        </td>
+
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <table className="border-collapse table-auto w-full text-sm text-left border text-black mt-8">
+                  <thead className="border-2 font-semibold text-primary text-center bg-gray-100">
+                    <tr>
+                      <th className="border p-2">S.no.</th>
+                      <th className="border p-2">Date / Time</th>
+                      <th className="border p-2">Device Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-center">
+                    {Array.isArray(data) && data.length > 0 ? (
+                      data
+                        .filter((log) => log.actions === "ONLINE" || log.actions === "OFFLINE")
+                        .map((log, index) => (
+                          <tr key={index}>
+                            <td className="border p-2">{index + 1}</td>
+                            <td className="border p-2">{convertUtcToIst(log.created_at)}</td>
+                            <td className="border p-2">{log.actions}</td>
+                          </tr>
+                        ))
+                    ) : (
+                      <tr>
+                        <td >No data available</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              )}
+            </div>}
+        </div>
+          <div className='h-4'></div>
       </div>
     </div>
   );
