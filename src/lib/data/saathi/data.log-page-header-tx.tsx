@@ -4,5 +4,6 @@ export const SaathiTxLogTableHeaderData = [
     { name: "Time", className: "text-center" },
     { name: "Date", className: "text-center" },
     { name: "Device Status", className: "text-center" },
-    { name: "Sensor", className: "text-center" }
+    { name: "Sensor", className: "text-center" },
+    { name: "Train Detection", className: "" }
 ];

@@ -101,6 +101,8 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
     { name: 'S. No.', key: "date", className: "text-center" },
     { name: 'S. No.', key: "is_online", className: "" },
     { name: 'S. No.', key: "sensor_status", className: "" },
+    { name: 'S. No.', key: "isTrainDetected", className: "" },
+    
   ]
 
   return (
@@ -127,7 +129,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
                 log.sensor_status = log.is_online && log.sensor_status;
                 log.date = new Date(log.created_at).toLocaleDateString()
                 log.time = new Date(log.created_at).toLocaleTimeString()
-                
+                log.isTrainDetected = log.isTrainDetected &&  log.is_online ? "Train Detected":""
                 return(
                <TableRow data={log} columns={columns} />
               )})
