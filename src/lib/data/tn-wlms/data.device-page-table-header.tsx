@@ -1,5 +1,9 @@
 export const TankWLMSDeviceTableHeaderData = [
     {
+        name: "S. No.",
+        className: "text-start"
+    },
+    {
         name: "Km",
         className: "text-start"
     },

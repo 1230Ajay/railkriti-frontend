@@ -18,6 +18,7 @@ import TableRow from '@/components/tiles/tile.table-row';
 import { TankWLMSAlertTableHeaderData } from '@/lib/data/tn-wlms/data.alert-page.header';
 
 interface Alert {
+  s_no:any;
   uid: string;
   device: {
     km: any;
@@ -101,12 +102,12 @@ const AlertPage: React.FC = (): JSX.Element => {
   };
 
   const columns = [
-
-    { name: "Bridge No", key: "km", className: "text-start" },
-    { name: "River", key: "location", className: "text-start" },
-    { name: "Zone", key: "designation", className: "text-start" },
-    { name: "Mobile", key: "mobile", className: "text-center" },
-    { name: "interval", key: "email", className: "text-start" },
+    { name: "", key: "s_no", className: "text-start" },
+    { name: "", key: "km", className: "text-start" },
+    { name: "", key: "location", className: "text-start" },
+    { name: "", key: "designation", className: "text-start" },
+    { name: "", key: "mobile", className: "text-center" },
+    { name: "", key: "email", className: "text-start" },
   ];
 
 
@@ -127,6 +128,7 @@ const AlertPage: React.FC = (): JSX.Element => {
           ) : (
             <div className='text-white rounded-md min-w-[780px]'>
               {filteredAlerts.map((alert, index) => {
+                alert.s_no = index+1;
                 alert.km = alert.device.km;
                 alert.location = alert.device.location;
                 return (

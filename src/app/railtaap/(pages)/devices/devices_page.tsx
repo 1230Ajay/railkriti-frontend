@@ -19,6 +19,7 @@ import { RailtaapDeviceTableHeaderData } from '@/lib/data/railtaap/data.device-p
 import TableRow from '@/components/tiles/tile.table-row';
 
 interface Device {
+  s_no:any;
   km: any;
   location: any;
   uid: any;
@@ -109,7 +110,7 @@ const DevicePage: React.FC = (): JSX.Element => {
 
 
   const columns = [
-
+    { name: "S.no", key: "s_no", className: "text-start" },
     { name: "Bridge No", key: "km", className: "text-start" },
     { name: "River", key: "location", className: "text-start" },
     { name: "Mobile", key: "mobile_no", className: "text-start" },
@@ -133,6 +134,7 @@ const DevicePage: React.FC = (): JSX.Element => {
 
         <div className='text-white rounded-md overflow-y-auto min-w-[720px] pb-4'>
           {filteredDevices.map((device, index) => {
+            device.s_no = index+1;
             device.section_name = device.section.name;
             device.division_name = device.section.division.divisional_code;
             device.zone_name = device.section.division.zone.zonal_code;

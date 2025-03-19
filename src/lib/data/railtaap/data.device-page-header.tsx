@@ -1,5 +1,9 @@
 export const RailtaapDeviceTableHeaderData = [
     {
+        name: "S. No.",
+        className: "text-start"
+    },
+    {
         name: "Km",
         className: "text-start"
     },

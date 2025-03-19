@@ -165,6 +165,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                 {filteredDevices.sort((a, b) => (a?.group_uid && b?.group_uid) ? a.group_uid.localeCompare(b.group_uid) : 0).map((device, index) => {
                     
                     device.s_no = index+1;
+                    device.sensor_status = device.is_online & device.sensor_status ;
                     return (
                      <TableRow data={device} columns={columns} actions={[
                         {

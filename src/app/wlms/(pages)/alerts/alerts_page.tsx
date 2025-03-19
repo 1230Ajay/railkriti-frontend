@@ -110,7 +110,7 @@ const AlertPage: React.FC = (): JSX.Element => {
   };
 
   const columns = [
- 
+    { name: "", key: "s_no", className: "text-start" },
     { name: "Bridge No", key: "bridge_no", className: "text-start" },
     { name: "River", key: "river_name", className: "text-start" },
     { name: "Zone", key: "designation", className: "text-start" },

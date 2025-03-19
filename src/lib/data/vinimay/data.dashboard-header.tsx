@@ -1,5 +1,9 @@
 export const VinimayDashboardTableHeaderData = [
     {
+        name: "S. No.",
+        className: "text-start"
+    },
+    {
         name: "Location",
         className: "text-start"
     },

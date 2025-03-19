@@ -17,6 +17,7 @@ import { TankWLMSDeviceTableHeaderData } from '@/lib/data/tn-wlms/data.device-pa
 import TableRow from '@/components/tiles/tile.table-row';
 
 interface Device {
+  s_no:any;
   km: any;
   location: any;
   uid: string;
@@ -107,14 +108,14 @@ const DevicePage: React.FC = (): JSX.Element => {
 
 
   const columns = [
-
-    { name: "Bridge No", key: "km", className: "text-start" },
-    { name: "River", key: "location", className: "text-start" },
-    { name: "Mobile", key: "mobile_no", className: "text-start" },
-    { name: "interval", key: "reading_interval", className: "text-center" },
-    { name: "Section", key: "section_name", className: "text-center" },
-    { name: "Division", key: "division_name", className: "text-center" },
-    { name: "Zone", key: "zone_name", className: "text-center" },
+    { name: "", key: "s_no", className: "text-start" },
+    { name: "", key: "km", className: "text-start" },
+    { name: "", key: "location", className: "text-start" },
+    { name: "", key: "mobile_no", className: "text-start" },
+    { name: "", key: "reading_interval", className: "text-center" },
+    { name: "", key: "section_name", className: "text-center" },
+    { name: "", key: "division_name", className: "text-center" },
+    { name: "", key: "zone_name", className: "text-center" },
   ];
 
 
@@ -132,8 +133,8 @@ const DevicePage: React.FC = (): JSX.Element => {
       <div className="bg-black  mx-4 mb-4  overflow-scroll no-scrollbar px-4 rounded-b-md">
         <HeaderTable columns={TankWLMSDeviceTableHeaderData} />
         <div className='text-white rounded-md overflow-y-auto min-w-[720px] pb-4'>
-          {filteredDevices.map((device) => {
-
+          {filteredDevices.map((device,index) => {
+            device.s_no = index+1;
             device.section_name = device.section.name;
             device.division_name = device.section.division.divisional_code;
             device.zone_name = device.section.division.zone.zonal_code;

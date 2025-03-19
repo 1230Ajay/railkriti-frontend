@@ -1,5 +1,9 @@
 export const TankWLMSAlertTableHeaderData = [
     {
+        name: "S. No.",
+        className: "text-start"
+    },
+    {
         name: "KM",
         className: "text-start"
     },

@@ -1,5 +1,9 @@
 export const BrAlertTableHeaderData = [
     {
+        name: "S. No.",
+        className: "text-start"
+    },
+    {
         name: "Bridge no",
         className: "text-start"
     },

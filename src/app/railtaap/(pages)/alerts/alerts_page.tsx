@@ -101,7 +101,7 @@ const AlertPage: React.FC = (): JSX.Element => {
   };
 
   const columns = [
- 
+    { name: "Bridge No", key: "s_no", className: "text-start" },
     { name: "Bridge No", key: "location", className: "text-start" },
     { name: "River", key: "km", className: "text-start" },
     { name: "Zone", key: "designation", className: "text-start" },
@@ -109,7 +109,6 @@ const AlertPage: React.FC = (): JSX.Element => {
     { name: "interval", key: "email", className: "text-start" },
     { name: "Time", key: "time", className: "text-center" },
 ];
-
 
   return (
     <div className='grid h-screen grid-rows-[auto_auto_1fr]'>

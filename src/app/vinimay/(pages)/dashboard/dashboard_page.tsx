@@ -60,10 +60,11 @@ const Dashboard: React.FC = (): JSX.Element => {
       );
     
       const columns = [
-        { name: "Bridge No", key: "location", className: "text-start uppercase" },
-        { name: "River", key: "km", className: "text-start" },
-        { name: "Battery", key: "battery" },
-        { name: "Device Status", key: "is_online" },
+        { name: "", key: "s_no", className: "text-start uppercase" },
+        { name: "", key: "location", className: "text-start uppercase" },
+        { name: "", key: "km", className: "text-start" },
+        { name: "", key: "battery" },
+        { name: "", key: "is_online" },
     ];
 
     return (
@@ -78,7 +79,7 @@ const Dashboard: React.FC = (): JSX.Element => {
             <div className=" overflow-auto pb-4 text-white bg-black mx-4 mb-4 px-4  relative  no-scrollbar  rounded-b-md">
                 <HeaderTable columns={VinimayDashboardTableHeaderData}/>
                 {filteredDevices.map((device, index) => {
-        
+                     device.s_no=index+1;
                     return (
                    <TableRow data={device} columns={columns} actions={[
                     {

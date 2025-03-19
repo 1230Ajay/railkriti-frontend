@@ -267,6 +267,8 @@ const Dashboard: React.FC = (): JSX.Element => {
 
                 {filteredDevices.map((device, index) => {
                     device.s_no = index+1;
+                    device.sensor_status = device.is_online && device.sensor_status;
+                    device.temp = device.temp === -127?"--:--":device.temp;
                     return (
                         <TableRowV2 data={device} columns={columns} active_uid={activeDetail?.uid|| ""} activeContainer={RailtaapChart(device)} actions={[
                             {

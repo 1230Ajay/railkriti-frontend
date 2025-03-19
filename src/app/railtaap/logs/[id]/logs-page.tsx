@@ -88,7 +88,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
   };
 
   const columns = [
-
+    { name: 'S. No.', key: "s_no", className: "text-start" },
     { name: 'S. No.', key: "battery", className: "text-start" },
     { name: 'S. No.', key: "temp", className: "text-start" },
     { name: 'S. No.', key: "time", className: "text-center" },
@@ -121,6 +121,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
               logs.map((log, index) => {
                 log.s_no = index + 1;
                 log.is_online = log.device_status;
+                log.temp =  log.temp === -127?"--:--":log.temp;
                 log.sensor_status = log.device_status && log.sensor_status;
                 log.date = new Date(log.created_at).toLocaleDateString()
                 log.time = new Date(log.created_at).toLocaleTimeString()
