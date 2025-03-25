@@ -180,12 +180,9 @@ const Dashboard: React.FC = (): JSX.Element => {
                         {
                             icon: <RiRestartLine />,
                             onClick: () => {
-                                if (device.is_online) {
-                                    toast.error(`Device is allready online`);
-                                } else {
                                     handleRestartClick(device.uid,isTxDevice(device));
                                     toast.success(`${device.location} (${device.km}) is being restarted`);
-                                }
+                          
                             },
                             className: ` p-2 rounded-full ${device.relay_status ? 'bg-green-500' : 'bg-gray-500'}`,
                         },

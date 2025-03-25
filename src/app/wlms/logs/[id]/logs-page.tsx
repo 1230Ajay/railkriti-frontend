@@ -111,7 +111,6 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
     <div className=" grid h-[calc(100vh)] w-screen grid-rows-[auto_auto_1fr]">
       <NavBar disableMenuBar={true} title={Titles.BrWlmsTitle} />
       <HeaderTile title={`LOGS / ${logs?.river_name} (${logs?.bridge_no})`} actions={[
-
         { icon: <RiFileExcel2Fill className="bg-green-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export Excel") },
         { icon: <BsFileEarmarkPdfFill className="bg-red-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export PDF") },
         { icon: <BsFillPrinterFill className="bg-blue-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Print") },

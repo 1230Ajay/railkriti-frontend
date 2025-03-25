@@ -9,7 +9,6 @@ export const BrDashboardTableHeaderData = [
         name: "River Name",
         className: "text-start"
     },
-
     {
         name: "Level",
         className: ""

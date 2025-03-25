@@ -17,20 +17,20 @@ import { SectionalTableHeaderData } from '@/lib/data/domain/section-header-data'
 import TableRow from '@/components/tiles/tile.table-row';
 
 interface Section {
-  s_no:any;
+  s_no: any;
   uid: string;
   name: string;
   sectional_code: string;
   division: {
     name: string;
-    divisional_code:string;
+    divisional_code: string;
     zone: {
       name: string;
-      zonal_code:string;
+      zonal_code: string;
     };
   };
-  divisional_code:string;
-  zonal_code:string;
+  divisional_code: string;
+  zonal_code: string;
 }
 
 const columns = [
@@ -116,34 +116,34 @@ const SectionPage: React.FC = (): JSX.Element => {
       ]} />
       <div className='bg-black  mx-4 mb-4  overflow-scroll no-scrollbar px-4 rounded-b-md'>
         <HeaderTable columns={SectionalTableHeaderData} />
-          <div className='text-white rounded-md overflow-y-auto min-w-[720px] pb-4'>
-            {filteredSections.map((section, index) => {
-              section.s_no = index+1;
-              section.divisional_code =  section.division.divisional_code;
-              section.zonal_code = section.division.zone.zonal_code;
-              return (
-                <TableRow data={section} columns={columns} actions={[{
-                  icon: <TbListDetails />,
-                  onClick: () => openUpdateForm(section),
-                  className: 'bg-white text-primary w-fit px-4 rounded-full shadow-md font-semibold py-1 text-teal-500 hover:shadow-none'
-                }]} />
-              )
-            })}
-  
-        </div>
-        </div>
-        <Modal isOpen={addSectionPopUpState}>
-          <div className='w-[720px] bg-black overflow-y-scroll no-scrollbar rounded-md p-8'>
-            <SectionForm onClose={onClose} />
-          </div>
-        </Modal>
+        <div className='text-white rounded-md overflow-y-auto min-w-[720px] pb-4'>
+          {filteredSections.map((section, index) => {
+            section.s_no = index + 1;
+            section.divisional_code = section.division.divisional_code;
+            section.zonal_code = section.division.zone.zonal_code;
+            return (
+              <TableRow data={section} columns={columns} actions={[{
+                icon: <TbListDetails />,
+                onClick: () => openUpdateForm(section),
+                className: 'bg-white text-primary w-fit px-4 rounded-full shadow-md font-semibold py-1 text-teal-500 hover:shadow-none'
+              }]} />
+            )
+          })}
 
-        <Modal isOpen={updateSectionPopUpState}>
-          <div className='w-[720px] bg-black overflow-y-scroll no-scrollbar rounded-md p-8'>
-            {updateSection && <UpdateSectionForm data={updateSection} onClose={() => setUpdateSectionPopUpState(false)} />}
-          </div>
-        </Modal>
-    
+        </div>
+      </div>
+      <Modal isOpen={addSectionPopUpState}>
+        <div className='w-[720px] bg-black overflow-y-scroll no-scrollbar rounded-md p-8'>
+          <SectionForm onClose={onClose} />
+        </div>
+      </Modal>
+
+      <Modal isOpen={updateSectionPopUpState}>
+        <div className='w-[720px] bg-black overflow-y-scroll no-scrollbar rounded-md p-8'>
+          {updateSection && <UpdateSectionForm data={updateSection} onClose={() => setUpdateSectionPopUpState(false)} />}
+        </div>
+      </Modal>
+
     </div>
   );
 }

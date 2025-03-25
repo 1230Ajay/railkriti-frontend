@@ -25,9 +25,9 @@ interface Log {
   device_status: boolean;
   sensor_status: boolean;
   created_at: string;
-  date:string;
-  time:string;
-  s_no:any;
+  date: string;
+  time: string;
+  s_no: any;
 }
 
 interface Device {
@@ -99,7 +99,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
 
   return (
     <div className=" grid h-screen w-screen grid-rows-[auto_auto_1fr]  ">
-         <NavBar title={Titles.SaathiTitle} disableMenuBar={true} ></NavBar>
+      <NavBar title={Titles.SaathiTitle} disableMenuBar={true} ></NavBar>
       <HeaderTile title={`LOGS / ${device?.name}`} actions={[
 
         { icon: <RiFileExcel2Fill className="bg-green-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export Excel") },
@@ -118,20 +118,21 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
             {logs && logs.length > 0 ? (
               logs.filter((log) => log.actions !== 'LOG').map((log, index) => {
 
-                log.s_no = index+1;
+                log.s_no = index + 1;
                 log.date = new Date(log.created_at).toLocaleDateString()
                 log.time = new Date(log.created_at).toLocaleTimeString()
                 log.sensor_status = log.hooter_status && log.device_status;
-               return (
-                <TableRow data={log} columns={columns} actions={[
-                  {
-                    icon:<div className=" mx-auto">
-                    {log.actions === "ONLINE" || log.actions === "OFFLINE" ? <div className={` w-24 px-4  rounded-full font-bold  py-1  ${log.actions === "ONLINE" ? 'bg-green-600' : 'bg-primary'}`}> {log.actions} </div> : <div>{log.actions.replace(/_/g, " ")}</div>}
-                  </div>,
-                    onClick:()=>{}
-                  }
-                ]} />
-              )})
+                return (
+                  <TableRow data={log} columns={columns} actions={[
+                    {
+                      icon: <div className=" mx-auto">
+                        {log.actions === "ONLINE" || log.actions === "OFFLINE" ? <div className={` w-24 px-4  rounded-full font-bold  py-1  ${log.actions === "ONLINE" ? 'bg-green-600' : 'bg-primary'}`}> {log.actions} </div> : <div>{log.actions.replace(/_/g, " ")}</div>}
+                      </div>,
+                      onClick: () => { }
+                    }
+                  ]} />
+                )
+              })
             ) : (
               <div className='text-white text-center'>No logs available</div>
             )}
