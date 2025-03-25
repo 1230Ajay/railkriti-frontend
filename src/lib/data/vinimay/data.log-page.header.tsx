@@ -12,6 +12,10 @@ export const VinimayLogTableHeaderData =  [
         className: ""
     },
     {
+        name:"Button Pressed",
+        className:""
+    },
+    {
         name: "PN",
         className: ""
     },
@@ -22,5 +26,6 @@ export const VinimayLogTableHeaderData =  [
     {
         name: "Message",
         className: ""
-    }
+    },
+
 ];

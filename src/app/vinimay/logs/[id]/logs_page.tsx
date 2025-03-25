@@ -84,9 +84,11 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
     { name: 'S. No.', key: "s_no", className: "text-start" },
     { name: 'S. No.', key: "time", className: "text-center" },
     { name: 'S. No.', key: "date", className: "text-center" },
+    { name: 'S. No.', key: "button_pressed", className: "text-center" },
     { name: 'S. No.', key: "pn", className: "text-center" },
     { name: 'S. No.', key: "is_online", className: "" },
     { name: 'S. No.', key: "message", className: "text-center" },
+
   ]
 
   return (
