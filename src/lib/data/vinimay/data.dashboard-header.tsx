@@ -8,13 +8,12 @@ export const VinimayDashboardTableHeaderData = [
         className: "text-start"
     },
     {
-        name: "KM",
+        name: "Type",
         className: "text-start"
     },
-
     {
-        name: "Battery",
-        className: ""
+        name: "KM",
+        className: "text-start"
     },
     {
         name: "Status",
