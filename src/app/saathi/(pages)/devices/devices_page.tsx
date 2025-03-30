@@ -17,6 +17,8 @@ import { Titles } from '@/lib/data/title';
 import HeaderTable from '@/components/headers/header.table';
 import { SaathiDeviceTableHeaderData } from '@/lib/data/saathi/data.device-page-header';
 import TableRow from '@/components/tiles/tile.table-row';
+import { InstalledAt } from '../../emums/enum.installed.at';
+
 
 
 interface Device {
@@ -26,16 +28,7 @@ interface Device {
   name: string;
   mobile_no: string;
   reading_interval: string;
-  section: {
-    sectional_code: string;
-    division: {
-      divisional_code: string;
-      zone: {
-        zonal_code: string;
-        name: string;
-      };
-    };
-  };
+  group:any;
   is_fixed: any,
   installed_at: any;
   isActive: boolean;
@@ -51,6 +44,7 @@ interface Device {
   section_name: string;
   zone_name: string;
   division_name: string;
+  group_name:string
 }
 const DevicePage: React.FC = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -115,11 +109,9 @@ const DevicePage: React.FC = (): JSX.Element => {
   const columns = [
     { name: "", key: "s_no", className: "text-start uppercase" },
     { name: "", key: "name", className: "text-start uppercase" },
+    { name: "", key: "group_name", className: "text-start uppercase" },
     { name: "", key: "installed_at", className: "text-start uppercase" },
     { name: "", key: "mobile_no", className: "text-start uppercase" },
-    { name: "", key: "section_name", className: "text-center uppercase" },
-    { name: "", key: "division_name", className: "text-center uppercase" },
-    { name: "", key: "zone_name", className: "text-center uppercase" },
   ];
 
 
@@ -163,10 +155,10 @@ const DevicePage: React.FC = (): JSX.Element => {
         <div className='text-white rounded-md overflow-y-auto min-w-[720px] pb-4'>
           {filteredDevices.map((device, index) => {
             device.s_no = index+1;
-            device.section_name = device.section.sectional_code;
-            device.division_name = device.section.division.divisional_code;
-            device.zone_name = device.section.division.zone.zonal_code;
-
+            device.group_name = device.group?.name || "";
+            device.installed_at = device.group?.installed_at && InstalledAt[device.group.installed_at as keyof typeof InstalledAt] 
+            ? InstalledAt[device.group.installed_at as keyof typeof InstalledAt] as InstalledAt : "";
+          
             return (
               <TableRow data={device} columns={columns} actions={[
                 {

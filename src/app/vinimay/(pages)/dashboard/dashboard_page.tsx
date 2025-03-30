@@ -56,14 +56,14 @@ const Dashboard: React.FC = (): JSX.Element => {
 
 
     const filteredDevices = devices.filter(device =>
-       ( device.location.toLowerCase().includes(searchQuery.toLowerCase()) ||   device.km.toLowerCase().includes(searchQuery.toLowerCase()))&& device?.isActive
+       ( device.lc.toLowerCase().includes(searchQuery.toLowerCase()) ||   device.km.toLowerCase().includes(searchQuery.toLowerCase()))&& device?.isActive
       );
     
       const columns = [
         { name: "", key: "s_no", className: "text-start uppercase" },
-        { name: "", key: "location", className: "text-start uppercase" },
+        { name: "", key: "lc", className: "text-start uppercase" },
         { name: "", key: "type", className: "text-start uppercase" },
-        { name: "", key: "km", className: "text-start" },
+        { name: "", key: "km", className: "text-start uppercase" },
         { name: "", key: "is_online" },
     ];
 

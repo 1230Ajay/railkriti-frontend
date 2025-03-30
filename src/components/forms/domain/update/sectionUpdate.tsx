@@ -98,7 +98,7 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({ data, onClose }) 
     };
 
     try {
-      const response = await myIntercepter.post(`${conf.LOCTION}/api/section/${data.uid}`, sectionData);
+      const response = await myIntercepter.put(`${conf.LOCTION}/api/section/${data.uid}`, sectionData);
       console.log('Section updated successfully:', response.data);
       window.location.reload();
       await onClose();

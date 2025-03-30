@@ -132,14 +132,12 @@ const Dashboard: React.FC = (): JSX.Element => {
             name: "", key: "type", className: ""
         },
         {
-            name: "", key: "installed_at", className: " text-start"
+            name: "", key: "battery", className: ""
         },
         {
             name: "", key: "sensor_status", className: ""
         },
-        {
-            name: "", key: "battery", className: ""
-        },
+
         {
             name: "", key: "is_online", className: ""
         },

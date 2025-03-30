@@ -12,6 +12,10 @@ export const VinimayDeviceTableHeaderData = [
         className: "text-start"
     },
     {
+        name: "STNS",
+        className: "text-start"
+    },
+    {
         name: "Mobile No",
         className: "text-start"
     },

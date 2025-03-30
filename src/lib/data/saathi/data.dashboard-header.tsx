@@ -12,18 +12,15 @@ export const SaathiDashboardTableHeaderData = [
         className: ""
     },
     {
-        name: "Installed at",
-        className: "text-start"
+        name: "Battery",
+        className: ""
     },
     {
         name: "Sensor/Hooter",
         className: "text-center"
     },
 
-    {
-        name: "Battery",
-        className: ""
-    },
+
     {
         name: "Status",
         className: ""

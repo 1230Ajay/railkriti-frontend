@@ -16,13 +16,11 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
     const [km, setKm] = useState('');
     const [mobileNumber, setMobileNumber] = useState('');
     const [longitude, setLongitude] = useState('');
-    const [zone, setZone] = useState('');
-    const [division, setDivision] = useState('');
+
     const [group, setGroup] = useState('')
-    const [section, setSection] = useState('');
+
     const [lattitude, setlattitude] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+
     const [Direction, setDirection] = useState("true");
     const [deviceType, setDeviceType] = useState<any>("true")
     const [systemType, setSystemType] = useState<any>("true")
@@ -30,27 +28,14 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
     const [installedAt, setInstalledAt] = useState<any>("TRACK")
 
     const [groupOptions, setGroupOptions] = useState([])
-    const [zoneOptions, setZoneOptions] = useState([]);
-    const [divisionOptions, setDivisionOptions] = useState([]);
-    const [sectionOptions, setSectionOptions] = useState([]);
-    const [isOnSingle,setIsOnSingle] = useState('false');
+
+    const [isOnSingle, setIsOnSingle] = useState('false');
 
     useEffect(() => {
-        fetchZones();
         fetchGroups();
     }, []);
 
-    useEffect(() => {
-        if (zone) {
-            fetchDivisions(zone);
-        }
-    }, [zone]);
 
-    useEffect(() => {
-        if (division) {
-            fetchSections(division);
-        }
-    }, [division]);
 
     const fetchGroups = async () => {
         try {
@@ -69,32 +54,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
         }
     }
 
-    const fetchZones = async () => {
-        try {
-            const response = await myIntercepter.get(`${conf.LOCTION}/api/zone`);
-            setZoneOptions(response.data);
-        } catch (error) {
-            console.error('Error fetching zones:', error);
-        }
-    };
 
-    const fetchDivisions = async (zoneId: string) => {
-        try {
-            const response = await myIntercepter.get(`${conf.LOCTION}/api/zone/${zoneId}`);
-            setDivisionOptions(response.data.divisions);
-        } catch (error) {
-            console.error('Error fetching divisions:', error);
-        }
-    };
-
-    const fetchSections = async (divisionId: string) => {
-        try {
-            const response = await myIntercepter.get(`${conf.LOCTION}/api/division/${divisionId}`);
-            setSectionOptions(response.data.sections);
-        } catch (error) {
-            console.error('Error fetching sections:', error);
-        }
-    };
 
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
@@ -102,33 +62,28 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
         const formDataTx = {
 
             imei: imeiNumber,
-            section_uid: section,
-            group_uid:group,
+            group_uid: group,
             lattitude: lattitude,
             longitude: longitude,
             mobile_no: mobileNumber,
             name: name,
-            start_date: new Date(startDate).toISOString(),
-            end_date: new Date(endDate).toISOString(),
-            is_fixed: systemType==="true"?true:false,
-            isUpside: Direction==="true"?true:false,
-            installed_at:installedAt,
-            is_single_line:isOnSingle ==="true"?true:false
+
+            is_fixed: systemType === "true" ? true : false,
+            isUpside: Direction === "true" ? true : false,
+            installed_at: installedAt,
+            is_single_line: isOnSingle === "true" ? true : false
 
         };
 
         const formDataRx = {
 
             imei: imeiNumber,
-            section_uid: section,
-            group_uid:group,
+            group_uid: group,
             lattitude: lattitude,
             longitude: longitude,
             mobile_no: mobileNumber,
             name: name,
-            start_date: new Date(startDate).toISOString(),
-            end_date: new Date(endDate).toISOString(),
-            is_fixed: systemType==="true"?true:false,
+            is_fixed: systemType === "true" ? true : false,
 
 
         };
@@ -175,7 +130,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
                 <TextInput
                     label="Name"
-             
+
                     value={name}
                     onChange={setName}
                     required
@@ -186,7 +141,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
                 <SelectInput
                     label="Group"
-        
+
                     value={group}
                     onChange={setGroup}
                     options={groupOptions}
@@ -198,7 +153,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
                 <TextInput
                     label="Mobile Number"
-             
+
                     value={mobileNumber}
                     onChange={setMobileNumber}
                     required
@@ -207,7 +162,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
                 <TextInput
                     label="IMEI Number"
-         
+
                     value={imeiNumber}
                     onChange={setImeiNumber}
                     required
@@ -217,45 +172,8 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
 
 
-                <DateInput
-                    label="Start Date"
-                    htmlFor="startDate"
-                    value={startDate}
-                    onChange={setStartDate}
-                    required={true}
-                />
-                <DateInput
-                    label="End Date"
-                    htmlFor="endDate"
-                    value={endDate}
-                    onChange={setEndDate}
-                    required={true}
-                />
 
-                <SelectInput
-                    label="Zone"
-        
-                    value={zone}
-                    onChange={setZone}
-                    options={zoneOptions}
-                    required={true}
-                />
-                <SelectInput
-                    label="Division"
-      
-                    value={division}
-                    onChange={setDivision}
-                    options={divisionOptions}
-                    required={true}
-                />
-                <SelectInput
-                    label="Section"
-   
-                    value={section}
-                    onChange={setSection}
-                    options={sectionOptions}
-                    required={true}
-                />
+
 
                 <TextInput
                     label="Lattitude"
@@ -266,7 +184,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
                 <TextInput
                     label="Longitude"
-       
+
                     value={longitude}
                     onChange={setLongitude}
                     required
@@ -286,7 +204,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
                 <SelectInput
                     label="SystemType"
-           
+
                     value={systemType}
                     onChange={setSystemType}
                     options={[{ uid: true, value: true, name: "Fixed" }, { uid: false, value: false, name: "Mobile" }]}
@@ -295,10 +213,10 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
 
                 <SelectInput
                     label="InstalledAt"
- 
+
                     value={installedAt}
                     onChange={setInstalledAt}
-                    options={[{ uid: "BRIDGE", value: "BRIDGE", name: "Bridge" }, { uid: "CROSSING", value: "CROSSING", name: "Crossing" },{ uid: "TRACK", value: "TRACK", name: "Track" }]}
+                    options={[{ uid: "BRIDGE", value: "BRIDGE", name: "Bridge" }, { uid: "CROSSING", value: "CROSSING", name: "Crossing" }, { uid: "TRACK", value: "TRACK", name: "Track" }]}
                     required={true}
                 />
 
@@ -313,9 +231,9 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
                 }
 
 
-<SelectInput
+                <SelectInput
                     label="Line"
-    
+
                     value={isOnSingle}
                     onChange={setIsOnSingle}
                     options={[{ uid: true, value: true, name: "Single" }, { uid: false, value: false, name: "double" }]}
@@ -333,13 +251,8 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
                         setKm('');
                         setMobileNumber('');
                         setLongitude('');
-                        setZone('');
-                        setDivision('');
-                        setSection('');
                         setlattitude('');
 
-                        setStartDate('');
-                        setEndDate('');
                     }}>Reset</PrimaryButton>
                     <PrimaryButton type={'submit'} className='w-24 text-lg'>Save</PrimaryButton>
                 </div>

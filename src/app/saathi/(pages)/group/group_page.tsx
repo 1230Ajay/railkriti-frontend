@@ -3,26 +3,28 @@ import React, { useEffect, useState } from 'react';
 import { TbListDetails } from 'react-icons/tb';
 import { BsFileEarmarkPdfFill, BsFillPrinterFill } from 'react-icons/bs';
 import { RiFileExcel2Fill } from 'react-icons/ri';
-import { toast } from 'react-toastify';
 import { PrimaryButton } from '@/components/buttons/primarybutton';
 import Modal from '@/components/pop-ups/AddPopUp';
-import NavBar from '@/components/nav/navbar';
 import AddGroupForm from '@/components/forms/saathi/group/addGroup';
 import UpdateGroupForm from '@/components/forms/saathi/group/updateGroup';
 import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
-import { Titles } from '@/lib/data/title';
-import { MdKeyboardBackspace } from 'react-icons/md';
 import { HeaderTile } from '@/components/headers/header.tile';
 import HeaderTable from '@/components/headers/header.table';
 import { SaathiGroupTableHeaderData } from '@/lib/data/saathi/data.group-header';
 import TableRow from '@/components/tiles/tile.table-row';
-import { CgToggleOff } from 'react-icons/cg';
+import { InstalledAt } from '../../emums/enum.installed.at';
 
 interface Group {
   uid: string;
   name: string;
   s_no: any;
+  section:any
+  section_name:string,
+  division_name:string,
+  zone_name:string
+  installed_at:any;
+  installed_at_val:any;
 }
 
 const GroupPage: React.FC = (): JSX.Element => {
@@ -31,7 +33,7 @@ const GroupPage: React.FC = (): JSX.Element => {
   const [updateDevicePopUpState, setUpdateDevicePopUpState] = useState(false);
   const [selectedDevice, setSelectedDevice] = useState<Group | null>(null);
 
-  const [devices, setDevices] = useState<Group[]>([]);
+  const [groups, setDevices] = useState<Group[]>([]);
 
   useEffect(() => {
     getDevice();
@@ -47,21 +49,26 @@ const GroupPage: React.FC = (): JSX.Element => {
     }
   };
 
-  const filteredDevices = devices.filter(device =>
-    device.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredDevices = groups.filter(group =>
+    group.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const openUpdateForm = (device: Group) => {
-    setSelectedDevice(device);
+  const openUpdateForm = (group: Group) => {
+    setSelectedDevice(group);
     setUpdateDevicePopUpState(true);
   };
 
 
   const columns = [
 
-    { name: "Bridge No", key: "s_no", className: "text-start" },
-    { name: "River", key: "name", className: "text-start uppercase" },
-    { name: "Mobile", key: "uid", className: "text-start uppercase" },
+    { name: "", key: "s_no", className: "text-start" },
+    { name: "", key: "name", className: "text-start uppercase" },
+    { name: "", key: "installed_at_val", className: "text-start uppercase" },
+    { name: "", key: "disable_duration", className: "text-start uppercase" },
+    { name: "", key: "section_name", className: "text-start uppercase" },
+    { name: "", key: "division_name", className: "text-start uppercase" },
+    { name: "", key: "zone_name", className: "text-start uppercase" },
+    
   ];
 
 
@@ -78,13 +85,18 @@ const GroupPage: React.FC = (): JSX.Element => {
         <HeaderTable columns={SaathiGroupTableHeaderData} />
 
         <div className='text-white rounded-md overflow-y-auto min-w-[720px] pb-4'>
-          {filteredDevices.map((device, index) => {
-            device.s_no = index + 1;
+          {filteredDevices.map((group, index) => {
+            group.s_no = index + 1;
+            group.section_name = group?.section?.sectional_code;
+            group.division_name = group?.section?.division?.divisional_code;
+            group.zone_name = group?.section?.division?.zone?.zonal_code;
+            group.installed_at_val = group?.installed_at && InstalledAt[group.installed_at as keyof typeof InstalledAt] 
+            ? InstalledAt[group.installed_at as keyof typeof InstalledAt] as InstalledAt : "";
             return (
-              <TableRow data={device} columns={columns} actions={[
+              <TableRow data={group} columns={columns} actions={[
                 {
                   icon: <TbListDetails className=' bg-white text-green-500 w-12 rounded-full py-1 text-2xl' />,
-                  onClick: () => openUpdateForm(device)
+                  onClick: () => openUpdateForm(group)
                 }
               ]} />
             )

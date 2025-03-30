@@ -24,7 +24,7 @@ import TableRow from '@/components/tiles/tile.table-row';
 
 interface Device {
   is_on_track: any;
-  location: any;
+  lc: any;
   uid: string;
   mobile_no: string;
   km: string,
@@ -77,7 +77,7 @@ const DevicePage: React.FC = (): JSX.Element => {
   };
 
   const filteredDevices = devices.filter(device =>
-    device.location.toLowerCase().includes(searchTerm.toLowerCase())
+    device.lc.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const openUpdateForm = (device: Device) => {
@@ -104,13 +104,14 @@ const DevicePage: React.FC = (): JSX.Element => {
 
 
   const columns = [
-    { name: 'S. No.', key: "s_no", className: "text-start" },
-    { name: "River", key: "location", className: "text-start" },
-    { name: "Bridge No", key: "km", className: "text-start" },
-    { name: "Mobile", key: "mobile_no", className: "text-start" },
-    { name: "Section", key: "section_name", className: "text-center" },
-    { name: "Division", key: "division_name", className: "text-center" },
-    { name: "Zone", key: "zone_name", className: "text-center" },
+    { name: 'S', key: "s_no", className: "text-start" },
+    { name: "", key: "lc", className: "text-start uppercase" },
+    { name: "", key: "btw_stn", className: "text-start uppercase" },
+    { name: "", key: "km", className: "text-start uppercase" },
+    { name: "", key: "mobile_no", className: "text-start" },
+    { name: "", key: "section_name", className: "text-center" },
+    { name: "", key: "division_name", className: "text-center" },
+    { name: "", key: "zone_name", className: "text-center" },
   ];
 
 

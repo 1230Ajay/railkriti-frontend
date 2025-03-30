@@ -14,7 +14,7 @@ interface VinimayUpdateFormProps {
 
 const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onClose }) => {
   const [imeiNumber, setImeiNumber] = useState('');
-  const [location, setLocation] = useState('');
+  const [lc, setLc] = useState('');
   const [km, setKm] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
   const [longitude, setLongitude] = useState('');
@@ -29,7 +29,8 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
   const [zoneOptions, setZoneOptions] = useState([]);
   const [divisionOptions, setDivisionOptions] = useState([]);
   const [sectionOptions, setSectionOptions] = useState([]);
-
+  const [btw_stn, setBtwStn] = useState('');
+  const [is_ctrt, setIsCtrt] = useState<any>("true")
 
   useEffect(() => {
     fetchZones();
@@ -50,8 +51,10 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
   useEffect(() => {
     if (device) {
       setImeiNumber(device.imei);
-      setLocation(device.location);
+      setLc(device.lc);
       setKm(device.km);
+      setBtwStn(device.btw_stn);
+      setIsCtrt(device.is_ctrt.toString());
       setMobileNumber(device.mobile_no);
       setLongitude(device.longitude);
       setLatitude(device.lattitude);
@@ -61,7 +64,7 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
       setIsOnTrack(device.is_on_track)
       setStartDate(new Date(device.start_date).toISOString().split('T')[0]); // Format date as YYYY-MM-DD
       setEndDate(new Date(device.end_date).toISOString().split('T')[0]); // Format date as YYYY-MM-DD
-
+    
     }
   }, [device]);
 
@@ -96,10 +99,12 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
     event.preventDefault();
 
     const formData = {
-  
       imei: imeiNumber,
       section_uid: section,
       km: km,
+      is_ctrt :is_ctrt ==="true"?true:false,
+      lc,
+      btw_stn,
       lattitude: latitude,
       longitude,
       mobile_no: mobileNumber,
@@ -131,29 +136,47 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
 
         <TextInput
-          label="location"
- 
-          value={location}
-          onChange={setLocation}
+          label="lc"
+
+          value={lc}
+          onChange={setLc}
           required
         />
         <TextInput
           label="Km"
-    
+
           value={km}
           onChange={setKm}
           required
         />
+
+        <TextInput
+          label="btw_stn"
+
+          value={btw_stn}
+          onChange={setBtwStn}
+          required
+        />
+
+        <SelectInput
+          label="OTRT/CTRT"
+          value={is_ctrt}
+          onChange={setIsCtrt}
+          options={[{ uid: true, value: true, name: "CTRT" }, { uid: false, value: false, name: "OTRT" }]}
+          required={true}
+        />
+
+
         <TextInput
           label="Mobile Number"
- 
+
           value={mobileNumber}
           onChange={setMobileNumber}
           required
         />
         <TextInput
           label="IMEI Number"
- 
+
           value={imeiNumber}
           onChange={setImeiNumber}
           required
@@ -184,7 +207,7 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
         />
         <SelectInput
           label="Division"
-    
+
           value={division}
           onChange={setDivision}
           options={divisionOptions}
@@ -192,7 +215,7 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
         />
         <SelectInput
           label="Section"
-     
+
           value={section}
           onChange={setSection}
           options={sectionOptions}
@@ -201,14 +224,14 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
 
         <TextInput
           label="Latitude"
-  
+
           value={latitude}
           onChange={setLatitude}
           required
         />
         <TextInput
           label="Longitude"
- 
+
           value={longitude}
           onChange={setLongitude}
           required
@@ -219,7 +242,7 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
           <PrimaryButton type={'button'} className='w-24 text-lg' onClick={onClose}>Cancel</PrimaryButton>
           <PrimaryButton type={'reset'} className='w-24 text-lg' onClick={() => {
             setImeiNumber('');
-            setLocation('');
+            setLc('');
             setKm('');
             setMobileNumber('');
             setLongitude('');
