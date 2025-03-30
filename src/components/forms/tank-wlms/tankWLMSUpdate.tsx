@@ -216,7 +216,7 @@ const TankWLMSDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose
         />
         <SelectInput
           label="Reading Interval"
-       
+
           value={readingInterval}
           onChange={setReadingInterval}
           options={readingIntervalOptions}
@@ -265,17 +265,14 @@ const TankWLMSDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose
         />
 
 
-          <div className=' md:col-span-2 lg:col-span-3 space-x-8 flex  mt-4  justify-end'>
-            <PrimaryButton type="submit" >
-              {loading ? 'Updating...' : 'Update Device'}
-            </PrimaryButton>
-            <PrimaryButton type="button" onClick={handleReset} className='bg-red-600'>
-              Reset
-            </PrimaryButton>
-            <PrimaryButton type="button" onClick={onClose} className='bg-gray-600'>
-              Cancel
-            </PrimaryButton>
-          </div>
+        <div className=' md:col-span-2 lg:col-span-3 space-x-8 flex  mt-4  justify-end'>
+          <PrimaryButton type="button" onClick={onClose} className='bg-gray-600'>
+            Cancel
+          </PrimaryButton>
+          <PrimaryButton type="submit" >
+            {loading ? 'Updating...' : 'Update Device'}
+          </PrimaryButton>
+        </div>
 
       </form>
     </div>

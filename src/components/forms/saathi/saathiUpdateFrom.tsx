@@ -348,21 +348,6 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
 
                 <div className=' md:col-span-2 lg:col-span-3 space-x-8 flex  mt-4  justify-end'>
                     <PrimaryButton type={'button'} className='w-24 text-lg' onClick={onClose}>Cancel</PrimaryButton>
-                    <PrimaryButton type={'reset'} className='w-24 text-lg' onClick={() => {
-
-                        setImeiNumber('');
-                        setName('');
-                        setKm('');
-                        setMobileNumber('');
-                        setLongitude('');
-                        setZone('');
-                        setDivision('');
-                        setSection('');
-                        setlattitude('');
-
-                        setStartDate('');
-                        setEndDate('');
-                    }}>Reset</PrimaryButton>
                     <PrimaryButton type={'submit'} className='w-24 text-lg'>Update</PrimaryButton>
                 </div>
             </form>

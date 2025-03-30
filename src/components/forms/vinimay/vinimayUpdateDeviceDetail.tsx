@@ -240,21 +240,6 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
 
         <div className='flex items-center w-full lg:col-span-3 mt-4 justify-center xl:justify-end space-x-8'>
           <PrimaryButton type={'button'} className='w-24 text-lg' onClick={onClose}>Cancel</PrimaryButton>
-          <PrimaryButton type={'reset'} className='w-24 text-lg' onClick={() => {
-            setImeiNumber('');
-            setLc('');
-            setKm('');
-            setMobileNumber('');
-            setLongitude('');
-            setLatitude('');
-
-            setStartDate('');
-            setEndDate('');
-
-            setZone('');
-            setDivision('');
-            setSection('');
-          }}>Reset</PrimaryButton>
           <PrimaryButton type={'submit'} className='w-24 text-lg'>Update</PrimaryButton>
         </div>
       </form>

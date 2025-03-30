@@ -215,8 +215,6 @@ const TRWLMSUpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: (
             </div>
             <div className=' w-full flex justify-end gap-x-4 py-4'>
                 <PrimaryButton onClick={onClose} >Cancel</PrimaryButton>
-                <PrimaryButton onClick={handleDelete} >Delete</PrimaryButton>
-
                 <PrimaryButton onClick={handleSubmit} >Update</PrimaryButton>
             </div>
         </div>

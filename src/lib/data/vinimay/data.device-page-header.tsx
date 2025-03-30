@@ -4,7 +4,7 @@ export const VinimayDeviceTableHeaderData = [
         className: "text-start"
     },
     {
-        name: "Location",
+        name: "LC",
         className: "text-start"
     },
     {

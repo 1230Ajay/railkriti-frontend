@@ -154,23 +154,7 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
     }
   };
 
-  const handleReset = () => {
-    setImeiNumber('');
-    setRiverName('');
-    setBridgeNumber('');
-    setMobileNumber('');
-    setLongitude('');
-    setLatitude('');
-    setReadingInterval('');
-    setStartDate('');
-    setEndDate('');
-    setRailLevel('');
-    setDangerLevel('');
-    setSensorLevel('');
-    setZone('');
-    setDivision('');
-    setSection('');
-  };
+
 
   return (
     <div className='rounded-md h-fit pb-8'>
@@ -288,15 +272,14 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
           required
         />
         <div className='flex items-center w-full lg:col-span-3 mt-4 justify-center xl:justify-end space-x-8'>
-          <PrimaryButton type="submit" >
-            {loading ? 'Updating...' : 'Update Device'}
-          </PrimaryButton>
-          <PrimaryButton type="button" onClick={handleReset} className='bg-red-600'>
-            Reset
-          </PrimaryButton>
-          <PrimaryButton type="button" onClick={onClose} className='bg-gray-600'>
+        <PrimaryButton type="button" onClick={onClose} className='bg-gray-600'>
             Cancel
           </PrimaryButton>
+          <PrimaryButton type="submit" >
+            {loading ? 'Updating...' : 'Update'}
+          </PrimaryButton>
+
+
         </div>
       </form>
     </div>

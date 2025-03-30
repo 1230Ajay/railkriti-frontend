@@ -225,7 +225,7 @@ const UpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => v
                                     <option value="">Select Device</option>
                                     {devices.map(device => (
                                         <option key={device.uid} className='text-white capitalize' value={device.uid}>
-                                            {`${device.location} (${device.km})`}
+                                            {`${device.river_name} (${device.bridge_no})`}
                                         </option>
                                     ))}
                                 </select>
@@ -282,8 +282,7 @@ const UpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => v
             </div>
             <div className=' w-full flex justify-end gap-x-4 py-4'>
                 <PrimaryButton onClick={onClose} >Cancel</PrimaryButton>
-                <PrimaryButton onClick={handleDelete} >Delete</PrimaryButton>
-
+                {/* <PrimaryButton onClick={handleDelete} >Delete</PrimaryButton> */}
                 <PrimaryButton onClick={handleSubmit} >Update</PrimaryButton>
             </div>
         </div>

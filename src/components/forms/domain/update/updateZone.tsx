@@ -70,7 +70,6 @@ const UpdateZoneForm: React.FC<UpdateZoneFormProps> = ({ data, onClose = () => {
         <PrimaryButton type="submit" className='w-24 text-lg'>
           Update
         </PrimaryButton>
-      
       </div>
     </form>
   );

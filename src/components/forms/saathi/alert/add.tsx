@@ -301,7 +301,7 @@ const AddAlert:React.FC<AddAlertProps> = ({ onClose = () => { } ,showRx }) => {
         </div>
         <div className='flex justify-end  pb-4 gap-x-8 mt-2'>
           <PrimaryButton className='w-24' onClick={() => onClose()}>
-            Close
+            Cancel
           </PrimaryButton>
           <PrimaryButton className='w-24' onClick={() => { resetForm(); }}>
             Reset

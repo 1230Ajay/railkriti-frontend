@@ -294,14 +294,12 @@ const RailTaapDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose
           required={true}
         />
         <div className=' md:col-span-2 lg:col-span-3 space-x-8 flex  mt-4  justify-end'>
-          <PrimaryButton type="submit" >
-            {loading ? 'Updating...' : 'Update Device'}
-          </PrimaryButton>
-          <PrimaryButton type="button" onClick={handleReset} className='bg-red-600'>
-            Reset
-          </PrimaryButton>
+
           <PrimaryButton type="button" onClick={onClose} className='bg-gray-600'>
             Cancel
+          </PrimaryButton>
+          <PrimaryButton type="submit" >
+            {loading ? 'Updating...' : 'Update Device'}
           </PrimaryButton>
         </div>
       </form>

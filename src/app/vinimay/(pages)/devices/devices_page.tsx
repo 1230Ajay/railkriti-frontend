@@ -106,8 +106,8 @@ const DevicePage: React.FC = (): JSX.Element => {
   const columns = [
     { name: 'S', key: "s_no", className: "text-start" },
     { name: "", key: "lc", className: "text-start uppercase" },
-    { name: "", key: "btw_stn", className: "text-start uppercase" },
     { name: "", key: "km", className: "text-start uppercase" },
+    { name: "", key: "btw_stn", className: "text-start uppercase" },
     { name: "", key: "mobile_no", className: "text-start" },
     { name: "", key: "section_name", className: "text-center" },
     { name: "", key: "division_name", className: "text-center" },

@@ -63,8 +63,8 @@ const AlertForm = ({ onClose = () => { } }) => {
 
   const fetchDevices = async () => {
     try {
-      const response = await fetch(`${conf.BR_WLMS}/api/device`);
-      const data = await response.json();
+      const response = await myIntercepter.get(`${conf.BR_WLMS}/api/device`);
+      const data = await response.data;
       setDevices(data);
       setLoading(false);
     } catch (error) {
@@ -133,15 +133,9 @@ const AlertForm = ({ onClose = () => { } }) => {
         sms_update: smsChecked,
       };
 
-      const response = await fetch(`${conf.BR_WLMS}/api/alerts`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(alertData),
-      });
+      const response = await myIntercepter.post(`${conf.BR_WLMS}/api/alerts`,alertData);
 
-      if (response.ok) {
+      if (response) {
         await fetchDevices(); // Refresh devices if necessary
         await fetchAlerts();  // Fetch updated alerts
 
@@ -327,7 +321,7 @@ const AlertForm = ({ onClose = () => { } }) => {
         </div> */}
         <div className='flex justify-end  pb-4 gap-x-8 mt-2'>
           <PrimaryButton className='w-24' onClick={() => onClose()}>
-            Close
+            Cancle
           </PrimaryButton>
           <PrimaryButton className='w-24' onClick={() => { resetForm(); }}>
             Reset
