@@ -231,17 +231,6 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
                 }
 
 
-                <SelectInput
-                    label="Line"
-
-                    value={isOnSingle}
-                    onChange={setIsOnSingle}
-                    options={[{ uid: true, value: true, name: "Single" }, { uid: false, value: false, name: "double" }]}
-                    required={true}
-                />
-
-
-
                 <div className='flex items-center w-full lg:col-span-3 mt-4 justify-center xl:justify-end space-x-8'>
                     <PrimaryButton type={'button'} className='w-24 text-lg' onClick={onClose}>Cancel</PrimaryButton>
                     <PrimaryButton type={'reset'} className='w-24 text-lg' onClick={() => {

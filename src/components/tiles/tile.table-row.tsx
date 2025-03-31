@@ -11,11 +11,11 @@ const TableRow: React.FC<TableRowProps> = ({ data, columns, actions }) => {
 
   return (
     <div
-      className="grid text-center min-w-[720px] text-xs md:text-base border-b border-gray-600 items-center py-2"
+      className="grid text-center min-w-[720px] text-xs md:text-base border-b border-gray-600 items-center p-2"
       style={{ gridTemplateColumns: `repeat(${totalColumns}, minmax(0, 1fr))` }} // Dynamic columns
     >
       {columns.map((col, index) => (
-        <p key={index} className={`px-2 py-1 ${col.className || ""}`}>
+        <p key={index} className={` ${col.className || ""}`}>
           {col.key === "is_online" ? (
             <span className={`px-4 py-1 rounded-full uppercase font-bold ${data[col.key] ? "bg-green-500" : "bg-red-500"}`}>
               {data[col.key] ? "Online" : "Offline"}

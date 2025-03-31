@@ -4,11 +4,11 @@ export const VinimayLogTableHeaderData =  [
         className: "text-start"
     },
     {
-        name: "Time",
+        name: "Date",
         className: ""
     },
     {
-        name: "Date",
+        name: "Time",
         className: ""
     },
     {
@@ -20,12 +20,13 @@ export const VinimayLogTableHeaderData =  [
         className: ""
     },
     {
-        name: "Device Status",
-        className: ""
-    },
-    {
         name: "Message",
         className: ""
     },
+    {
+        name: "Device Status",
+        className: ""
+    },
+
 
 ];

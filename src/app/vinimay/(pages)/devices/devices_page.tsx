@@ -116,7 +116,7 @@ const DevicePage: React.FC = (): JSX.Element => {
 
 
   return (
-    <div className=' grid  grid-rows-[auto_1fr] '>
+    <div className=' h-[calc(100vh-80px)] grid  grid-rows-[auto_1fr] '>
 
       <HeaderTile title="Vinimay Devices" onSearchChange={setSearchTerm} actions={[
         { icon: <PrimaryButton >Add</PrimaryButton>, onClick: () => setAddDevicePopUpState(true) },
@@ -125,7 +125,7 @@ const DevicePage: React.FC = (): JSX.Element => {
         { icon: <BsFillPrinterFill className="bg-blue-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Print") },
       ]} />
 
-      <div className="bg-black  mx-4 mb-4  overflow-scroll no-scrollbar px-4 rounded-b-md">
+      <div className="bg-black   mx-4 mb-4  overflow-scroll no-scrollbar px-4 rounded-b-md">
         <HeaderTable columns={VinimayDeviceTableHeaderData} />
         <div className='text-white rounded-md overflow-y-auto min-w-[720px] pb-4'>
           {filteredDevices.map((device, index) => {

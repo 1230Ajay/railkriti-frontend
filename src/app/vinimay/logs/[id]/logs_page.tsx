@@ -31,7 +31,7 @@ interface Log {
 interface Device {
 
   uid: string;
-  location: string;
+  lc: string;
   km: string;
   device_logs: Log[];
 }
@@ -82,19 +82,18 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
   
   const columns = [
     { name: 'S. No.', key: "s_no", className: "text-start" },
-    { name: 'S. No.', key: "time", className: "text-center" },
     { name: 'S. No.', key: "date", className: "text-center" },
+    { name: 'S. No.', key: "time", className: "text-center" },
     { name: 'S. No.', key: "button_pressed", className: "text-center" },
     { name: 'S. No.', key: "pn", className: "text-center" },
-    { name: 'S. No.', key: "is_online", className: "" },
     { name: 'S. No.', key: "message", className: "text-center" },
-
+    { name: 'S. No.', key: "is_online", className: "" }
   ]
 
   return (
     <div className=" grid h-screen w-screen grid-rows-[auto_auto_1fr]  ">
       <NavBar disableMenuBar={true} title={Titles.VinimayTitle}  />
-      <HeaderTile title={`LOGS ${logs?.location} (${logs?.km})`} actions={[{ icon: <RiFileExcel2Fill className="bg-green-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export Excel") },
+      <HeaderTile title={`LOGS ${logs?.lc} (${logs?.km})`} actions={[{ icon: <RiFileExcel2Fill className="bg-green-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export Excel") },
       { icon: <BsFileEarmarkPdfFill className="bg-red-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export PDF") },
       { icon: <BsFillPrinterFill className="bg-blue-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Print") },]} />
 

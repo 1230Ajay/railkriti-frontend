@@ -26,6 +26,6 @@ export class Titles{
 
      static  VinimayTitle ={
       titleSm:"Vinimay",
-      titleXl:"Vinimay - PN Genrator"
+      titleXl:"VINIMAY- PN Generator System"
    } 
 }

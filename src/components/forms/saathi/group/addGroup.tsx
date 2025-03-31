@@ -22,7 +22,7 @@ const AddGroupForm: React.FC<AddGroupProps> = ({ onClose }) => {
     const [zone, setZone] = useState('');
     const [division, setDivision] = useState('');
     const [disable_duration, setDisableDuration] = useState(5);
-
+    const [isOnSingle, setIsOnSingle] = useState('false');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     // Convert enum to options for SelectInput
@@ -74,6 +74,7 @@ const AddGroupForm: React.FC<AddGroupProps> = ({ onClose }) => {
             disable_duration,
             start_date: new Date(startDate).toISOString(),
             end_date: new Date(endDate).toISOString(),
+            is_single_line: isOnSingle === "true" ? true : false
         };
 
         try {
@@ -140,12 +141,22 @@ const AddGroupForm: React.FC<AddGroupProps> = ({ onClose }) => {
                 />
 
                 <SelectInput
+                    label="Line"
+
+                    value={isOnSingle}
+                    onChange={setIsOnSingle}
+                    options={[{ uid: true, value: true, name: "Single" }, { uid: false, value: false, name: "double" }]}
+                    required={true}
+                />
+
+
+              {  isOnSingle =="true"?<SelectInput
                     label="Disable Duration"
                     value={disable_duration}
                     onChange={setDisableDuration}
                     options={disableDurationOptions}
                     required={true}
-                />
+                />:null}
 
                 <SelectInput
                     label="Zone"
@@ -185,6 +196,8 @@ const AddGroupForm: React.FC<AddGroupProps> = ({ onClose }) => {
                     onChange={setEndDate}
                     required={true}
                 />
+
+
 
                 <div className='flex items-center w-full lg:col-span-3 mt-4 justify-center xl:justify-end space-x-8'>
                     <PrimaryButton type={'button'} className='w-24 text-lg' onClick={onClose}>Cancel</PrimaryButton>

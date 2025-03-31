@@ -25,6 +25,8 @@ interface Group {
   zone_name:string
   installed_at:any;
   installed_at_val:any;
+  disable_duration:any;
+  is_single_line:boolean;
 }
 
 const GroupPage: React.FC = (): JSX.Element => {
@@ -64,7 +66,7 @@ const GroupPage: React.FC = (): JSX.Element => {
     { name: "", key: "s_no", className: "text-start" },
     { name: "", key: "name", className: "text-start uppercase" },
     { name: "", key: "installed_at_val", className: "text-start uppercase" },
-    { name: "", key: "disable_duration", className: "text-start uppercase" },
+    { name: "", key: "disable_duration", className: "text-center uppercase" },
     { name: "", key: "section_name", className: "text-start uppercase" },
     { name: "", key: "division_name", className: "text-start uppercase" },
     { name: "", key: "zone_name", className: "text-start uppercase" },
@@ -90,6 +92,7 @@ const GroupPage: React.FC = (): JSX.Element => {
             group.section_name = group?.section?.sectional_code;
             group.division_name = group?.section?.division?.divisional_code;
             group.zone_name = group?.section?.division?.zone?.zonal_code;
+            group.disable_duration = group.is_single_line?group.disable_duration:"--:--";
             group.installed_at_val = group?.installed_at && InstalledAt[group.installed_at as keyof typeof InstalledAt] 
             ? InstalledAt[group.installed_at as keyof typeof InstalledAt] as InstalledAt : "";
             return (
@@ -105,13 +108,13 @@ const GroupPage: React.FC = (): JSX.Element => {
       </div>
 
       <Modal isOpen={addDevicePopUpState}>
-        <div className='w-fit bg-black overflow-y-scroll no-scrollbar rounded-md px-8 pt-4 pb-8 lg:pb-0'>
+        <div className='w-[80vw] bg-black overflow-y-scroll no-scrollbar rounded-md px-8 pt-4 pb-8 lg:pb-0'>
           <AddGroupForm onClose={() => setAddDevicePopUpState(false)} />
         </div>
       </Modal>
 
       <Modal isOpen={updateDevicePopUpState}>
-        <div className='w-fit bg-black overflow-y-scroll no-scrollbar rounded-md px-8 pt-4 pb-8 lg:pb-0'>
+        <div className='w-[80vw] bg-black overflow-y-scroll no-scrollbar rounded-md px-8 pt-4 pb-8 lg:pb-0'>
           {selectedDevice && <UpdateGroupForm group={selectedDevice} onClose={() => setUpdateDevicePopUpState(false)} />}
         </div>
       </Modal>

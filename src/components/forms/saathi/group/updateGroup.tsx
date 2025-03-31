@@ -7,6 +7,7 @@ import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import SelectInput from '@/components/text-fields/SelectInput';
 import { InstalledAt } from '@/app/saathi/emums/enum.installed.at';
+import DateInput from '@/components/text-fields/DateInput';
 
 interface UpdateGroupFormProp {
     group: any;
@@ -23,7 +24,9 @@ const UpdateGroupForm: React.FC<UpdateGroupFormProp> = ({ group, onClose }) => {
     const [zone, setZone] = useState('');
     const [division, setDivision] = useState('');
     const [disable_duration, setDisableDuration] = useState(5);
-
+    const [isOnSingle, setIsOnSingle] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     // Convert enum to options for SelectInput
     const installedAtOptions = Object.keys(InstalledAt)
         .filter(key => isNaN(Number(key))) // Filter out numeric keys
@@ -52,6 +55,9 @@ const UpdateGroupForm: React.FC<UpdateGroupFormProp> = ({ group, onClose }) => {
         setDivision(group.section.division.uid);
         setSection(group.section.uid);
         setDisableDuration(group.disable_duration);
+        setIsOnSingle(group.is_single_line.toString());
+        setStartDate(new Date(group.start_date).toISOString().split('T')[0]); // Format date as YYYY-MM-DD
+        setEndDate(new Date(group.end_date).toISOString().split('T')[0]); // Format date as YYYY-MM-DD
     }, [])
 
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
@@ -61,7 +67,8 @@ const UpdateGroupForm: React.FC<UpdateGroupFormProp> = ({ group, onClose }) => {
             name: name,
             section_uid: section,
             installed_at: installedAt,
-            disable_duration:Number(disable_duration),
+            disable_duration: Number(disable_duration),
+            is_single_line: isOnSingle === "true" ? true : false
         };
 
         try {
@@ -147,12 +154,21 @@ const UpdateGroupForm: React.FC<UpdateGroupFormProp> = ({ group, onClose }) => {
                 />
 
                 <SelectInput
+                    label="Line"
+                    value={isOnSingle}
+                    onChange={setIsOnSingle}
+                    options={[{ uid: true, value: true, name: "Single" }, { uid: false, value: false, name: "double" }]}
+                    required={true}
+                />
+
+
+                {isOnSingle == "true" ? <SelectInput
                     label="Disable Duration"
                     value={disable_duration}
                     onChange={setDisableDuration}
                     options={disableDurationOptions}
                     required={true}
-                />
+                /> : null}
 
                 <SelectInput
                     label="Zone"
@@ -177,6 +193,22 @@ const UpdateGroupForm: React.FC<UpdateGroupFormProp> = ({ group, onClose }) => {
                     options={sectionOptions}
                     required={true}
                 />
+
+                <DateInput
+                    label="Start Date"
+                    htmlFor="startDate"
+                    value={startDate}
+                    onChange={setStartDate}
+                    required={true}
+                />
+                <DateInput
+                    label="End Date"
+                    htmlFor="endDate"
+                    value={endDate}
+                    onChange={setEndDate}
+                    required={true}
+                />
+
 
                 <div className='flex items-center w-full lg:col-span-3 mt-4 justify-center xl:justify-end space-x-8'>
                     <PrimaryButton type={'button'} className='w-24 text-lg' onClick={onClose}>Cancel</PrimaryButton>

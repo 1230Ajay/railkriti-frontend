@@ -62,15 +62,17 @@ const Dashboard: React.FC = (): JSX.Element => {
       const columns = [
         { name: "", key: "s_no", className: "text-start uppercase" },
         { name: "", key: "lc", className: "text-start uppercase" },
+        { name: "", key: "btw_stn", className: "text-start uppercase" },
         { name: "", key: "type", className: "text-start uppercase" },
         { name: "", key: "km", className: "text-start uppercase" },
+        { name: "", key: "sensor_status" },
         { name: "", key: "is_online" },
     ];
 
     return (
         <div className="h-[calc(100vh-80px)] xl:grid grid-rows-[auto_auto_1fr] ">
             <DevicesStatics totalDevices={totalDevices} activeDevices={activeDevices} onlineDevices={onlineDevices} offlineDevices={offlineDevices} />
-            <HeaderTile title="BR Devices" onSearchChange={setSearchQuery} actions={[
+            <HeaderTile title="Devices" onSearchChange={setSearchQuery} actions={[
                 { icon: <RiFileExcel2Fill className="bg-green-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export Excel") },
                 { icon: <BsFileEarmarkPdfFill className="bg-red-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export PDF") },
                 { icon: <BsFillPrinterFill className="bg-blue-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Print") },

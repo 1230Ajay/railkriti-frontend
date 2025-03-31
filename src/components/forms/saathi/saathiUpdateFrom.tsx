@@ -19,39 +19,19 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
     const [km, setKm] = useState('');
     const [mobileNumber, setMobileNumber] = useState('');
     const [longitude, setLongitude] = useState('');
-    const [zone, setZone] = useState('');
-    const [division, setDivision] = useState('');
     const [group, setGroup] = useState('')
-    const [section, setSection] = useState('');
     const [lattitude, setlattitude] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
     const [direction, setDirection] = useState('');
     const [deviceType, setDeviceType] = useState<any>(isTransmitter ? "true" : "false")
     const [systemType, setSystemType] = useState<any>("true")
     const [installedAt, setInstalledAt] = useState<any>("TRACK")
     const [groupOptions, setGroupOptions] = useState([])
-    const [zoneOptions, setZoneOptions] = useState([]);
-    const [divisionOptions, setDivisionOptions] = useState([]);
-    const [sectionOptions, setSectionOptions] = useState([]);
-    const [isOnSingle,setIsOnSingle] = useState('');
+ 
 
     useEffect(() => {
-        fetchZones();
         fetchGroups();
     }, []);
 
-    useEffect(() => {
-        if (zone) {
-            fetchDivisions(zone);
-        }
-    }, [zone]);
-
-    useEffect(() => {
-        if (division) {
-            fetchSections(division);
-        }
-    }, [division]);
 
 
     const fetchGroups = async () => {
@@ -82,43 +62,10 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
             setDirection(device.isUpside ? "true" : "false")
             setlattitude(device.lattitude)
             setSystemType(device.is_fixed.toString());
-            setZone(device.section.division.zone.uid);
-            setDivision(device.section.division.uid);
-            setSection(device.section.uid);
-            setStartDate(new Date(device.start_date).toISOString().split('T')[0]); // Format date as YYYY-MM-DD
-            setEndDate(new Date(device.end_date).toISOString().split('T')[0]); // Format date as YYYY-MM-DD
             setInstalledAt(device.installed_at);
-            setIsOnSingle(device.is_single_line? "true" : "false");
-     
         }
     }, [device]);
 
-    const fetchZones = async () => {
-        try {
-            const response = await myIntercepter.get(`${conf.LOCTION}/api/zone`);
-            setZoneOptions(response.data);
-        } catch (error) {
-            console.error('Error fetching zones:', error);
-        }
-    };
-
-    const fetchDivisions = async (zoneId: string) => {
-        try {
-            const response = await myIntercepter.get(`${conf.LOCTION}/api/zone/${zoneId}`);
-            setDivisionOptions(response.data.divisions);
-        } catch (error) {
-            console.error('Error fetching divisions:', error);
-        }
-    };
-
-    const fetchSections = async (divisionId: string) => {
-        try {
-            const response = await myIntercepter.get(`${conf.LOCTION}/api/division/${divisionId}`);
-            setSectionOptions(response.data.sections);
-        } catch (error) {
-            console.error('Error fetching sections:', error);
-        }
-    };
 
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
@@ -126,32 +73,26 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
         const formDataTx = {
             uid: device.uid,
             imei: imeiNumber,
-            section_uid: section,
             group_uid: group,
             lattitude: lattitude,
             longitude: longitude,
             mobile_no: mobileNumber,
             name: name,
-            start_date: new Date(startDate).toISOString(),
-            end_date: new Date(endDate).toISOString(),
             is_fixed: systemType === "true" ? true : false,
             isUpside: direction === "true" ? true : false,
             installed_at:installedAt,
-            is_single_line:isOnSingle ==="true"?true:false
+        
 
         };
 
         const formDataRx = {
             uid: device.uid,
             imei: imeiNumber,
-            section_uid: section,
             group_uid: group,
             lattitude: lattitude,
             longitude: longitude,
             mobile_no: mobileNumber,
             name: name,
-            start_date: new Date(startDate).toISOString(),
-            end_date: new Date(endDate).toISOString(),
             is_fixed: systemType === "true" ? true : false,
             installed_at:installedAt
 
@@ -233,50 +174,6 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
                     required
                 />
 
-
-
-
-
-                <DateInput
-                    label="Start Date"
-                    htmlFor="startDate"
-                    value={startDate}
-                    onChange={setStartDate}
-                    required={true}
-                />
-                <DateInput
-                    label="End Date"
-                    htmlFor="endDate"
-                    value={endDate}
-                    onChange={setEndDate}
-                    required={true}
-                />
-
-                <SelectInput
-                    label="Zone"
-        
-                    value={zone}
-                    onChange={setZone}
-                    options={zoneOptions}
-                    required={true}
-                />
-                <SelectInput
-                    label="Division"
-            
-                    value={division}
-                    onChange={setDivision}
-                    options={divisionOptions}
-                    required={true}
-                />
-                <SelectInput
-                    label="Section"
-           
-                    value={section}
-                    onChange={setSection}
-                    options={sectionOptions}
-                    required={true}
-                />
-
                 <TextInput
                     label="Lattitude"
            
@@ -292,8 +189,6 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
                     onChange={setLongitude}
                     required
                 />
-
-
 
                 <TextInput
                     label="DeviceType"
@@ -335,14 +230,6 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
                     /> : <div></div>
                 }
 
-                <SelectInput
-                    label="Line"
-    
-                    value={isOnSingle}
-                    onChange={setIsOnSingle}
-                    options={[{ uid: true, value: true, name: "Single" }, { uid: false, value: false, name: "double" }]}
-                    required={true}
-                />
 
 
 

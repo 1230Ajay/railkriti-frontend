@@ -4,7 +4,11 @@ export const VinimayDashboardTableHeaderData = [
         className: "text-start"
     },
     {
-        name: "LC",
+        name: "Level X-ing",
+        className: "text-start"
+    },
+    {
+        name: "Stations",
         className: "text-start"
     },
     {
@@ -16,9 +20,14 @@ export const VinimayDashboardTableHeaderData = [
         className: "text-start"
     },
     {
+        name: "Gate Status",
+        className: "text-center"
+    },
+    {
         name: "Status",
         className: "text-center"
     },
+
     {
         name: "GPS",
         className: ""

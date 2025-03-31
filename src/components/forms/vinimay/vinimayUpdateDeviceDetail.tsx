@@ -64,7 +64,7 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
       setIsOnTrack(device.is_on_track)
       setStartDate(new Date(device.start_date).toISOString().split('T')[0]); // Format date as YYYY-MM-DD
       setEndDate(new Date(device.end_date).toISOString().split('T')[0]); // Format date as YYYY-MM-DD
-    
+
     }
   }, [device]);
 
@@ -102,7 +102,7 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
       imei: imeiNumber,
       section_uid: section,
       km: km,
-      is_ctrt :is_ctrt ==="true"?true:false,
+      is_ctrt: is_ctrt === "true" ? true : false,
       lc,
       btw_stn,
       lattitude: latitude,
@@ -136,7 +136,7 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
 
         <TextInput
-          label="lc"
+          label="Level X-ing"
 
           value={lc}
           onChange={setLc}
@@ -151,7 +151,7 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
         />
 
         <TextInput
-          label="btw_stn"
+          label="Station b/w"
 
           value={btw_stn}
           onChange={setBtwStn}
@@ -159,7 +159,7 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
         />
 
         <SelectInput
-          label="OTRT/CTRT"
+          label="LC Type"
           value={is_ctrt}
           onChange={setIsCtrt}
           options={[{ uid: true, value: true, name: "CTRT" }, { uid: false, value: false, name: "OTRT" }]}
@@ -183,20 +183,7 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
         />
 
 
-        <DateInput
-          label="Start Date"
-          htmlFor="startDate"
-          value={startDate}
-          onChange={setStartDate}
-          required
-        />
-        <DateInput
-          label="End Date"
-          htmlFor="endDate"
-          value={endDate}
-          onChange={setEndDate}
-          required
-        />
+
         <SelectInput
           label="Zone"
 
@@ -234,6 +221,21 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
 
           value={longitude}
           onChange={setLongitude}
+          required
+        />
+
+        <DateInput
+          label="Start Date"
+          htmlFor="startDate"
+          value={startDate}
+          onChange={setStartDate}
+          required
+        />
+        <DateInput
+          label="End Date"
+          htmlFor="endDate"
+          value={endDate}
+          onChange={setEndDate}
           required
         />
 

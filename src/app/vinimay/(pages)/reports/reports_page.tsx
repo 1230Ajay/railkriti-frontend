@@ -18,7 +18,7 @@ interface Device {
   rail_level: any;
   reading_interval: any;
   section: any;
-  location: string;
+  lc: string;
   km: string;
 }
 
@@ -99,8 +99,8 @@ const Reports: React.FC = (): JSX.Element => {
   };
 
   const deviceOptions = devices.map(device => ({
-    value: device.location,
-    label: `${device.location} (${device.km})`
+    value: device.lc,
+    label: `${device.lc} (${device.km})`
   }));
 
   const convertUtcToIst = (utcDate: string | number | Date): string => {
@@ -122,20 +122,20 @@ const Reports: React.FC = (): JSX.Element => {
   return (
     <div className='grid grid-rows-[auto_auto_1fr] h-screen'>
       <div className="bg-black rounded-md p-4 mt-4 mx-4">
-        <h2 className='font-bold text-xl text-white uppercase pb-2'>Reports {selectedDevice?.location}</h2>
+        <h2 className='font-bold text-xl text-white uppercase pb-2'>Reports {selectedDevice?.lc}</h2>
         <div className="flex flex-col items-center lg:flex-row">
           <form onSubmit={(e) => e.preventDefault()} className="w-full grid md:grid-cols-2 gap-4 lg:grid-cols-4">
             {/* Bridge Select Input */}
             <div className="mb-4 w-full">
               <label htmlFor="logType" className="block text-white font-bold mb-2 ">
-                Location:
+                Level X-ing:
               </label>
               <div className='bg-gray-800 text-white  py-1 rounded-md pr-2'>
                 <select
                   id="device"
-                  value={selectedDevice ? selectedDevice.location : ''}
+                  value={selectedDevice ? selectedDevice.lc : ''}
                   onChange={(e) => {
-                    const device = devices.find(device => device.location === e.target.value) || null;
+                    const device = devices.find(device => device.lc === e.target.value) || null;
                     setSelectedDevice(device);
                   }}
                   className="w-full border-none text-white bg-gray-800  px-2 capitalize shadow-sm"
@@ -219,7 +219,7 @@ const Reports: React.FC = (): JSX.Element => {
         <div className='capitalize  font-bold'>
           <div className='flex '>
             <div className='flex-1'>km : <span className='font-normal'>{selectedDevice ? selectedDevice.km : ''}</span></div>
-            <div className='flex-1'>location : <span className='font-normal'>{selectedDevice ? selectedDevice.location : ''}</span></div>
+            <div className='flex-1'>Level X-ing : <span className='font-normal'>{selectedDevice ? selectedDevice.lc : ''}</span></div>
             <div className='w-56 text-end'>Mobile No : <span className='font-normal'>{selectedDevice ? selectedDevice.mobile_no : ''}</span></div>
           </div>
 

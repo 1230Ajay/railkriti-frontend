@@ -80,7 +80,7 @@ const VinimayDeviceReservationForm = ({ onClose = () => { } }) => {
       imei: imeiNumber,
       section_uid: section,
       km: km,
-      is_ctrt:is_ctrt ==="true"?true:false,
+      is_ctrt: is_ctrt === "true" ? true : false,
       btw_stn: btw_stn,
       lattitude: lattitude,
       longitude: longitude,
@@ -112,7 +112,7 @@ const VinimayDeviceReservationForm = ({ onClose = () => { } }) => {
       </div>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
         <TextInput
-          label="lc"
+          label="Level X-ing"
 
           value={lc}
           onChange={setLc}
@@ -127,11 +127,8 @@ const VinimayDeviceReservationForm = ({ onClose = () => { } }) => {
           required
         />
 
-
-
-
         <TextInput
-          label="btw_stn"
+          label="Station b/w"
 
           value={btw_stn}
           onChange={setBtwStn}
@@ -139,10 +136,10 @@ const VinimayDeviceReservationForm = ({ onClose = () => { } }) => {
         />
 
         <SelectInput
-          label="OTRT/CTRT"
+          label="LC Type"
           value={is_ctrt}
           onChange={setIsCtrt}
-          options={[{ uid: true, value: true, name: "CTRT" },{ uid: false, value: false, name: "OTRT" }]}
+          options={[{ uid: true, value: true, name: "CTRT" }, { uid: false, value: false, name: "OTRT" }]}
           required={true}
         />
 
@@ -162,20 +159,7 @@ const VinimayDeviceReservationForm = ({ onClose = () => { } }) => {
           required
         />
 
-        <DateInput
-          label="Start Date"
-          htmlFor="startDate"
-          value={startDate}
-          onChange={setStartDate}
-          required={true}
-        />
-        <DateInput
-          label="End Date"
-          htmlFor="endDate"
-          value={endDate}
-          onChange={setEndDate}
-          required={true}
-        />
+
 
         <SelectInput
           label="Zone"
@@ -218,6 +202,20 @@ const VinimayDeviceReservationForm = ({ onClose = () => { } }) => {
           required
         />
 
+        <DateInput
+          label="Start Date"
+          htmlFor="startDate"
+          value={startDate}
+          onChange={setStartDate}
+          required={true}
+        />
+        <DateInput
+          label="End Date"
+          htmlFor="endDate"
+          value={endDate}
+          onChange={setEndDate}
+          required={true}
+        />
 
         <div className='flex items-center w-full lg:col-span-3 mt-4 justify-center xl:justify-end space-x-8'>
           <PrimaryButton type={'button'} className='w-24 text-lg' onClick={onClose}>Cancel</PrimaryButton>
