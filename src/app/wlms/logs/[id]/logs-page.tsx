@@ -17,8 +17,8 @@ interface Log {
   uid: string;
   device_uid: string;
   battery: number;
-  level: number;
-  wl_msl: number;
+  level: any;
+  wl_msl: any;
   device_status: boolean;
   sensor_status: boolean;
   created_at: string;
@@ -126,6 +126,8 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
             {logs && logs.device_logs.length > 0 ? (
               logs.device_logs.map((log:Log, index) => {
                 log.s_no = index+1;
+                log.level = log.sensor_status?log.level:"--:--";
+                log.wl_msl = log.sensor_status?log.wl_msl:"--:--";
                 log.date = new Date(log.created_at).toLocaleDateString()
                 log.time = new Date(log.created_at).toLocaleTimeString()
                 log.is_online = log.device_status;

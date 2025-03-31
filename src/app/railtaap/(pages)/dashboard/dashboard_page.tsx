@@ -251,7 +251,7 @@ const Dashboard: React.FC = (): JSX.Element => {
     ]
 
     return (
-        <div className="h-[calc[100vh-80px]] xl:grid grid-rows-[auto_auto_auto_1fr] ">
+        <div className="h-[calc(100vh-80px)] xl:grid grid-rows-[auto_auto_1fr] ">
         
             <DevicesStatics totalDevices={totalDevices} activeDevices={activeDevices} onlineDevices={onlineDevices} offlineDevices={offlineDevices} />
 

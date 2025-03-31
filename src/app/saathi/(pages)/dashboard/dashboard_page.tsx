@@ -146,7 +146,7 @@ const Dashboard: React.FC = (): JSX.Element => {
 
 
     return (
-        <div className="h-[calc(100vh-80px)] xl:grid grid-rows-[auto_auto_auto_1fr] ">
+        <div className="h-[calc(100vh-80px)] xl:grid grid-rows-[auto_auto_1fr] ">
 
             <DevicesStatics totalDevices={totalDevice} activeDevices={activeDevices} onlineDevices={onlineDevices} offlineDevices={offlineDevices} />
             <HeaderTile title="Devices" onSearchChange={setSearchQuery} actions={[
@@ -164,7 +164,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                     
                     device.s_no = index+1;
                     device.sensor_status = device.is_online & device.sensor_status ;
-                    return (
+                    return  (
                      <TableRow data={device} columns={columns} actions={[
                         {
                             icon: <GrMapLocation />,
