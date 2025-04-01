@@ -321,16 +321,16 @@ const Dashboard: React.FC = (): JSX.Element => {
                 <div className=" flex items-center justify-center space-x-4">
                     <div className=" hidden lg:flex h-14  uppercase    gap-x-8 text-sm  font-semibold  items-center ">
                         <div className=" flex items-center space-x-2 x">
-                            <p>zone  :</p> <p className=" text-primary ml-2">{device.section.division.zone.zonal_code}</p>
+                            <p>zone  :</p> <p className=" text-primary ml-2">{device?.section?.division?.zone?.zonal_code}</p>
                         </div>
                         <div className=" flex items-center space-x-2 ">
-                            division : <p className=" text-primary ml-2">{device.section.division.name}</p>
+                            division : <p className=" text-primary ml-2">{device?.section?.division?.name}</p>
                         </div>
                         <div className="flex items-center space-x-2 ">
-                            section : <p className=" text-primary ml-2">{device.section.name}</p>
+                            section : <p className=" text-primary ml-2">{device?.section?.name}</p>
                         </div>
                         <div className=" flex items-center space-x-2 ">
-                            Meant Temp : <p className=" text-primary ml-2">{device.mean_temp}</p>
+                            Meant Temp : <p className=" text-primary ml-2">{device?.mean_temp}</p>
                         </div>
                         <div className="flex items-center space-x-2 ">
                             De Stress Temp : <p className=" text-primary ml-2">{device.de_stress_temp}</p>
