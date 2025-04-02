@@ -122,6 +122,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
                 log.date = new Date(log.created_at).toLocaleDateString()
                 log.time = new Date(log.created_at).toLocaleTimeString()
                 log.sensor_status = true;
+                /// -- SENSOR
                 return (
                   <TableRow data={log} columns={columns} actions={[
                     {
