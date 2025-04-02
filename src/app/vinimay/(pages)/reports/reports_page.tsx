@@ -105,9 +105,8 @@ const Reports: React.FC = (): JSX.Element => {
 
   const convertUtcToIst = (utcDate: string | number | Date): string => {
     const date = new Date(utcDate);
-    const offset = 5.5 * 60; // IST is UTC+5:30
-    const istDate = new Date(date.getTime() + offset * 60 * 1000);
-    return istDate.toLocaleString('en-IN', {
+
+    return date.toLocaleString('en-IN', {
       timeZone: 'Asia/Kolkata',
       hour12: false, // Use 24-hour format
       year: 'numeric',
