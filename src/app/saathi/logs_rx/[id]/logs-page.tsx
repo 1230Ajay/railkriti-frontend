@@ -121,7 +121,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
                 log.s_no = index + 1;
                 log.date = new Date(log.created_at).toLocaleDateString()
                 log.time = new Date(log.created_at).toLocaleTimeString()
-                log.sensor_status = log.hooter_status && log.device_status;
+                log.sensor_status = true;
                 return (
                   <TableRow data={log} columns={columns} actions={[
                     {
