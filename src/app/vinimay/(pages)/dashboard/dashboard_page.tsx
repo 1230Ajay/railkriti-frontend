@@ -65,7 +65,7 @@ const Dashboard: React.FC = (): JSX.Element => {
         { name: "", key: "btw_stn", className: "text-start uppercase" },
         { name: "", key: "type", className: "text-start uppercase" },
         { name: "", key: "km", className: "text-start uppercase" },
-        { name: "", key: "sensor_status" },
+        { name: "", key: "gate_status_t" },
         { name: "", key: "is_online" },
     ];
 
@@ -83,6 +83,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                 {filteredDevices.map((device, index) => {
                      device.s_no=index+1;
                      device.type = device.is_ctrt ?"CTRT":"OTRT";
+                     device.gate_status_t = device.gate_status  ?"OPEN":"CLOSE";
                     return (
                    <TableRow data={device} columns={columns} actions={[
                     {
@@ -100,10 +101,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                     },
                    ]}/>
                 )})}
-
             </div>
-
-
         </div>
     );
 };

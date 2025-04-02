@@ -328,11 +328,11 @@ const Reports: React.FC = (): JSX.Element => {
               <div className='w-56 text-end'> </div>
             </div>
 
-            <div className='flex'>
-              <div className='flex-1'>Section: <span className='font-normal'>{selectedDevice?.section.name}</span></div>
-              <div className='flex-1'>Division: <span className='font-normal'>{selectedDevice?.section.division.divisional_code}</span></div>
-              <div className='w-56 text-end'>Zone: <span className='font-normal'>{selectedDevice?.section.division.zone.zonal_code}</span></div>
-            </div>
+            {/* <div className='flex'>
+              <div className='flex-1'>Section: <span className='font-normal'>{selectedDevice?.section?.name}</span></div>
+              <div className='flex-1'>Division: <span className='font-normal'>{selectedDevice?.section?.division?.divisional_code}</span></div>
+              <div className='w-56 text-end'>Zone: <span className='font-normal'>{selectedDevice?.section?.division?.zone?.zonal_code}</span></div>
+            </div> */}
 
          
             <div className="font-semibold uppercase text-center mt-8 text-2xl">

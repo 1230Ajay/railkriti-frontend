@@ -96,7 +96,6 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
       <HeaderTile title={`LOGS ${logs?.lc} (${logs?.km})`} actions={[{ icon: <RiFileExcel2Fill className="bg-green-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export Excel") },
       { icon: <BsFileEarmarkPdfFill className="bg-red-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export PDF") },
       { icon: <BsFillPrinterFill className="bg-blue-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Print") },]} />
-
       <div className='overflow-scroll px-4 mx-4 rounded-b-md mb-4 bg-black no-scrollbar '>
       <HeaderTable columns={VinimayLogTableHeaderData} />
         {loading ? (
