@@ -153,8 +153,7 @@ const Reports: React.FC = (): JSX.Element => {
   // Function to convert UTC date to IST
   const convertUtcToIst = (utcDate: string | number | Date): string => {
     const date = new Date(utcDate);
-    const istDate = new Date(date.getTime() + 5.5 * 60 * 60 * 1000); // IST is UTC+5:30
-    return istDate.toLocaleString('en-IN', {
+    return date.toLocaleString('en-IN', {
       timeZone: 'Asia/Kolkata',
       hour12: false,
       year: 'numeric',
@@ -318,15 +317,15 @@ const Reports: React.FC = (): JSX.Element => {
           <div className='capitalize font-semibold space-y-2'>
             <div className='flex'>
               <div className='flex-1'>Name: <span className='font-normal'>{selectedDevice ? selectedDevice.name : '-'}</span></div>
-              <div className='flex-1'>Type: <span className='font-normal'>{deviceType === 'transmitter' ? "Transmitter" : 'Receiver'}</span></div>
-              <div className='w-56 text-end'>Mobile No: <span className='font-normal'>{selectedDevice ? selectedDevice.mobile_no : '-'}</span></div>
+              <div className='flex-1 text-center'>Type: <span className='font-normal'>{deviceType === 'transmitter' ? "Transmitter" : 'Receiver'}</span></div>
+              <div className='flex-1 text-end'>Mobile No: <span className='font-normal'>{selectedDevice ? selectedDevice.mobile_no : '-'}</span></div>
             </div>
 
-            <div className='flex'>
-              <div className='flex-1'>Direction: <span className='font-normal'>{selectedDevice?.isUpside ? "UP" : "Down"}</span></div>
-              <div className='flex-1'>Group: <span className='font-normal'>{selectedDevice?.name.slice(0, -3)}</span></div>
+            {/* <div className='flex'>
+              {  <div className='flex-1'>Direction: <span className='font-normal'>{selectedDevice?.isUpside ? "UP" : "Down"}</span></div>}
+              <div className='flex-1'>Group: <span className='font-normal'>{selectedDevice?.name}</span></div>
               <div className='w-56 text-end'> </div>
-            </div>
+            </div> */}
 
             {/* <div className='flex'>
               <div className='flex-1'>Section: <span className='font-normal'>{selectedDevice?.section?.name}</span></div>
