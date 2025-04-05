@@ -108,6 +108,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
               logs.device_logs.map((log, index) => {
 
                 const formattedLog = {
+                  ...log,
                   s_no : index + 1,
                   time : new Date(log.created_at).toLocaleTimeString('en-IN', { hour12: false }),
                   date : new Date(log.created_at).toLocaleDateString('en-IN', { hour12: false })
