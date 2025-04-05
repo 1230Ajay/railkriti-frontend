@@ -125,14 +125,17 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
           <div className='text-white  rounded-md min-w-[780px]'>
             {logs && logs.device_logs.length > 0 ? (
               logs.device_logs.map((log:Log, index) => {
-                log.s_no = index+1;
-                log.level = log.sensor_status?log.level:"--:--";
-                log.wl_msl = log.sensor_status?log.wl_msl:"--:--";
-                log.date = new Date(log.created_at).toLocaleDateString()
-                log.time = new Date(log.created_at).toLocaleTimeString()
-                log.is_online = log.device_status;
+               const formattedLog = {
+                ...log,
+                s_no :index+1,
+                level :log.sensor_status?log.level:"--:--",
+                wl_msl :log.sensor_status?log.wl_msl:"--:--",
+                date :new Date(log.created_at).toLocaleDateString(),
+                time :new Date(log.created_at).toLocaleTimeString(),
+                is_online : log.device_status
+               }
                 return (
-                  <TableRow data={log} columns={columns} />
+                  <TableRow data={formattedLog} columns={columns} />
                 )
               })
             ) : (

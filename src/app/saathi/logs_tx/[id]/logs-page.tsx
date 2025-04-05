@@ -129,8 +129,8 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
                   s_no : index + 1,
                   battery: `${log.battery}%`,
                   sensor_status : log.is_online && log.sensor_status,
-                  date : new Date(log.created_at).toLocaleDateString('en-IN',{hour12:true}),
-                  time : new Date(log.created_at).toLocaleTimeString('en-IN',{hour12:true}),
+                  date : new Date(log.created_at).toLocaleDateString('en-IN',{hour12:false}),
+                  time : new Date(log.created_at).toLocaleTimeString('en-IN',{hour12:false}),
                   isTrainDetected : log.isTrainDetected && log.is_online ? "Train Detected" : ""
                 }
                 return (
