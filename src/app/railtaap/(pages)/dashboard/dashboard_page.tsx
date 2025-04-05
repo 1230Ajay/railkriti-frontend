@@ -130,9 +130,9 @@ const Dashboard: React.FC = (): JSX.Element => {
     };
 
     const handleDateChange = (date: Date | null) => {
-     
+
         setSelectedDate(date);
-  
+
     };
 
     const lineChartData = {
@@ -228,31 +228,31 @@ const Dashboard: React.FC = (): JSX.Element => {
 
     const columns = [
         {
-            name:"",key:"s_no",className:" text-start"
+            name: "", key: "s_no", className: " text-start"
         },
         {
-            name:"",key:"km",className:" text-start"
+            name: "", key: "km", className: " text-start"
         },
         {
-            name:"",key:"location",className:" text-start"
+            name: "", key: "location", className: " text-start"
         },
         {
-            name:"",key:"temp",className:" text-start"
+            name: "", key: "temp", className: " text-start"
         },
         {
-            name:"",key:"battery",className:" text-start"
+            name: "", key: "battery", className: " text-start"
         },
         {
-            name:"",key:"is_online",className:" text-start"
+            name: "", key: "is_online", className: " text-start"
         },
         {
-            name:"",key:"sensor_status",className:" text-start"
+            name: "", key: "sensor_status", className: " text-start"
         }
     ]
 
     return (
         <div className="h-[calc(100vh-80px)] xl:grid grid-rows-[auto_auto_1fr] ">
-        
+
             <DevicesStatics totalDevices={totalDevices} activeDevices={activeDevices} onlineDevices={onlineDevices} offlineDevices={offlineDevices} />
 
             <HeaderTile title="Devices" onSearchChange={setSearchQuery} actions={[
@@ -263,45 +263,57 @@ const Dashboard: React.FC = (): JSX.Element => {
 
 
             <div className=" overflow-auto pb-4 text-white bg-black mx-4 mb-4 px-4  relative  no-scrollbar  rounded-b-md">
-               <HeaderTable columns={RailtaapDashboardTableHeaderData}/>
+                <HeaderTable columns={RailtaapDashboardTableHeaderData} />
 
                 {filteredDevices.map((device, index) => {
-                    device.s_no = index+1;
-                    device.sensor_status = device.is_online && device.sensor_status;
-                    device.temp = device.temp === -127?"--:--":device.temp;
+                    const formattedDevice = {
+                        ...device,
+                        s_no: index + 1,
+                        battery: `${device.battery}%`,
+                        sensor_status: device.is_online && device.sensor_status,
+                        temp: device.temp === -127 ? "--:--" : `${device.temp}°C`
+                    };
+
                     return (
-                        <TableRowV2 data={device} columns={columns} active_uid={activeDetail?.uid|| ""} activeContainer={RailtaapChart(device)} actions={[
-                            {
-                                icon: <GrMapLocation />,
-                                onClick: () => {
-                                    const encodedUrl = encodeURIComponent(`${device.river_name}-${device.bridge_no}`)
-                                    const path = `/location/${device.lattitude}-${device.longitude}-${encodedUrl}`
-                                    const url = `${window.location.origin}${path}`;
-                                    window.open(url, '_blank', 'noopener,noreferrer');
+                        <TableRowV2
+                            data={formattedDevice}
+                            columns={columns}
+                            active_uid={activeDetail?.uid || ""}
+                            activeContainer={RailtaapChart(device)}
+                            actions={[
+                                {
+                                    icon: <GrMapLocation />,
+                                    onClick: () => {
+                                        const encodedUrl = encodeURIComponent(`${device.river_name}-${device.bridge_no}`);
+                                        const path = `/location/${device.lattitude}-${device.longitude}-${encodedUrl}`;
+                                        const url = `${window.location.origin}${path}`;
+                                        window.open(url, '_blank', 'noopener,noreferrer');
+                                    },
                                 },
-                            },
-                            {
-                                icon: <RiRestartLine />,
-                                onClick: () => {
-                                        handleRestartClick(device.uid)
+                                {
+                                    icon: <RiRestartLine />,
+                                    onClick: () => {
+                                        handleRestartClick(device.uid);
                                         toast.success(`${device.location} (${device.km}) is being restarted`);
+                                    },
+                                    className: `p-2 rounded-full ${device.relay_status ? 'bg-green-500' : 'bg-gray-500'}`,
                                 },
-                                className: ` p-2 rounded-full ${device.relay_status ? 'bg-green-500' : 'bg-gray-500'}`,
-                            },
-                            {
-                                icon: <TbListDetails />,
-                                onClick: () => {
-                                    if (activeDetail?.uid !== device.uid) {
-                                        setActiveDetail(device);
-                                    } else {
-                                        setActiveDetail(null);
-                                    }
+                                {
+                                    icon: <TbListDetails />,
+                                    onClick: () => {
+                                        if (activeDetail?.uid !== device.uid) {
+                                            setActiveDetail(device);
+                                        } else {
+                                            setActiveDetail(null);
+                                        }
+                                    },
+                                    className: `bg-white px-6 py-1 text-green-500 rounded-full`,
                                 },
-                                className: `bg-white px-6 py-1 text-green-500  rounded-full `,
-                            },
-                        ]} />
-                    )
+                            ]}
+                        />
+                    );
                 })}
+
 
             </div>
 
@@ -342,14 +354,13 @@ const Dashboard: React.FC = (): JSX.Element => {
                         const path = `/railtaap/logs/${device.uid}`;
                         const url = `${window.location.origin}${path}`;
                         window.open(url, '_blank', 'noopener,noreferrer');
-                    } }>Logs</PrimaryButton>
+                    }}>Logs</PrimaryButton>
 
                 </div>
             </div>
 
             <div className="min-w-[720px] h-[32vh] flex justify-center items-center pr-4 ">
                 <Line data={lineChartData} options={lineChartOptions} />
-                {/* <div className=" text-4xl capitalize text-primary">under maintainance</div>  */}
             </div>
         </div>;
     }

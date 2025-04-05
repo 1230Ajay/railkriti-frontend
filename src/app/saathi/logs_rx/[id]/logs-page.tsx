@@ -117,14 +117,17 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
           <div className='text-white  rounded-md min-w-[780px]'>
             {logs && logs.length > 0 ? (
               logs.filter((log) => log.actions !== 'LOG').map((log, index) => {
+                const formattedLog = {
+                  ...log,
+                  s_no: index + 1,
+                  battery:`${log.battery}%`,
+                  date: new Date(log.created_at).toLocaleDateString('en-IN',{hour12:false}),
+                  time: new Date(log.created_at).toLocaleTimeString('en-IN',{hour12:false}),
+                  sensor_status: true,
 
-                log.s_no = index + 1;
-                log.date = new Date(log.created_at).toLocaleDateString()
-                log.time = new Date(log.created_at).toLocaleTimeString()
-                log.sensor_status = true;
-                /// -- SENSOR
+                }
                 return (
-                  <TableRow data={log} columns={columns} actions={[
+                  <TableRow data={formattedLog} columns={columns} actions={[
                     {
                       icon: <div className=" mx-auto">
                         {log.actions === "ONLINE" || log.actions === "OFFLINE" ? <div className={` w-24 px-4  rounded-full font-bold  py-1  ${log.actions === "ONLINE" ? 'bg-green-600' : 'bg-primary'}`}> {log.actions} </div> : <div>{log.actions.replace(/_/g, " ")}</div>}

@@ -81,10 +81,11 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
 
 
   const columns = [
-    { name: 'S. No.', key: "battery", className: "text-start" },
-    { name: 'S. No.', key: "time", className: "text-center" },
-    { name: 'S. No.', key: "date", className: "text-center" },
-    { name: 'S. No.', key: "is_online", className: "" },
+    { name: '', key: "s_no", className: "text-start" },
+    { name: '', key: "battery", className: "text-start" },
+    { name: '', key: "time", className: "text-center" },
+    { name: '', key: "date", className: "text-center" },
+    { name: '', key: "is_online", className: "" },
   ]
 
 
@@ -105,11 +106,14 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
           <div className='text-white  rounded-md min-w-[780px]'>
             {logs && logs.length > 0 ? (
               logs.map((log, index) => {
-                log.s_no = index + 1;
-                log.time = new Date(log.created_at).toLocaleTimeString();
-                log.date = new Date(log.created_at).toLocaleDateString();
+                const formattedLog = {
+                  s_no : index + 1,
+                  battery:`${log.battery}%`,
+                  time : new Date(log.created_at).toLocaleTimeString('en-IN',{hour12:false}),
+                  date : new Date(log.created_at).toLocaleDateString('en-IN',{hour12:false}),
+                }
                 return (
-                  <TableRow data={log} columns={columns} actions={[
+                  <TableRow data={formattedLog} columns={columns} actions={[
                     {
                       icon: <>{log.bottom_sensor_state?"Alert":"OK"}</>,
                       onClick: () => { },

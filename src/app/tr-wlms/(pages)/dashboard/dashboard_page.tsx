@@ -137,10 +137,14 @@ const Dashboard: React.FC = (): JSX.Element => {
                 <HeaderTable columns={TRTableHeaderData} />
 
                 {filteredDevices.map((device, index) => {
-                    device.s_no = index + 1;
+                    const formattedDevice = {
+                        s_no :index + 1,
+                        ...device,
+                        battery:`${device.battery}%`
+                    }
                     return (
 
-                        <TableRow data={device} columns={columns} actions={[
+                        <TableRow data={formattedDevice} columns={columns} actions={[
 
                             {
                                 icon: <GrMapLocation />,

@@ -23,9 +23,9 @@ interface Log {
   is_online: boolean;
   sensor_status: boolean;
   created_at: string;
-  s_no:any;
-  date:string;
-  time:string;
+  s_no: any;
+  date: string;
+  time: string;
 }
 
 interface Device {
@@ -102,12 +102,12 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
     { name: 'S. No.', key: "is_online", className: "" },
     { name: 'S. No.', key: "sensor_status", className: "" },
     { name: 'S. No.', key: "isTrainDetected", className: "" },
-    
+
   ]
 
   return (
     <div className=" grid h-screen w-screen grid-rows-[auto_auto_1fr]  ">
-   <NavBar title={Titles.SaathiTitle} disableMenuBar={true} ></NavBar>
+      <NavBar title={Titles.SaathiTitle} disableMenuBar={true} ></NavBar>
       <HeaderTile title={`LOGS / ${device?.name}`} actions={[
 
         { icon: <RiFileExcel2Fill className="bg-green-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export Excel") },
@@ -116,7 +116,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
       ]} />
 
       <div className='overflow-scroll px-4 mx-4 rounded-b-md mb-4 bg-black no-scrollbar '>
-        <HeaderTable columns={SaathiTxLogTableHeaderData}/>
+        <HeaderTable columns={SaathiTxLogTableHeaderData} />
         {loading ? (
           <div className='text-white text-center'>Loading...</div>
         ) : error ? (
@@ -125,14 +125,18 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
           <div className='text-white  rounded-md min-w-[780px]'>
             {logs && logs.length > 0 ? (
               logs.map((log, index) => {
-                log.s_no = index + 1;
-                log.sensor_status = log.is_online && log.sensor_status;
-                log.date = new Date(log.created_at).toLocaleDateString()
-                log.time = new Date(log.created_at).toLocaleTimeString()
-                log.isTrainDetected = log.isTrainDetected &&  log.is_online ? "Train Detected":""
-                return(
-               <TableRow data={log} columns={columns} />
-              )})
+                const formattedLog = {
+                  s_no : index + 1,
+                  battery: `${log.battery}%`,
+                  sensor_status : log.is_online && log.sensor_status,
+                  date : new Date(log.created_at).toLocaleDateString('en-IN',{hour12:true}),
+                  time : new Date(log.created_at).toLocaleTimeString('en-IN',{hour12:true}),
+                  isTrainDetected : log.isTrainDetected && log.is_online ? "Train Detected" : ""
+                }
+                return (
+                  <TableRow data={formattedLog} columns={columns} />
+                )
+              })
             ) : (
               <div className='text-white text-center'>No logs available</div>
             )}

@@ -88,6 +88,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
   };
 
   const columns = [
+    { name: 'S. No.', key: "s_no", className: "text-start" },
     { name: 'S. No.', key: "battery", className: "text-start" },
     { name: 'S. No.', key: "tank_level", className: "text-start" },
     { name: 'S. No.', key: "time", className: "text-center" },
@@ -99,7 +100,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
   return (
     <div className=" grid h-screen w-screen grid-rows-[auto_auto_1fr]">
 
-     <NavBar title={Titles.TankWlmsTitle} disableMenuBar={true} ></NavBar>
+      <NavBar title={Titles.TankWlmsTitle} disableMenuBar={true} ></NavBar>
 
       <HeaderTile title={`LOGS / ${device?.location} (${device?.km})`} actions={[
 
@@ -119,12 +120,16 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
             {logs && logs.length > 0 ? (
               logs.map((log, index) => {
 
-                log.sensor_status = log.is_online && log.sensor_status;
-                log.date = new Date(log.created_at).toLocaleDateString()
-                log.time = new Date(log.created_at).toLocaleTimeString()
-                
+                const formattedLog = {
+                  ...log,
+                  s_no:index+1,
+                  sensor_status : log.is_online && log.sensor_status,
+                  date : new Date(log.created_at).toLocaleDateString('en-IN',{hour12:false}),
+                  time : new Date(log.created_at).toLocaleTimeString('en-IN',{hour12:false})
+                }
+
                 return (
-                  <TableRow data={log} columns={columns} />
+                  <TableRow data={formattedLog} columns={columns} />
                 )
               })
             ) : (

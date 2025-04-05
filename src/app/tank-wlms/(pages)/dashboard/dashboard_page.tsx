@@ -269,9 +269,15 @@ const Dashboard: React.FC = (): JSX.Element => {
                 <HeaderTable columns={TankWLMSDashboardTableHeaderData} />
 
                 {filteredDevices.map((device, index) => {
-                    device.s_no = index + 1;
+                    const formattedDevice = {
+                        ...device,
+                        s_no: index + 1,
+                        battery:`${device.battery}%`,
+                        tank_level:`${device.tank_level}%`
+
+                    }
                     return (
-                        <TableRowV2 data={device} columns={columns} actions={[
+                        <TableRowV2 data={formattedDevice} columns={columns} actions={[
                             {
                                 icon: <GrMapLocation />,
                                 onClick: () => {
@@ -284,9 +290,9 @@ const Dashboard: React.FC = (): JSX.Element => {
                             {
                                 icon: <RiRestartLine />,
                                 onClick: () => {
-                                        handleRestartClick(device.uid);
-                                        toast.success(`${device.location} (${device.km}) is being restarted`);
-                              
+                                    handleRestartClick(device.uid);
+                                    toast.success(`${device.location} (${device.km}) is being restarted`);
+
                                 },
                                 className: ` p-2 rounded-full ${device.relay_status ? 'bg-green-500' : 'bg-gray-500'}`,
                             },

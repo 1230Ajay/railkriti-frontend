@@ -20,12 +20,12 @@ interface Log {
   battery: any;
   uid: string;
   device_uid: string;
-  message:string
+  message: string
   created_at: string;
-  pn:any;
-  date:string;
-  time:string;
-  s_no:any;
+  pn: any;
+  date: string;
+  time: string;
+  s_no: any;
 }
 
 interface Device {
@@ -79,7 +79,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
   }, [id]);
 
 
-  
+
   const columns = [
     { name: 'S. No.', key: "s_no", className: "text-start" },
     { name: 'S. No.', key: "date", className: "text-center" },
@@ -92,12 +92,12 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
 
   return (
     <div className=" grid h-screen w-screen grid-rows-[auto_auto_1fr]  ">
-      <NavBar disableMenuBar={true} title={Titles.VinimayTitle}  />
+      <NavBar disableMenuBar={true} title={Titles.VinimayTitle} />
       <HeaderTile title={`LOGS ${logs?.lc} (${logs?.km})`} actions={[{ icon: <RiFileExcel2Fill className="bg-green-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export Excel") },
       { icon: <BsFileEarmarkPdfFill className="bg-red-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export PDF") },
       { icon: <BsFillPrinterFill className="bg-blue-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Print") },]} />
       <div className='overflow-scroll px-4 mx-4 rounded-b-md mb-4 bg-black no-scrollbar '>
-      <HeaderTable columns={VinimayLogTableHeaderData} />
+        <HeaderTable columns={VinimayLogTableHeaderData} />
         {loading ? (
           <div className='text-white text-center'>Loading...</div>
         ) : error ? (
@@ -106,12 +106,16 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
           <div className='text-white  rounded-md min-w-[780px]'>
             {logs && logs.device_logs.length > 0 ? (
               logs.device_logs.map((log, index) => {
-                log.s_no = index + 1;
-                log.time = new Date(log.created_at).toLocaleTimeString();
-                log.date = new Date(log.created_at).toLocaleDateString();
-                return(
-                <TableRow data={log} columns={columns} />
-              )})
+
+                const formattedLog = {
+                  s_no : index + 1,
+                  time : new Date(log.created_at).toLocaleTimeString('en-IN', { hour12: false }),
+                  date : new Date(log.created_at).toLocaleDateString('en-IN', { hour12: false })
+                }
+                return (
+                  <TableRow data={formattedLog} columns={columns} />
+                )
+              })
             ) : (
               <div className='text-white text-center'>No logs available</div>
             )}

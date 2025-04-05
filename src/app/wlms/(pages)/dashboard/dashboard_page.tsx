@@ -281,13 +281,20 @@ const Dashboard: React.FC = (): JSX.Element => {
 
                 <HeaderTable columns={BrDashboardTableHeaderData} />
                 {filteredDevices.map((device: Device, index) => {
-                    device.s_no = index + 1;
-                    device.battery = `${device.battery}`;
-                    device.sensor_status = device.sensor_status && device.is_online;
+
+                    const formattedDevice = {
+                        ...device,
+                        s_no : index + 1,
+                        battery :`${device.battery}%`,
+                        sensor_status : device.sensor_status && device.is_online,
+                        current_level : `${device.current_level}m`
+
+    
+                    }
                     return (
                         (
                             <TableRowV2
-                                data={device}
+                                data={formattedDevice}
                                 columns={columns}
                                 actions={[
                                     {

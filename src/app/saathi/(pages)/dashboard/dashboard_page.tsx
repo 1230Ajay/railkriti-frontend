@@ -162,10 +162,15 @@ const Dashboard: React.FC = (): JSX.Element => {
 
                 {filteredDevices.sort((a, b) => (a?.group_uid && b?.group_uid) ? a.group_uid.localeCompare(b.group_uid) : 0).map((device, index) => {
                     
-                    device.s_no = index+1;
-                    device.sensor_status = device.is_online & device.sensor_status ;
+                   const formattedDevice = {
+                    ...device,
+                    s_no :index+1,
+                    battery :`${device.battery}%`,
+                    sensor_status : device.type =="TX" ? device.is_online & device.sensor_status : device.is_online,
+                  
+                   }
                     return  (
-                     <TableRow data={device} columns={columns} actions={[
+                     <TableRow data={formattedDevice} columns={columns} actions={[
                         {
                             icon: <GrMapLocation />,
                             onClick: () => {
@@ -180,7 +185,6 @@ const Dashboard: React.FC = (): JSX.Element => {
                             onClick: () => {
                                     handleRestartClick(device.uid,isTxDevice(device));
                                     toast.success(`${device.location} (${device.km}) is being restarted`);
-                          
                             },
                             className: ` p-2 rounded-full ${device.relay_status ? 'bg-green-500' : 'bg-gray-500'}`,
                         },

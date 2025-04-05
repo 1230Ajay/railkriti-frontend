@@ -1,6 +1,10 @@
 export const TankWLMSLogTableHeaderData = [
 
     {
+        name: "S. No.",
+        className: "text-start"
+    },
+    {
         name: "Battery",
         className: "text-start"
     },
