@@ -126,6 +126,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
             {logs && logs.length > 0 ? (
               logs.map((log, index) => {
                 const formattedLog = {
+                  ...log,
                   s_no : index + 1,
                   battery: `${log.battery}%`,
                   sensor_status : log.is_online && log.sensor_status,
