@@ -6,16 +6,14 @@ import { BsFileEarmarkPdfFill, BsFillPrinterFill } from 'react-icons/bs';
 import { CgToggleOff, CgToggleOn } from 'react-icons/cg';
 import { PrimaryButton } from '@/components/buttons/primarybutton';
 import Modal from '@/components/pop-ups/AddPopUp';
-
-import UpdateAlertForm from '@/components/forms/wlms/alert/updateAlertForm';
-
 import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import { HeaderTile } from '@/components/headers/header.tile';
 import HeaderTable from '@/components/headers/header.table';
-import { RailataapAlertTableHeaderData } from '@/lib/data/railtaap/data.alert-page.header';
 import TableRow from '@/components/tiles/tile.table-row';
-import AlertFormRailtaap from '@/components/forms/railtaap/alert/AlertForm';
+import { WindAlertTableHeaderData } from '@/lib/data/wind/data.alert-page.header';
+import WindAlertForm from '@/components/forms/wind/alert/AlertForm';
+import UpdateWindAlertForm from '@/components/forms/wind/alert/updateAlertForm';
 
 interface Alert {
   uid: string;
@@ -52,7 +50,7 @@ const AlertPage: React.FC = (): JSX.Element => {
 
   const fetchAlerts = async () => {
     try {
-      const response = await myIntercepter.get(`${conf.RAILTAAP}/api/alerts`);
+      const response = await myIntercepter.get(`${conf.WIND_URL}/alert`);
       setAlerts(response.data);
     } catch (error) {
       console.error('Error fetching alerts:', error);
@@ -75,7 +73,7 @@ const AlertPage: React.FC = (): JSX.Element => {
   const activateDeactivateAlert = async (alert: Alert) => {
     try {
       alert.isActive = !alert.isActive;
-      const res = await myIntercepter.put(`${conf.RAILTAAP}/api/alerts/${alert.uid}`, alert);
+      const res = await myIntercepter.put(`${conf.WIND_URL}/alert/${alert.uid}`, alert);
       if (res.status === 200) {
         setAlerts((prevAlerts) =>
           prevAlerts.map((a) => (a.uid === alert.uid ? { ...a, isActive: alert.isActive } : a))
@@ -103,7 +101,7 @@ const AlertPage: React.FC = (): JSX.Element => {
   const columns = [
     { name: "Bridge No", key: "s_no", className: "text-start" },
     { name: "Bridge No", key: "location", className: "text-start" },
-    { name: "River", key: "km", className: "text-start" },
+    { name: "River", key: "name", className: "text-start" },
     { name: "Zone", key: "designation", className: "text-start" },
     { name: "Mobile", key: "mobile", className: "text-center" },
     { name: "interval", key: "email", className: "text-start" },
@@ -121,7 +119,7 @@ const AlertPage: React.FC = (): JSX.Element => {
       ]} />
 
       <div className='bg-black mx-4 py-2 rounded-b-md mb-4 overflow-scroll no-scrollbar px-4'>
-      <HeaderTable columns={RailataapAlertTableHeaderData}/>
+      <HeaderTable columns={WindAlertTableHeaderData}/>
         <div className=''>
           {loading ? (
             <div className='text-white text-center'>Loading...</div>
@@ -131,7 +129,7 @@ const AlertPage: React.FC = (): JSX.Element => {
               alert.s_no = index+1;
               alert.time = formatTime(alert.first_alert);
               alert.location = alert.device !==null?alert?.device?.location:"";
-              alert.km = alert.device !==null?alert?.device?.km:"";
+              alert.name = alert.device !==null?alert?.device?.name:"";
               return (
                 <TableRow data={alert} columns={columns} actions={
                   [
@@ -148,14 +146,14 @@ const AlertPage: React.FC = (): JSX.Element => {
       {isModalOpen && (
         <Modal isOpen={isModalOpen}>
           <div className='w-[68vw] bg-black px-8 py-4'>
-            <AlertFormRailtaap onClose={() => setIsModalOpen(false)} />
+            <WindAlertForm onClose={() => setIsModalOpen(false)} />
           </div>
         </Modal>
       )}
       {isUpdateModalOpen && selectedAlert && (
         <Modal isOpen={isUpdateModalOpen}>
           <div className='w-[68vw] bg-black px-8 py-4'>
-            <UpdateAlertForm onClose={() => setIsUpdateModalOpen(false)} alertData={selectedAlert} />
+            <UpdateWindAlertForm onClose={() => setIsUpdateModalOpen(false)} alertData={selectedAlert} />
           </div>
         </Modal>
       )}

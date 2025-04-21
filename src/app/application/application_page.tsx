@@ -79,7 +79,7 @@ export default function ApplicationPage() {
       </div>
 
       <div className="mx-auto mt-8  lg:mt-0  flex items-start md:items-center justify-center  px-8 w-screen">
-        <div className="grid  md:grid-cols-2 lg:grid-cols-3 gap-8 h-fit w-fit">
+        <div className="grid  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 h-fit w-fit">
           {ApplicationPageData.application.map((app, index) => (
             <div
               key={index}

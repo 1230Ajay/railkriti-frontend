@@ -1,19 +1,19 @@
-export const RailtaapDashboardTableHeaderData = [
+export const WindDashboardTableHeaderData = [
     {
         name: "Sr. No.",
         className: "text-start"
     },
     {
-        name: "km",
+        name: "name",
         className: "text-start"
     },
     {
-        name: "Location",
+        name: "Temp",
         className: "text-start"
     },
 
     {
-        name: "Temp",
+        name: "Wind Speed",
         className: "text-start"
     },
     {

@@ -5,12 +5,11 @@ import { MdOutlineAddCircle } from 'react-icons/md';
 import TimePicker from 'react-time-picker'; // Assuming you have this component installed
 import 'react-time-picker/dist/TimePicker.css'; // Make sure to import the necessary CSS
 import { toast } from 'react-toastify';
-import { IoMdRemoveCircle } from 'react-icons/io';
 import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 
 interface AlertEntry {
-  river_name: any;
+  river_name:any;
   mobile: any;
   designation: any;
   second_alert: string | number | Date;
@@ -44,7 +43,7 @@ const CustomTimePicker: React.FC<TimePickerProps> = ({ value, onChange }) => {
   );
 };
 
-const AlertFormRailtaap = ({ onClose = () => { } }) => {
+const WindAlertForm = ({ onClose = () => { } }) => {
   const [riverName, setRiverName] = useState<string>('');
   const [bridgeNumber, setBridgeNumber] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -64,7 +63,7 @@ const AlertFormRailtaap = ({ onClose = () => { } }) => {
 
   const fetchDevices = async () => {
     try {
-      const response = await myIntercepter.get(`${conf.RAILTAAP}/api/device`);
+      const response = await myIntercepter.get(`${conf.WIND_URL}/device`);
       const data = await response.data;
       setDevices(data);
       setLoading(false);
@@ -110,7 +109,7 @@ const AlertFormRailtaap = ({ onClose = () => { } }) => {
     });
   };
 
-  function formatTo24HourTime(date: any) {
+  function formatTo24HourTime(date:any) {
     date = new Date(date)
     return date.toLocaleTimeString('en-GB', { // 'en-GB' is commonly used for 24-hour format
       hour: '2-digit',
@@ -134,11 +133,9 @@ const AlertFormRailtaap = ({ onClose = () => { } }) => {
         sms_update: smsChecked,
       };
 
-      const response = await myIntercepter.post(`${conf.RAILTAAP}/api/alerts`,
-        alertData,
-      );
+      const response = await myIntercepter.post(`${conf.WIND_URL}/alert`,alertData);
 
-      if (response.status === 201) {
+      if (response) {
         await fetchDevices(); // Refresh devices if necessary
         await fetchAlerts();  // Fetch updated alerts
 
@@ -171,7 +168,7 @@ const AlertFormRailtaap = ({ onClose = () => { } }) => {
   const fetchAlerts = async () => {
     try {
       if (device_id) {
-        const response = await myIntercepter.get(`${conf.BR_WLMS}/api/alerts/${device_id}`);
+        const response = await myIntercepter.get(`${conf.WIND_URL}/alert/${device_id}`);
         setAlerts(response.data);
       }
     } catch (error) {
@@ -193,7 +190,6 @@ const AlertFormRailtaap = ({ onClose = () => { } }) => {
       <div className='flex w-full'>
         <div className='w-full'>
           <form className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
-
             <div className={`mb-4`}>
               <label htmlFor={'device'} className="block text-white font-bold mb-2">Device<span className='text-primary'>*</span></label>
               <div className='bg-gray-800 text-white py-1 rounded-md pr-2'>
@@ -208,7 +204,7 @@ const AlertFormRailtaap = ({ onClose = () => { } }) => {
                   <option value="">Device</option>
                   {devices.map(device => (
                     <option key={device.uid} className='text-white uppercase' value={device.uid}>
-                      {`${device.location} (${device.km})`}
+                      {`${device.name} (${device.location})`}
                     </option>
                   ))}
                 </select>
@@ -237,7 +233,7 @@ const AlertFormRailtaap = ({ onClose = () => { } }) => {
                 </div>
               ))}
             </div>
-
+           
             <div></div>
             <TextInput
               label="Designation"
@@ -255,7 +251,6 @@ const AlertFormRailtaap = ({ onClose = () => { } }) => {
             />
             <TextInput
               label="Email"
-
               value={email}
               onChange={setEmail}
               required
@@ -263,23 +258,23 @@ const AlertFormRailtaap = ({ onClose = () => { } }) => {
           </form>
         </div>
         <div className="flex items-center absolute right-0 top-1 justify-end">
-          <label className="  text-white flex gap-x-1 items-center  mr-8 ">
-            <input
-              type="checkbox"
-              checked={smsChecked}
-              onChange={(e) => setSmsChecked(e.target.checked)}
-            />
-            SMS
-          </label>
-          <label className="flex items-center gap-x-1 text-white ">
-            <input
-              type="checkbox"
-              checked={emailChecked}
-              onChange={(e) => setEmailChecked(e.target.checked)}
-            />
-            E-mail
-          </label>
-        </div>
+              <label className="  text-white flex gap-x-1 items-center  mr-8 ">
+                <input
+                  type="checkbox"
+                  checked={smsChecked}
+                  onChange={(e) => setSmsChecked(e.target.checked)}
+                />
+                SMS
+              </label>
+              <label className="flex items-center gap-x-1 text-white ">
+                <input
+                  type="checkbox"
+                  checked={emailChecked}
+                  onChange={(e) => setEmailChecked(e.target.checked)}
+                />
+                E-mail
+              </label>
+            </div>
         <div>
           <div className="flex items-end px-8 lg:pb-8 h-full justify-center xl:justify-end mt-4 space-x-4 w-fit">
             <div
@@ -302,31 +297,31 @@ const AlertFormRailtaap = ({ onClose = () => { } }) => {
           <div className=' col-span-2 text-center '>Email</div>
           <div className=' text-center' >Time</div>
         </div>
-        <div className="h-48 overflow-y-auto no-scrollbar">
-          {alerts.map((alert, index) => (
+        {/* <div className="h-48 overflow-y-auto no-scrollbar">
+          {alerts.map((alert,index) => (
             <div key={alert.device.uid} className="border-b border-gray-600 py-2 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-7 text-white">
               <div className='capitalize ml-2'>
-                {index + 1}
+                {index+1}
               </div>
               <div className=' capitalize'>{alert.designation ? alert.designation : '-'}</div>
               <div className='  text-center' >{alert.mobile ? alert.mobile : '-'}</div>
               <div className=' col-span-2 '>{alert.email ? alert.email : '-'}</div>
               <div className=' flex'>
-                <div>{alert.first_alert ? formatTo24HourTime(alert.first_alert) : '-'}</div>
-                <div>{alert.second_alert ? `,${formatTo24HourTime(alert.second_alert)}` : ''}</div>
+                <div>{alert.first_alert ?  formatTo24HourTime(alert.first_alert) : '-'}</div>
+                <div>{alert.second_alert ? `,${ formatTo24HourTime(alert.second_alert)}` : ''}</div>
               </div>
 
               <div className=' flex justify-end '>
                 <div className=' bg-primary p-1 w-fit h-fit  rounded-md mr-2 text-lg'>
-                  <IoMdRemoveCircle />
+                  <IoMdRemoveCircle/>
                 </div>
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
         <div className='flex justify-end  pb-4 gap-x-8 mt-2'>
           <PrimaryButton className='w-24' onClick={() => onClose()}>
-            Cancel
+            Cancle
           </PrimaryButton>
           <PrimaryButton className='w-24' onClick={() => { resetForm(); }}>
             Reset
@@ -344,4 +339,4 @@ const AlertFormRailtaap = ({ onClose = () => { } }) => {
   );
 };
 
-export default AlertFormRailtaap;
+export default WindAlertForm;

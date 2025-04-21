@@ -1,14 +1,14 @@
-export const RailtaapDeviceTableHeaderData = [
+export const WindDeviceTableHeaderData = [
     {
         name: "S. No.",
         className: "text-start"
     },
     {
-        name: "km",
+        name: "Location",
         className: "text-start"
     },
     {
-        name: "Location",
+        name: "name",
         className: "text-start"
     },
     {

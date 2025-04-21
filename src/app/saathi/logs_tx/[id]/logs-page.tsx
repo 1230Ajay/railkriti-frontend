@@ -134,9 +134,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
                   time : new Date(log.created_at).toLocaleTimeString('en-IN',{hour12:false}),
                   isTrainDetected : log.isTrainDetected && log.is_online ? "Train Detected" : ""
                 }
-                return (
-                  <TableRow data={formattedLog} columns={columns} />
-                )
+                return (<TableRow data={formattedLog} columns={columns} /> )
               })
             ) : (
               <div className='text-white text-center'>No logs available</div>

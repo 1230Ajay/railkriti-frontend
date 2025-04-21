@@ -9,6 +9,7 @@ const https = {
   NOTIFICATION: `https://railkriti.co.in:8090/notification`,
   TANK_WLMS: `https://railkriti.co.in:8090/tank-wlms`,
   VINIMAY_URL: `https://railkriti.co.in:8090/vinimay`,
+  WIND_URL:"https://railkriti.co.in:8090/wind",
   // socket urls
   BR_WLMS_SOCKET_URL: "https://railkriti.co.in:3001",
   TR_WLMS_SCOKET_URL: "https://railkriti.co.in:3004",
@@ -30,6 +31,7 @@ const http = {
   NOTIFICATION: `http://localhost:8090/backend/notification`,
   TANK_WLMS: `http://localhost:8090/tank-wlms`,
   VINIMAY_URL: `http://localhost:8090/vinimay`,
+  WIND_URL: `http://localhost:8090/wind`,
   // socket urls
   BR_WLMS_SOCKET_URL: "http://localhost:3001",
   TR_WLMS_SCOKET_URL: "http://localhost:3004",

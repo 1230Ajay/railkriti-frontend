@@ -28,4 +28,9 @@ export class Titles {
       titleSm: "VINIMAY",
       titleXl: "VINIMAY- PN Generator System"
    }
+
+   static WindTitle = {
+      titleSm: "PAVAN SUTRA",
+      titleXl: "PAVAN SUTRA- WIND MONITORING SYSTEM"
+   }
 }

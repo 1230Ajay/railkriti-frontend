@@ -1,37 +1,37 @@
 'use client';
 
-import NavBar from "@/components/nav/navbar";
-import conf from "@/lib/conf/conf";
 
+import conf from "@/lib/conf/conf";
 import { useEffect, useState } from "react";
 import { BsFileEarmarkPdfFill, BsFillPrinterFill } from "react-icons/bs";
 import { RiFileExcel2Fill } from "react-icons/ri";
 import myIntercepter from "@/lib/interceptor";
-import { Titles } from "@/lib/data/title";
 import { HeaderTile } from "@/components/headers/header.tile";
 import HeaderTable from "@/components/headers/header.table";
-import { SaathiRxLogTableHeaderData } from "@/lib/data/saathi/data.log-page-header-rx";
+import { RailtaapLogTableHeaderData } from "@/lib/data/railtaap/data.log-page-header";
 import TableRow from "@/components/tiles/tile.table-row";
+import NavBar from "@/components/nav/navbar";
+import { Titles } from "@/lib/data/title";
+import { WindLogTableHeaderData } from "@/lib/data/wind/data.log-page-header";
 
 interface Log {
-  hooter_status: boolean;
-  actions: any;
-  isTrainDetected: any;
+  is_online: boolean;
+  s_no: any;
+  temp: any;
   uid: string;
   device_uid: string;
   battery: number;
-  level: number;
-  wl_msl: number;
+  wind_speed: number;
   device_status: boolean;
   sensor_status: boolean;
-  created_at: string;
-  date: string;
-  time: string;
-  s_no: any;
+  date: any;
+  time: any;
+  created_at:any;
 }
 
 interface Device {
   uid: string;
+  location: string;
   name: string;
 }
 
@@ -48,7 +48,6 @@ const fromDate = threeDaysAgo.toISOString();
 const toDate = currentDate.toISOString();
 
 
-
 // Page component
 const LogDetails = ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -63,6 +62,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
         if (id) {
           const data = await fetchLog(id);
           setLogs(data);
+
         } else {
           setError('Invalid ID');
         }
@@ -77,38 +77,41 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
     loadData();
   }, [id]);
 
-  // Fetch data function
-  const fetchLog = async (id: string): Promise<Log[]> => {
+  const fetchLog = async (id: string) => {
     try {
-      const res = await myIntercepter.get(`${conf.SAATHI_RX}/api/logs/${id}`, { params: { start: fromDate, end: toDate } });
-      await setDevice(res.data);
+      const res = await myIntercepter.get(`${conf.WIND_URL}/logs/${id}`, { params: { start: fromDate, end: toDate } });
+      setDevice(res.data)
       return res.data.device_logs;
     } catch (error) {
-      console.log(error);
-      throw new Error('Failed to fetch log');
+      return [];
     }
   };
 
   const columns = [
     { name: 'S. No.', key: "s_no", className: "text-start" },
     { name: 'S. No.', key: "battery", className: "text-start" },
+    { name: 'S. No.', key: "temp", className: "text-start" },
+    { name: 'S. No.', key: "wind_speed", className: "text-start" },
     { name: 'S. No.', key: "time", className: "text-center" },
     { name: 'S. No.', key: "date", className: "text-center" },
+    { name: 'S. No.', key: "is_online", className: "" },
     { name: 'S. No.', key: "sensor_status", className: "" },
   ]
 
+
   return (
-    <div className=" grid h-screen w-screen grid-rows-[auto_auto_1fr]  ">
-      <NavBar title={Titles.SaathiTitle} disableMenuBar={true} ></NavBar>
-      <HeaderTile title={`LOGS / ${device?.name}`} actions={[
+    <div className=" grid h-[calc(100vh)] w-screen grid-rows-[auto_auto_1fr]">
+
+    <NavBar disableMenuBar={true} title={Titles.WindTitle} />
+
+      <HeaderTile title={`LOGS / ${device?.name} (${device?.location})`} actions={[
 
         { icon: <RiFileExcel2Fill className="bg-green-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export Excel") },
         { icon: <BsFileEarmarkPdfFill className="bg-red-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Export PDF") },
         { icon: <BsFillPrinterFill className="bg-blue-600 h-8 w-8 p-1 rounded-sm" />, onClick: () => console.log("Print") },
       ]} />
-
       <div className='overflow-scroll px-4 mx-4 rounded-b-md mb-4 bg-black no-scrollbar '>
-        <HeaderTable columns={SaathiRxLogTableHeaderData} />
+        <HeaderTable columns={WindLogTableHeaderData} />
         {loading ? (
           <div className='text-white text-center'>Loading...</div>
         ) : error ? (
@@ -116,24 +119,20 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
         ) : (
           <div className='text-white  rounded-md min-w-[780px]'>
             {logs && logs.length > 0 ? (
-              logs.filter((log) => log.actions !== 'LOG').map((log, index) => {
+              logs.map((log, index) => {
+
                 const formattedLog = {
                   ...log,
-                  s_no: index + 1,
-                  battery:`${log.battery}%`,
-                  date: new Date(log.created_at).toLocaleDateString('en-IN',{hour12:false}),
-                  time: new Date(log.created_at).toLocaleTimeString('en-IN',{hour12:false}),
-                  sensor_status: true,
+                  s_no:index+1,
+                  temp: log.temp === -127?"--:--":`${log.temp}°C`,
+                  wind_speed:`${log.wind_speed} km/h`,
+                  sensor_status :log.is_online && log.sensor_status,
+                  date : new Date(log.created_at).toLocaleDateString('en-IN',{hour12:false}),
+                  time : new Date(log.created_at).toLocaleTimeString('en-IN',{hour12:false})
                 }
+
                 return (
-                  <TableRow data={formattedLog} columns={columns} actions={[
-                    {
-                      icon: <div className=" mx-auto">
-                        {log.actions === "ONLINE" || log.actions === "OFFLINE" ? <div className={` w-24 px-4  rounded-full font-bold  py-1  ${log.actions === "ONLINE" ? 'bg-green-600' : 'bg-primary'}`}> {log.actions} </div> : <div>{log.actions.replace(/_/g, " ")}</div>}
-                      </div>,
-                      onClick: () => { }
-                    }
-                  ]} />
+                  <TableRow data={formattedLog} columns={columns} />
                 )
               })
             ) : (
@@ -148,22 +147,3 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
 };
 
 export default LogDetails;
-
-
-{/* <div
-className='text-xs md:text-base grid grid-cols-6 border-b border-gray-600 items-center py-1 text-center'
-key={log.uid}
->
-<div>{index + 1}</div>
-<div>{log.battery}%</div>
-<div>{new Date(log.created_at).toLocaleTimeString('en-GB')}</div>
-<div>{new Date(log.created_at).toLocaleDateString()}</div>
-<div className="flex justify-center">
-  <p className={`uppercase w-fit px-4 rounded-full py-1 font-semibold ${log.hooter_status && log.actions != 'OFFLINE' ? 'bg-green-600 text-white ' : 'bg-red-600 text-white'}`}>
-    {log.hooter_status && log.actions != 'OFFLINE' ? "ON" : "OFF"}
-  </p>
-</div>
-<div className=" mx-auto">
-  {log.actions === "ONLINE" || log.actions === "OFFLINE" ? <div className={` w-24 px-4  rounded-full font-bold  py-1  ${log.actions === "ONLINE" ? 'bg-green-600' : 'bg-primary'}`}> {log.actions} </div> : <div>{log.actions.replace(/_/g, " ")}</div>}
-</div>
-</div> */}
