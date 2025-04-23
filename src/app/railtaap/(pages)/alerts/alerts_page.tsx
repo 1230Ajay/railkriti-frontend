@@ -16,6 +16,7 @@ import HeaderTable from '@/components/headers/header.table';
 import { RailataapAlertTableHeaderData } from '@/lib/data/railtaap/data.alert-page.header';
 import TableRow from '@/components/tiles/tile.table-row';
 import AlertFormRailtaap from '@/components/forms/railtaap/alert/AlertForm';
+import RailtaapUpdateAlertForm from '@/components/forms/railtaap/alert/updateAlertForm';
 
 interface Alert {
   uid: string;
@@ -155,7 +156,7 @@ const AlertPage: React.FC = (): JSX.Element => {
       {isUpdateModalOpen && selectedAlert && (
         <Modal isOpen={isUpdateModalOpen}>
           <div className='w-[68vw] bg-black px-8 py-4'>
-            <UpdateAlertForm onClose={() => setIsUpdateModalOpen(false)} alertData={selectedAlert} />
+            <RailtaapUpdateAlertForm onClose={() => setIsUpdateModalOpen(false)} alertData={selectedAlert} />
           </div>
         </Modal>
       )}

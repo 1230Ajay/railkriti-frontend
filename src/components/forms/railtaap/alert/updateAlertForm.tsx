@@ -39,9 +39,8 @@ const CustomTimePicker: React.FC<TimePickerProps> = ({ value, onChange }) => {
     );
   };
   
-const UpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => void, alertData?: any }) => {
-    const [riverName, setRiverName] = useState<string>(alertData!.device.river_name);
-    const [bridgeNumber, setBridgeNumber] = useState<string>(alertData!.device.bridge_no);
+const RailtaapUpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => void, alertData?: any }) => {
+
     const [name, setName] = useState<string>('');
     const [mobileNumber, setMobileNumber] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -49,15 +48,10 @@ const UpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => v
     const [emailChecked, setEmailChecked] = useState<boolean>(false);
     const [time, setTime] = useState<string[]>([]);
     const [device_id, setDeviceId] = useState<string>('');
-    const [devices, setDevices] = useState<any[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
     const [deviceAlerts, setDeviceAlerts] = useState<AlertEntry[]>([]);
     const uid = alertData!.uid;
     const alertDates = [alertData!.first_alert, alertData!.second_alert];
 
-    useEffect(() => {
-        fetchDevices();
-    }, []);
 
     useEffect(() => {
         if (alertData) {
@@ -82,21 +76,10 @@ const UpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => v
         }
     }, [device_id]);
 
-    const fetchDevices = async () => {
-        try {
-            const response = await fetch(`${conf.BR_WLMS}/api/device`);
-            const data = await response.json();
-            setDevices(data);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching devices:', error);
-            setLoading(false);
-        }
-    };
 
     const fetchAlertsForDevice = async (deviceId: string) => {
         try {
-            const response = await myIntercepter.get(`${conf.BR_WLMS}/api/alerts?device_uid=${deviceId}`);
+            const response = await myIntercepter.get(`${conf.RAILTAAP}/api/alerts?device_uid=${deviceId}`);
             setDeviceAlerts(response.data);
         } catch (error) {
             console.error('Error fetching alerts for device:', error);
@@ -142,7 +125,7 @@ const UpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => v
                 sms_update: smsChecked,
             };
 
-            const response = await myIntercepter.put(`${conf.BR_WLMS}/api/alerts`, alertData, {
+            const response = await myIntercepter.put(`${conf.RAILTAAP}/api/alerts/${alertData.uid}`, alertData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -224,12 +207,8 @@ const UpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => v
                                     className="w-full border-none text-gray-400 capitalize bg-gray-800 px-2 shadow-sm"
                                     disabled
                                 >
-                                    <option value="">Select Device</option>
-                                    {devices.map(device => (
-                                        <option key={device.uid} className='text-white capitalize' value={device.uid}>
-                                            {`${device.river_name} (${device.bridge_no})`}
-                                        </option>
-                                    ))}
+                                    <option value=""> {alertData?.device?.location} ({alertData?.device?.km})</option>
+              
                                 </select>
                             </div>
                         </div>
@@ -291,4 +270,4 @@ const UpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => v
     );
 }
 
-export default UpdateAlertForm;
+export default RailtaapUpdateAlertForm;
