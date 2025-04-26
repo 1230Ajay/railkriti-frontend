@@ -44,7 +44,7 @@ const http = {
 }
 
 const conf = {
-  ...https
+  ...http
 }
 
 export default conf;
