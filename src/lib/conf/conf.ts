@@ -10,6 +10,7 @@ const https = {
   TANK_WLMS: `https://railkriti.co.in:8090/tank-wlms`,
   VINIMAY_URL: `https://railkriti.co.in:8090/vinimay`,
   WIND_URL:"https://railkriti.co.in:8090/wind",
+  WIND_MS_MQTT_URL: 'wss://railkriti.co.in:9001/ws',
   // socket urls
   BR_WLMS_SOCKET_URL: "https://railkriti.co.in:3001",
   TR_WLMS_SCOKET_URL: "https://railkriti.co.in:3004",
@@ -39,7 +40,7 @@ const http = {
   SAATHI_RX_SOCKET_URL: "http://localhost:3006",
   RAILTAAP_SOCKET_URL: "http://localhost:3009",
   TANK_WLMS_SOCKET_URL: "http://localhost:3010",
-
+  WIND_MS_MQTT_URL: "ws://railkriti.co.in:9001/ws",
 }
 
 const conf = {
