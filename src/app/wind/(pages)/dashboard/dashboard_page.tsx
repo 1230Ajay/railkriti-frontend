@@ -28,6 +28,7 @@ import { WindDashboardTableHeaderData } from "@/lib/data/wind/data.dashboard-hea
 
 
 import mqtt from 'mqtt';
+import MqttService from "@/lib/network/mqtt_client";
 
 
 
@@ -55,14 +56,13 @@ const Dashboard: React.FC = (): JSX.Element => {
           },
         });
       
-        client.on('connect', () => {
-          console.log('Connected via MQTT over WebSocket');
-          client.subscribe('device/status/wind/#');
-          client.subscribe('device/updateui/wind/#');
-          client.subscribe('relay/status/wind/#');
-        });
+
+          MqttService.subscribe('device/status/wind/#');
+          MqttService.subscribe('device/updateui/wind/#');
+          MqttService.subscribe('relay/status/wind/#');
+    
       
-        client.on('message', (topic, message) => {
+          MqttService.client.on('message', (topic, message) => {
           handleMessage(topic,message.toString());
         });
       
