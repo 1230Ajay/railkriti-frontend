@@ -44,7 +44,7 @@ const Dashboard: React.FC = (): JSX.Element => {
     const dispatch = useDispatch();
     const deviceButtonStates = useSelector((state: any) => state.button.deviceButtonStates);
     useEffect(() => {
-        const client = mqtt.connect(conf.WIND_MS_MQTT_URL, {
+        const client = mqtt.connect(conf.MQTT_URL, {
           protocolId: 'MQTT',
           protocolVersion: 4, // MQTT v3.1.1
           username: 'robo',

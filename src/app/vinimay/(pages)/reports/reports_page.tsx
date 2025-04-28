@@ -66,7 +66,7 @@ const Reports: React.FC = (): JSX.Element => {
 
   const fetchDevices = async () => {
     try {
-      const res = await myIntercepter.get(`${conf.VINIMAY_URL}/api/`);
+      const res = await myIntercepter.get(`${conf.VINIMAY_URL}/device`);
       console.log(res, "dtat we have got");
       if (res.status === 200) {
         setDevices(res.data);
@@ -81,7 +81,7 @@ const Reports: React.FC = (): JSX.Element => {
   const fetchLogData = async () => {
     try {
       if (selectedDevice) {
-        const res = await myIntercepter.get(`${conf.VINIMAY_URL}/api/logs/${selectedDevice.uid}`, { params: { start: fromDate, end: toDate } });
+        const res = await myIntercepter.get(`${conf.VINIMAY_URL}/logs/${selectedDevice.uid}`, { params: { start: fromDate, end: toDate } });
         if (res.status === 200) {
           setData(res.data.device_logs);
         } else {

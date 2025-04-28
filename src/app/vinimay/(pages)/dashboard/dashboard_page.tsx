@@ -35,7 +35,7 @@ const Dashboard: React.FC = (): JSX.Element => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await myInterceptor.get(`${conf.VINIMAY_URL}/api/`);
+                const res = await myInterceptor.get(`${conf.VINIMAY_URL}/device`);
                 if(res.status===200){
                     setDevices(res.data);
                 }

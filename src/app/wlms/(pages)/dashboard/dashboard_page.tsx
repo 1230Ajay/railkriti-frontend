@@ -10,7 +10,6 @@ import { BsFileEarmarkPdfFill, BsFillPrinterFill } from "react-icons/bs";
 import { TbListDetails } from "react-icons/tb";
 import { RiFileExcel2Fill, RiRestartLine } from "react-icons/ri";
 import { GrMapLocation } from "react-icons/gr";
-import socket from "@/lib/services/SocketService";
 import { useDispatch, useSelector } from "react-redux";
 import { enableButton, setTimer } from "@/features/device/deviceSlice";
 import { toast } from "react-toastify";
@@ -23,6 +22,8 @@ import HeaderTable from "@/components/headers/header.table";
 import { BrDashboardTableHeaderData } from "@/lib/data/br-wlms/data.dashboard-header";
 import TableRowV2 from "@/components/tiles/tile.table-row-v2";
 import { HeaderTile } from "@/components/headers/header.tile";
+import mqtt from "mqtt";
+import MqttService from "@/lib/network/mqtt_client";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
@@ -94,32 +95,93 @@ const Dashboard: React.FC = (): JSX.Element => {
     }, [deviceButtonStates, dispatch]);
 
     const handleRestartClick = (deviceUid: string) => {
-        socket.emit('rebootDevice', { "uid": deviceUid });
+
     };
 
     useEffect(() => {
+        MqttService.subscribe('device/status/brwlms/#');
+        MqttService.subscribe('device/updateui/brwlms/#');
+        MqttService.subscribe('relay/status/brwlms/#');
 
-        const handleDevicesUpdate = (updatedDevices: any[]) => {
-            console.log(updatedDevices);
-            setDevices(updatedDevices);
+        MqttService.client.on('message', (topic, message) => {
+            handleMessage(topic, message.toString());
+        });
+
+    }, []);
+
+    const updateDeviceByUid = (updatedDevice: any) => {
+        setDevices(prevDevices => 
+            prevDevices.map(device => 
+                device.bridge_no === updatedDevice.ifd ? { ...device, ...updatedDevice } : device
+            )
+        );
+    };
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await myIntercepter.get(`${conf.BR_WLMS}/api/device`);
+                setDevices(res.data);
+            } catch (error) {
+                console.error('Error fetching device:', error);
+            }
         };
 
-        const handleDisconnect = () => {
-            console.log('Disconnected from server');
+        fetchData();
+    }, []);
+
+    const handleMessage = async (topic: string, message: string) => {
+
+        const topicParts = topic.split('/');
+        if (topicParts.length < 4) {
+            console.warn('⚠️ Invalid topic format:', topic);
+            return;
+        }
+
+        const ifd = topicParts[3];
+
+        if (topic.startsWith('device/status/brwlms/')) {
+            if (message === 'online') {
+                updateDeviceByUid({ ifd: ifd, is_online: true })
+                return;
+            } else if (message === 'offline') {
+                updateDeviceByUid({ ifd: ifd, is_online: false })
+                return;
+            }
+        }
+
+        if (topic.startsWith('relay/status/brwlms/')) {
+            if (message === 'online') {
+                updateDeviceByUid({ ifd: ifd, relay_status: true })
+                return;
+            } else if (message === 'offline') {
+                updateDeviceByUid({ ifd: ifd, relay_status: false })
+                return;
+            }
+        }
+
+
+
+        if (topic.startsWith('device/updateui/brwlms/')) {
+            var data: any = await parseData(message);
+
+            data.is_online = true;
+            updateDeviceByUid({ ifd: ifd, ...data })
+        }
+
+    }
+
+    const parseData = (input: string) => {
+        const [ifd, current_level, wl_msl, battery, sensor_status] = input.split("~");
+        return {
+            ifd: ifd,
+            battery: parseFloat(battery),
+            current_level: parseFloat(current_level),
+            wl_msl: parseFloat(wl_msl),
+            sensor_status: sensor_status === "1" || false
         };
-
-
-        socket.on('devices', handleDevicesUpdate);
-        socket.on('disconnect', handleDisconnect);
-
-
-
-        return () => {
-            socket.off('connect');
-            socket.off('devices');
-            socket.off('disconnect');
-        };
-    });
+    }
 
     useEffect(() => {
         if (activeDetail) {
@@ -284,12 +346,10 @@ const Dashboard: React.FC = (): JSX.Element => {
 
                     const formattedDevice = {
                         ...device,
-                        s_no : index + 1,
-                        battery :`${device.battery}%`,
-                        sensor_status : device.sensor_status && device.is_online,
-                        current_level : `${device.current_level}m`
-
-    
+                        s_no: index + 1,
+                        battery: `${device.battery}%`,
+                        sensor_status: device.sensor_status && device.is_online,
+                        current_level: `${device.current_level}m`
                     }
                     return (
                         (

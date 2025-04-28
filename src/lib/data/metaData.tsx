@@ -77,3 +77,9 @@ export class VinimayMetaData extends BaseMetaData {
   }
 }
 
+
+export class WindMSMetaData extends BaseMetaData {
+  constructor() {
+    super("PAWAN SUTRA");
+  }
+}

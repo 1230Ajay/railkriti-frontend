@@ -1,10 +1,10 @@
 import React from 'react'
 import Dashboard from './dashboard_page'
 import { Metadata } from 'next';
-import { RailTaapMetaData } from '@/lib/data/metaData';
+import {  WindMSMetaData } from '@/lib/data/metaData';
 
 
-export const metadata: Metadata = new RailTaapMetaData().getMetaData().Dashboard;
+export const metadata: Metadata = new WindMSMetaData().getMetaData().Dashboard;
 
 
 function page() {

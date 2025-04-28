@@ -40,7 +40,7 @@ const http = {
   SAATHI_RX_SOCKET_URL: "http://localhost:3006",
   RAILTAAP_SOCKET_URL: "http://localhost:3009",
   TANK_WLMS_SOCKET_URL: "http://localhost:3010",
-  WIND_MS_MQTT_URL: "ws://railkriti.co.in:9001/ws",
+  MQTT_URL: "ws://railkriti.co.in:9001/ws",
 }
 
 const conf = {

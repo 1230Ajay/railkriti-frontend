@@ -65,7 +65,7 @@ const DevicePage: React.FC = (): JSX.Element => {
 
   const getDevice = async () => {
     try {
-      const response = await myIntercepter.get(`${conf.VINIMAY_URL}/api/`);
+      const response = await myIntercepter.get(`${conf.VINIMAY_URL}/device`);
       setDevices(response.data);
     } catch (error) {
       console.error('Error fetching alerts:', error);
@@ -87,7 +87,7 @@ const DevicePage: React.FC = (): JSX.Element => {
 
   const activateDeactivate = async (uid: string, status: boolean) => {
     try {
-      const response = await myIntercepter.put(`${conf.VINIMAY_URL}/api/${uid}`, {
+      const response = await myIntercepter.put(`${conf.VINIMAY_URL}/device/${uid}`, {
         uid,
         isActive: status
       });

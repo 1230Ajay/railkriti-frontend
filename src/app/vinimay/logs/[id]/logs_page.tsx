@@ -39,7 +39,7 @@ interface Device {
 // Fetch data function
 const fetchLog = async (id: string): Promise<Device> => {
   try {
-    const res = await myInterceptor.get(`${conf.VINIMAY_URL}/api/logs/${id}`);
+    const res = await myInterceptor.get(`${conf.VINIMAY_URL}/logs/${id}`);
     console.log(res.data)
     return res.data;
     console.log(res.data)

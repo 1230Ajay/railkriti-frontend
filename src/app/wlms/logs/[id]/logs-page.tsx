@@ -41,6 +41,7 @@ const getDateRange = (selectedDate: any) => {
 
   const endDate = new Date(selectedDate);
   endDate.setHours(23, 59, 59, 999);
+  endDate.setDate(endDate.getDate()+1);
 
 
   return { start: startDate, end: endDate };

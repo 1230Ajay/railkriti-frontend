@@ -5,9 +5,9 @@ import ContactForm from "@/components/forms/ContactForm";
 import NavBar from "@/components/nav/navbar";
 import { Metadata } from "next";
 import { Titles } from "@/lib/data/title";
-import { RailTaapMetaData } from "@/lib/data/metaData";
+import { WindMSMetaData } from "@/lib/data/metaData";
 
-export const metadata: Metadata = new RailTaapMetaData().getMetaData().Contact
+export const metadata: Metadata = new WindMSMetaData().getMetaData().Contact
 
 
 const Contacts = () => {
