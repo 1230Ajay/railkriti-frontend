@@ -18,6 +18,7 @@ const https = {
   SAATHI_RX_SOCKET_URL: "https://railkriti.co.in:3006",
   RAILTAAP_SOCKET_URL: "https://railkriti.co.in:3009",
   TANK_WLMS_SOCKET_URL: "https://railkriti.co.in:3010",
+  MQTT_URL: "ws://railkriti.co.in:9001/ws",
 }
 
 const http = {
