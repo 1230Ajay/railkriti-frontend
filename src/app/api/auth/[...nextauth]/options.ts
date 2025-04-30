@@ -3,6 +3,7 @@ import myInterceptor from '@/lib/interceptor';
 import axios from 'axios';
 import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+const https = require('https');
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -19,6 +20,8 @@ export const authOptions: AuthOptions = {
           const response = await axios.post(`${conf.API_GATEWAY}/auth/sign-in`, {
             identifier: identifier,
             password: password
+          },{
+            httpsAgent: new https.Agent({ rejectUnauthorized: false })
           });
          
 
@@ -34,7 +37,7 @@ export const authOptions: AuthOptions = {
          console.log("upper sectin details not verified");
           return null;
         } catch (error:any) {
-            console.log(error.message);
+            console.log(error);
           return null;
         }
       },

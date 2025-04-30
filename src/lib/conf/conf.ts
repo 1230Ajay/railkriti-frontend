@@ -23,7 +23,7 @@ const https = {
 
 const http = {
   // api urls
-  API_GATEWAY: "http://edge-server:8090",
+  API_GATEWAY: "http://localhost:8090",
   LOCTION: `http://localhost:8090/location`,
   BR_WLMS: `http://localhost:8090/br-wlms`,
   TR_WLMS: `http://localhost:8090/tr-wlms`,

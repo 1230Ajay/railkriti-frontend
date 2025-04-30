@@ -21,9 +21,6 @@ services:
       - BASE_URL="http://localhost:8080"
       - NEXTAUTH_URL=http://localhost:3007
 
-
-    networks:
-      - railkriti
             
     command: ["sh", "-c", "npm run dev"]
 
@@ -41,7 +38,3 @@ services:
     
   #   networks:
   #     - railkriti
-
-networks:
-  railkriti:
-    external: true

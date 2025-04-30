@@ -14,7 +14,7 @@ services:
       - PASSWORD= hqbaevkbtsgkhuav
       - CLIENT_SECRET=hkfgfhfkjhf
       - USE_HTTPS=false
-      - NEXTAUTH_URL=http://localhost:3007
+      - NEXTAUTH_URL=https://robokriti.co.in
 
     ports:
       - "3007:3007"  # Mapping the container's port 3002 to host's port 3002
