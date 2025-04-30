@@ -1,26 +1,33 @@
 import axios from "axios";
+import { getSession } from "next-auth/react";
 
+// Create the axios instance
 const myInterceptor = axios.create({
-    baseURL: process.env.BASE_URL, // Set the base URL
-    withCredentials: true, // Enable sending cookies with requests
+    baseURL: process.env.BASE_URL, // Set the base URL from environment variables
 });
 
-// Example: Add a request interceptor (optional)
+// Example: Add a request interceptor to include JWT token in headers
 myInterceptor.interceptors.request.use(
-    (config) => {
-        // Modify request configuration if needed
-        console.log("Request sent with cookies:", config);
+    async (config) => {
+        // Get the session using getSession
+        const session = await getSession();
+        
+        if (session?.accessToken) {
+            // Add the JWT token from the session to the Authorization header
+            config.headers['Authorization'] = `Bearer ${session.accessToken}`;
+        }
+
         return config;
     },
     (error) => {
         if (error.response?.status === 403) {
-        console.log("user is unauthorised to do that!")
+            console.log("User is unauthorized to do that!");
         }
         return Promise.reject(error);
     }
 );
 
-// Example: Add a response interceptor (optional)
+// Example: Add a response interceptor
 myInterceptor.interceptors.response.use(
     (response) => {
         // Process the response

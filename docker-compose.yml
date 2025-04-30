@@ -19,6 +19,7 @@ services:
       - PASSWORD=hqbaevkbtsgkhuav
       - CLIENT_SECRET=hkfgfhfkjhf
       - BASE_URL="http://localhost:8080"
+      - NEXTAUTH_URL=http://localhost:3007
 
 
     networks:
