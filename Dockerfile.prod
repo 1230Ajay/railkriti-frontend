@@ -1,35 +1,20 @@
-# Stage 1: Build the application
+# Stage 1: Build
 FROM node:21 AS builder
-
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the container
 COPY package*.json ./
-RUN npm i
-RUN npm i next
-RUN npm i -g prisma next  # Global installs for Prisma and Next.js
-
-# Copy the rest of the application code to the container
+RUN npm ci  # cleaner, faster install for prod
 COPY . .
-
-# Build the application
 RUN npm run build
 
-# Stage 2: Serve the application
-FROM node:latest AS production
-
-# Set the working directory in the container
+# Stage 2: Run
+FROM node:21-slim AS production
 WORKDIR /app
 
-# Copy the build output, node_modules, and package.json from the builder stage
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/package*.json ./  
+COPY --from=builder /app/package*.json ./
 
-# Expose the port that the application will run on
 EXPOSE 3007
-
-# Default command
 CMD ["npm", "start"]

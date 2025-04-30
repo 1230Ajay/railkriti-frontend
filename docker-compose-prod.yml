@@ -17,13 +17,5 @@ services:
       - NEXTAUTH_URL=http://localhost:3007
 
     ports:
-      - "3007:3007" # Mapping the container's port 3002 to host's port 3002
+      - "3007:3007"  # Mapping the container's port 3002 to host's port 3002
     command: "npm start"
-
-    networks:
-      - railkriti
-
-
-networks:
-  railkriti:
-    external: true
