@@ -1,58 +1,67 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
-import allowedSidebarPages from '@/lib/data/SidebarData';
+import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
+import allowedSidebarPages from '@/lib/data/SidebarData'
+import { useSession } from 'next-auth/react'
 
 interface SidebarProps {
-  sidebarOpen: boolean;
-  toggleSidebar: () => void;
+  sidebarOpen: boolean
+  toggleSidebar: () => void
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
-  const sidebarRef = useRef<HTMLDivElement>(null);
-  const [pages, setPages] = useState<any[]>([]);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const sidebarRef = useRef<HTMLDivElement>(null)
+  const [pages, setPages] = useState<any[]>([])
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
+  const { data: session, status } = useSession()
 
   useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      try {
-        const parsedUser = JSON.parse(userData);
-        setIsAdmin(parsedUser?.role?.name=== 'admin');
-      } catch (error) {
-        console.error("Error parsing user data:", error);
-      }
+
+    if (status === 'authenticated' && session?.user) {
+      setIsAdmin(session.user.role === 'admin')
+    } else {
+      setIsAdmin(false)
     }
-  }, []);
+  }, [session, status])
 
   useEffect(() => {
     const fetchPages = async () => {
-      const pages = await allowedSidebarPages(isAdmin);
-      setPages(pages);
-    };
+      const pages = await allowedSidebarPages(isAdmin)
+      setPages(pages)
+    }
 
-    fetchPages();
-  }, [isAdmin]);
+    fetchPages()
+  }, [isAdmin])
 
   useEffect(() => {
     const handleMouseLeave = (event: MouseEvent) => {
       if (sidebarRef.current && !sidebarRef.current.contains(event.relatedTarget as Node)) {
-        toggleSidebar();
+        toggleSidebar()
       }
-    };
+    }
 
-    if (sidebarRef.current) {
-      sidebarRef.current.addEventListener('mouseleave', handleMouseLeave);
+    const currentRef = sidebarRef.current
+    if (currentRef) {
+      currentRef.addEventListener('mouseleave', handleMouseLeave)
     }
 
     return () => {
-      if (sidebarRef.current) {
-        sidebarRef.current.removeEventListener('mouseleave', handleMouseLeave);
+      if (currentRef) {
+        currentRef.removeEventListener('mouseleave', handleMouseLeave)
       }
-    };
-  }, [toggleSidebar]);
+    }
+  }, [toggleSidebar])
 
+  if (status === 'loading') {
+    return (
+      <div className="flex bg-gray-800">
+        <div className="fixed top-20 rounded-md z-10 w-64 h-64 bg-black border border-white flex items-center justify-center">
+          <p className="text-white">Loading...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="flex bg-gray-800">
@@ -79,7 +88,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
         </ul>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar

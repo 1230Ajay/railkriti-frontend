@@ -54,7 +54,7 @@ const DashboardNav: React.FC<DashboardNavProps> = (details) => {
   }, []);
 
   const isAdmin = () => {
-    console.log(user);
+ 
     return user?.role === "admin";
   };
 
