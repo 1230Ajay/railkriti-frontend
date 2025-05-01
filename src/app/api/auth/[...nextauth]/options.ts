@@ -4,7 +4,6 @@ import axios from 'axios';
 import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 const https = require('https');
-
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
@@ -45,7 +44,7 @@ export const authOptions: AuthOptions = {
   ],
   session: {
     strategy: 'jwt',
-    maxAge: 5 * 60,
+    maxAge: 60 * 60,
   },
   pages: {
     signIn: '/sign-in',
@@ -61,7 +60,7 @@ export const authOptions: AuthOptions = {
           name: `${user.firstName} ${user.lastName}`,
           role: user.role?.name ?? 'user', 
         };
-        token.exp = Math.floor(Date.now() / 1000) + 5 * 60;
+        token.exp = Math.floor(Date.now() / 1000) + 60 * 60;
       }
   
       return token;
