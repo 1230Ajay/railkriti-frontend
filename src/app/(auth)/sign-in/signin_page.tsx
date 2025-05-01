@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { FaEnvelope, FaEye, FaEyeSlash, FaSync } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Image from 'next/image';
@@ -26,7 +26,7 @@ export default function SignInPage() {
   const [generatedCaptcha, setGeneratedCaptcha] = useState('');
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-
+  const searchParams = useSearchParams();
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -36,6 +36,15 @@ export default function SignInPage() {
   }, []);
 
 
+  useEffect(() => {
+    const error = searchParams.get('error');
+    if (error) {
+      toast.error(error,{delay:12});
+      router.replace('/sign-in'); 
+    }
+    
+    generateCaptcha();
+  }, [searchParams, router]);
 
   const { values, touched, errors, handleBlur, handleChange, handleReset, handleSubmit } = useFormik(
     {
@@ -43,43 +52,12 @@ export default function SignInPage() {
       validationSchema: SignInDto,
       onSubmit: async (data) => {
     
-
-    
-        await signIn('credentials', {
-          identifier:data.identifier,
-          password:data.password,
-          callbackUrl: '/application',
-        });
-
-        // if (data.captcha !== generatedCaptcha) {
-        //   toast.error("Incorrect CAPTCHA answer. Please try again.");
-        //   generateCaptcha();
-        //   return;
-        // }
-    
-        // setIsSubmitting(true);
-        // try {
-        //   const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/sign-in`, {
-        //     identifier: data.identifier,
-        //     password: data.password
-        //   }
-        //   );
-    
-        //   if (response.data.status === 200) {
-        //     router.push('/application');
-        //     setIsSubmitting(false);
-        //     localStorage.setItem("jwt",response.data.jwt),
-        //     localStorage.setItem("user", JSON.stringify(response.data.user));
-        //     localStorage.setItem("login_time",Date.now().toString());
-        //     toast.success(response.data.message);
-        //   } else {
-        //     setIsSubmitting(false);
-        //     toast.error(response.data.message);
-        //   }
-    
-        // } catch (error: any) {
-        //   toast.error('Error logging in: ' + error.message);
-        // }
+ 
+    const result =  await signIn('credentials', {
+      identifier:data.identifier,
+      password:data.password,
+      callbackUrl: '/application',
+    });
       }
     }
   )

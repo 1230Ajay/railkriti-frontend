@@ -3,6 +3,7 @@ import myInterceptor from '@/lib/interceptor';
 import axios from 'axios';
 import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { toast } from 'react-toastify';
 const https = require('https');
 export const authOptions: AuthOptions = {
   providers: [
@@ -26,7 +27,6 @@ export const authOptions: AuthOptions = {
 
           if (response.data?.status === 200 && response.data?.jwt && response.data?.user) {
             const { jwt, user } = response.data;
-     
             return {
               ...user,
               token: jwt,
@@ -36,8 +36,7 @@ export const authOptions: AuthOptions = {
          console.log("upper sectin details not verified");
           return null;
         } catch (error:any) {
-            console.log(error);
-          return null;
+          throw new Error(error.response?.data?.message || 'Login failed');
         }
       },
     }),
@@ -48,7 +47,7 @@ export const authOptions: AuthOptions = {
   },
   pages: {
     signIn: '/sign-in',
-    error:undefined
+    error:'/sign-in'
   },
   callbacks: {
     async jwt({ token, user }) {
