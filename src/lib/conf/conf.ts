@@ -23,7 +23,7 @@ const conf = {
   MQTT_URL: process.env.MQTT_URL || "wss://railkriti.co.in:9002/ws",
 
   // Auth Configuration
-  NEXTAUTH_URL: process.env.NEXTAUTH_URL || "https://railkriti.co.in",
+  NEXTAUTH_URL: process.env.NEXTAUTH_URL || "https://robokriti.co.in",
   AUTH_SECRET: process.env.AUTH_SECRET || "Q29tbWFuZCB0byBnZW5lcmF0ZSBhIHJhbmRvbSBzdHJpbmcgaW4gYmFzZTY0",
 };
 
