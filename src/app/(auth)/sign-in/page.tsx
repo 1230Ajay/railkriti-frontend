@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import SignInPage from "./signin_page";
 
 export const metadata: Metadata = {
@@ -12,7 +12,9 @@ export const metadata: Metadata = {
 
 export default function page() {
   return (
-    <div><SignInPage/></div>
+    <Suspense fallback={<div>Loading...</div>}>
+    <SignInPage />
+  </Suspense>
   )
 }
 

@@ -54,7 +54,7 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({ data, onClose }) 
 
     const fetchZones = async () => {
       try {
-        const zonesResponse = await myIntercepter.get(`${conf.LOCTION}/api/zone`);
+        const zonesResponse = await myIntercepter.get(`${conf.LOCATION}/api/zone`);
         setZoneOptions(zonesResponse.data);
       } catch (error) {
         console.error('Error fetching zones:', error);
@@ -68,7 +68,7 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({ data, onClose }) 
     const fetchDivisions = async () => {
       if (zoneUid) {
         try {
-          const response = await myIntercepter.get(`${conf.LOCTION}/api/zone/${zoneUid}`);
+          const response = await myIntercepter.get(`${conf.LOCATION}/api/zone/${zoneUid}`);
           setDivisionOptions(response.data.divisions);
         } catch (error) {
           console.error('Error fetching divisions:', error);
@@ -98,7 +98,7 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({ data, onClose }) 
     };
 
     try {
-      const response = await myIntercepter.put(`${conf.LOCTION}/api/section/${data.uid}`, sectionData);
+      const response = await myIntercepter.put(`${conf.LOCATION}/api/section/${data.uid}`, sectionData);
       console.log('Section updated successfully:', response.data);
       window.location.reload();
       await onClose();

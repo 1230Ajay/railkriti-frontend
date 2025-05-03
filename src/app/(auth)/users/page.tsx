@@ -29,7 +29,7 @@ interface User {
   mobile: string;
   designation: string;
   user_role_id: string;
-  isVerified: boolean;
+  isActive: boolean;
 }
 
 export default function Page() {
@@ -67,11 +67,11 @@ export default function Page() {
 
   const updateUserStatus = async (user: User, activate: boolean) => {
     try {
-      const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/update`, { identifier: user.username ,isVerified:activate});
+      const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/activate-deactivate`, { identifier: user.username ,isActive:activate});
       if (response.status === 200) {
         setUsers(prevSections =>
           prevSections.map(u =>
-            u.uid === user.uid ? { ...u, isVerified: activate } : u
+            u.uid === user.uid ? { ...u, isActive: activate } : u
           )
         );
         toast.success(`${user.firstName} ${user.lastName} has been ${!activate ? 'activated' : 'deactivated'}`);
@@ -138,10 +138,10 @@ export default function Page() {
               <p className='uppercase'>{user.role.name}</p>
               <div className='flex w-full justify-center'>
                 <button
-                  onClick={() => updateUserStatus(user, !user.isVerified)}
+                  onClick={() => updateUserStatus(user, !user.isActive)}
                   className='text-3xl text-center rounded-md'
                 >
-                  {!user.isVerified ? <CgToggleOff className='text-green-400' /> : <CgToggleOn className='text-primary' />}
+                  {user.isActive ? <CgToggleOff className='text-green-400' /> : <CgToggleOn className='text-primary' />}
                 </button>
               </div>
               <div className='flex h-full items-center justify-center'>

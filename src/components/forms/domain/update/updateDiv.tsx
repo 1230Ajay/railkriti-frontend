@@ -39,7 +39,7 @@ const UpdateDivisionForm: React.FC<UpdateDivisionFormProps> = ({ data, onClose =
 
     const fetchZones = async () => {
       try {
-        const response = await myIntercepter.get(`${conf.LOCTION}/api/zone`);
+        const response = await myIntercepter.get(`${conf.LOCATION}/api/zone`);
         setZoneOptions(response.data);
       } catch (error) {
         console.error('Error fetching zones:', error);
@@ -52,7 +52,7 @@ const UpdateDivisionForm: React.FC<UpdateDivisionFormProps> = ({ data, onClose =
     event.preventDefault();
 
     try {
-      const response = await myIntercepter.put(`${conf.LOCTION}/api/division/${data.uid}`, {
+      const response = await myIntercepter.put(`${conf.LOCATION}/api/division/${data.uid}`, {
         zone_uid,
         divisional_code,
         name: division,

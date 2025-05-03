@@ -20,7 +20,7 @@ const SectionForm = ({ onClose = () => { } }) => {
   useEffect(() => {
     const fetchZones = async () => {
       try {
-        const zones = await myIntercepter.get(`${conf.LOCTION}/api/zone`);
+        const zones = await myIntercepter.get(`${conf.LOCATION}/api/zone`);
 
 
         setZoneOptions(zones.data);
@@ -37,7 +37,7 @@ const SectionForm = ({ onClose = () => { } }) => {
     const fetchDivisions = async () => {
       if (zone_uid) {
         try {
-          const response = await myIntercepter.get(`${conf.LOCTION}/api/zone/${zone_uid}`);
+          const response = await myIntercepter.get(`${conf.LOCATION}/api/zone/${zone_uid}`);
           setDivisionOptions(response.data.divisions);
         } catch (error) {
           console.error('Error fetching divisions:', error);
@@ -72,7 +72,7 @@ const SectionForm = ({ onClose = () => { } }) => {
     };
 
     try {
-      const response = await myIntercepter.post(`${conf.LOCTION}/api/section`, sectionData);
+      const response = await myIntercepter.post(`${conf.LOCATION}/api/section`, sectionData);
       console.log('Section registered successfully:', response.data);
       await onClose();
       window.location.reload();

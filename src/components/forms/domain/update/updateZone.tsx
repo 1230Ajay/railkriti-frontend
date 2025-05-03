@@ -30,7 +30,7 @@ const UpdateZoneForm: React.FC<UpdateZoneFormProps> = ({ data, onClose = () => {
 
     try {
       // Making a POST request to /api/zone
-      const response = await myIntercepter.put(`${conf.LOCTION}/api/zone/${data.uid}`, {
+      const response = await myIntercepter.put(`${conf.LOCATION}/api/zone/${data.uid}`, {
         name: zone,
         zonal_code
       });

@@ -32,7 +32,7 @@ export default function ChangeEmail() {
     validationSchema: forgotPasswordDto,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/resend-verfication`, {
+        const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/resend-verificaion-email`, {
           identifier: values.identifier,
         });
 
@@ -44,10 +44,12 @@ export default function ChangeEmail() {
           setTimerActive(true);
           toast.success('Email sent to your mail.');
         } else {
-          toast.error(response.data.message);
+          toast.success(response.data.message);
         }
       } catch (error) {
+        console.log(error);
         toast.error('User does not exist');
+    
       } finally {
         setSubmitting(false);
       }
@@ -76,8 +78,8 @@ export default function ChangeEmail() {
 
       {/* Form Container */}
       <div className="bg-black bg-opacity-80 p-6 sm:p-8 rounded-md shadow-md w-full max-w-md mt-12 sm:mt-0">
-        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 text-white">Forgot Password</h1>
-
+        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-2 text-white">Resend Email</h1>
+        <div className=' text-white text-center mb-6'>Your email is not verified please verify your email first</div>
         {!emailSent ? (
           <form onSubmit={formik.handleSubmit} className="space-y-4 sm:space-y-6">
             <div>
@@ -100,7 +102,7 @@ export default function ChangeEmail() {
               className="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded w-full text-sm sm:text-base"
               disabled={formik.isSubmitting}
             >
-              {formik.isSubmitting ? 'Sending...' : 'Get OTP'}
+              {formik.isSubmitting ? 'Sending...' : 'Get Link'}
             </button>
             
             <div className="flex justify-center">

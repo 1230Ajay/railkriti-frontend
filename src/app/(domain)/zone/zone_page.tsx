@@ -43,7 +43,7 @@ export default function ZonePage() {
   useEffect(() => {
     const fetchZoneData = async () => {
       try {
-        const response = await myIntercepter.get(`${conf.LOCTION}/api/zone`);
+        const response = await myIntercepter.get(`${conf.LOCATION}/api/zone`);
         const data = await response.data;
         setZoneData(data);
       } catch (error) {

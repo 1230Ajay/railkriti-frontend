@@ -12,12 +12,10 @@ export async function middleware(request: NextRequest) {
         "/change-email",
         "/forgot-password-otp",
         "/forgot-password",
-        "/change-mobile",
         "/sign-in",
         "/sign-up",
         "/verify",
-        "/verified",
-        "/change-password-by-email-or-username"
+        "/resend-verification"
     ];
 
     // Handle authenticated users trying to access unauthenticated pages

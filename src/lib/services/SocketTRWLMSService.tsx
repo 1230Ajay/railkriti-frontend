@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import { getStoredJwt } from '../../../getCoockies';
 
 
-const socketTRWLMS = io(conf.TR_WLMS_SCOKET_URL); 
+const socketTRWLMS = io(conf.TR_WLMS_SOCKET_URL); 
 
 
 const executeHandleConnect = () => {

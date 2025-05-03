@@ -13,7 +13,7 @@ const ZoneForm = ({ onClose = () => { } }) => {
 
     try {
       // Making a POST request to /api/zone
-      const response = await myIntercepter.post(`${conf.LOCTION}/api/zone`, {
+      const response = await myIntercepter.post(`${conf.LOCATION}/api/zone`, {
         name: zone,
         zonal_code: zonal_code
       });

@@ -83,7 +83,7 @@ const SectionPage: React.FC = (): JSX.Element => {
   useEffect(() => {
     const fetchSections = async () => {
       try {
-        const response = await myIntercepter.get(`${conf.LOCTION}/api/section`);
+        const response = await myIntercepter.get(`${conf.LOCATION}/api/section`);
         setSections(response.data);
       } catch (error) {
         console.error('Error fetching sections:', error);

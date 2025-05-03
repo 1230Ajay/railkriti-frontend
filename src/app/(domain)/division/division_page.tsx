@@ -39,7 +39,7 @@ export default function DivisionPage() {
   useEffect(() => {
     const fetchDivisions = async () => {
       try {
-        const response = await myIntercepter.get(`${conf.LOCTION}/api/division`);
+        const response = await myIntercepter.get(`${conf.LOCATION}/api/division`);
         setDivisions(response.data);
       } catch (error) {
         console.error('Error fetching divisions:', error);
@@ -52,7 +52,7 @@ export default function DivisionPage() {
   useEffect(() => {
     const fetchZones = async () => {
       try {
-        const response = await myIntercepter.get(`${conf.LOCTION}/api/zone`);
+        const response = await myIntercepter.get(`${conf.LOCATION}/api/zone`);
         setZoneOptions(response.data);
       } catch (error) {
         console.error('Error fetching zones:', error);

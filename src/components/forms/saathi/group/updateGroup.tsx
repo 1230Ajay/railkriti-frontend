@@ -106,7 +106,7 @@ const UpdateGroupForm: React.FC<UpdateGroupFormProp> = ({ group, onClose }) => {
 
     const fetchZones = async () => {
         try {
-            const response = await myIntercepter.get(`${conf.LOCTION}/api/zone`);
+            const response = await myIntercepter.get(`${conf.LOCATION}/api/zone`);
             setZoneOptions(response.data);
         } catch (error) {
             console.error('Error fetching zones:', error);
@@ -115,7 +115,7 @@ const UpdateGroupForm: React.FC<UpdateGroupFormProp> = ({ group, onClose }) => {
 
     const fetchDivisions = async (zoneId: string) => {
         try {
-            const response = await myIntercepter.get(`${conf.LOCTION}/api/zone/${zoneId}`);
+            const response = await myIntercepter.get(`${conf.LOCATION}/api/zone/${zoneId}`);
             setDivisionOptions(response.data.divisions);
         } catch (error) {
             console.error('Error fetching divisions:', error);
@@ -124,7 +124,7 @@ const UpdateGroupForm: React.FC<UpdateGroupFormProp> = ({ group, onClose }) => {
 
     const fetchSections = async (divisionId: string) => {
         try {
-            const response = await myIntercepter.get(`${conf.LOCTION}/api/division/${divisionId}`);
+            const response = await myIntercepter.get(`${conf.LOCATION}/api/division/${divisionId}`);
             setSectionOptions(response.data.sections);
         } catch (error) {
             console.error('Error fetching sections:', error);

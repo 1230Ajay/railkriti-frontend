@@ -25,6 +25,8 @@ export const authOptions: AuthOptions = {
           });
          
 
+
+
           if (response.data?.status === 200 && response.data?.jwt && response.data?.user) {
             const { jwt, user } = response.data;
             return {
@@ -33,10 +35,11 @@ export const authOptions: AuthOptions = {
             };
           }
 
-         console.log("upper sectin details not verified");
           return null;
         } catch (error:any) {
-          throw new Error(error.response?.data?.message || 'Login failed');
+          const status = error.response?.data?.status || 500;
+          const message = error.response?.data?.message || error.message || 'Internal Server Error';
+          throw new Error(JSON.stringify({ status, message }));
         }
       },
     }),

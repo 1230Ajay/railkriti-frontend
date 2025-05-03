@@ -18,7 +18,7 @@ const DivisionForm = ({ onClose = () => {} }) => {
   useEffect(() => {
     const fetchZones = async () => {
       try {
-        const response = await myIntercepter.get(`${conf.LOCTION}/api/zone`);
+        const response = await myIntercepter.get(`${conf.LOCATION}/api/zone`);
         setZoneOptions(response.data);
       } catch (error) {
         console.error('Error fetching zones:', error);
@@ -31,7 +31,7 @@ const DivisionForm = ({ onClose = () => {} }) => {
     event.preventDefault();
 
     try {
-      const response = await myIntercepter.post(`${conf.LOCTION}/api/division`, {
+      const response = await myIntercepter.post(`${conf.LOCATION}/api/division`, {
         zone_uid,
         divisional_code,
         name: division,

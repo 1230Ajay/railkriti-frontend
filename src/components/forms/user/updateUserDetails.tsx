@@ -60,7 +60,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
     useEffect(() => {
         const fetchZones = async () => {
             try {
-                const zones = await myIntercepter.get(`${conf.LOCTION}/api/zone`);
+                const zones = await myIntercepter.get(`${conf.LOCATION}/api/zone`);
                 setZoneOptions(zones.data);
             } catch (error) {
                 console.error('Error fetching zones:', error);
@@ -74,7 +74,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
         const fetchDivisions = async () => {
             if (zone) {
                 try {
-                    const response = await myIntercepter.get(`${conf.LOCTION}/api/zone/${zone}`);
+                    const response = await myIntercepter.get(`${conf.LOCATION}/api/zone/${zone}`);
                     setDivisionOptions(response.data.divisions);
                 } catch (error) {
                     console.error('Error fetching divisions:', error);
@@ -89,7 +89,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
         const fetchSections = async () => {
             if (division_uid) {
                 try {
-                    const response = await myIntercepter.get(`${conf.LOCTION}/api/division/${division_uid}`);
+                    const response = await myIntercepter.get(`${conf.LOCATION}/api/division/${division_uid}`);
                     
                     // Only set initial sections if they are not already set
                     if (sections_uid.length === 0) {
@@ -152,7 +152,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
         const selectedZone = zoneOptions.find((zone: any) => zone.uid === selectedZoneUid);
         setZone(selectedZoneUid);
         setDivision(''); // Reset division when zone changes
-        const response = await myIntercepter.get(`${conf.LOCTION}/api/sections/zone/${selectedZoneUid}`);
+        const response = await myIntercepter.get(`${conf.LOCATION}/api/sections/zone/${selectedZoneUid}`);
         await setSections(response.data);
     };
 
@@ -162,7 +162,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
         setDivision(selectedDivision); // Set new division
     
         try {
-            const response = await myIntercepter.get(`${conf.LOCTION}/api/sections/division/${selectedDivision}`);
+            const response = await myIntercepter.get(`${conf.LOCATION}/api/sections/division/${selectedDivision}`);
             const uids = response.data.map((section: any) => section.uid);
             setSectionOptions(response.data);
             setSections(uids);

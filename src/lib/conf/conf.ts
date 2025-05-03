@@ -1,51 +1,30 @@
-const https = {
-  API_GATEWAY: "https://railkriti.co.in:8090",
-  LOCTION: `https://railkriti.co.in:8090/location`,
-  BR_WLMS: `https://railkriti.co.in:8090/br-wlms`,
-  TR_WLMS: `https://railkriti.co.in:8090/tr-wlms`,
-  SAATHI_RX: `https://railkriti.co.in:8090/saathi-rx`,
-  SAATHI_TX: `https://railkriti.co.in:8090/saathi-tx`,
-  RAILTAAP: `https://railkriti.co.in:8090/railtaap`,
-  NOTIFICATION: `https://railkriti.co.in:8090/notification`,
-  TANK_WLMS: `https://railkriti.co.in:8090/tank-wlms`,
-  VINIMAY_URL: `https://railkriti.co.in:8090/vinimay`,
-  WIND_URL:"https://railkriti.co.in:8090/wind",
-
-  // socket urls
-  BR_WLMS_SOCKET_URL: "https://railkriti.co.in:3001",
-  TR_WLMS_SCOKET_URL: "https://railkriti.co.in:3004",
-  SAATHI_TX_SOCKET_URL: "https://railkriti.co.in:3005",
-  SAATHI_RX_SOCKET_URL: "https://railkriti.co.in:3006",
-  RAILTAAP_SOCKET_URL: "https://railkriti.co.in:3009",
-  TANK_WLMS_SOCKET_URL: "https://railkriti.co.in:3010",
-  MQTT_URL: "wss://railkriti.co.in:9002/ws",
-}
-
-const http = {
-  // api urls
-  API_GATEWAY: "http://localhost:8090",
-  LOCTION: `http://localhost:8090/location`,
-  BR_WLMS: `http://localhost:8090/br-wlms`,
-  TR_WLMS: `http://localhost:8090/tr-wlms`,
-  SAATHI_RX: `http://localhost:8090/saathi-rx`,
-  SAATHI_TX: `http://localhost:8090/saathi-tx`,
-  RAILTAAP: `http://localhost:8090/railtaap`,
-  NOTIFICATION: `http://localhost:8090/backend/notification`,
-  TANK_WLMS: `http://localhost:8090/tank-wlms`,
-  VINIMAY_URL: `http://localhost:8090/vinimay`,
-  WIND_URL: `http://localhost:8090/wind`,
-  // socket urls
-  BR_WLMS_SOCKET_URL: "http://localhost:3001",
-  TR_WLMS_SCOKET_URL: "http://localhost:3004",
-  SAATHI_TX_SOCKET_URL: "http://localhost:3005",
-  SAATHI_RX_SOCKET_URL: "http://localhost:3006",
-  RAILTAAP_SOCKET_URL: "http://localhost:3009",
-  TANK_WLMS_SOCKET_URL: "http://localhost:3010",
-  MQTT_URL: "ws://railkriti.co.in:9001/ws",
-}
-
+// conf.js - Universal configuration that adapts to environment variables
 const conf = {
-  ...https
-}
+  // API Endpoints
+  API_GATEWAY: process.env.BASE_URL,
+  LOCATION: `${process.env.BASE_URL}/location`,
+  BR_WLMS: `${process.env.BASE_URL}/br-wlms`,
+  TR_WLMS: `${process.env.BASE_URL}/tr-wlms`,
+  SAATHI_RX: `${process.env.BASE_URL}/saathi-rx`,
+  SAATHI_TX: `${process.env.BASE_URL}/saathi-tx`,
+  RAILTAAP: `${process.env.BASE_URL}/railtaap`,
+  NOTIFICATION: `${process.env.BASE_URL}/notification`,
+  TANK_WLMS: `${process.env.BASE_URL}/tank-wlms`,
+  VINIMAY_URL: `${process.env.BASE_URL}/vinimay`,
+  WIND_URL: `${process.env.BASE_URL}/wind`,
+
+  // Socket URLs
+  BR_WLMS_SOCKET_URL: process.env.BR_WLMS_SOCKET_URL || "",
+  TR_WLMS_SOCKET_URL: process.env.TR_WLMS_SOCKET_URL || "",
+  SAATHI_TX_SOCKET_URL: process.env.SAATHI_TX_SOCKET_URL || "",
+  SAATHI_RX_SOCKET_URL: process.env.SAATHI_RX_SOCKET_URL || "",
+  RAILTAAP_SOCKET_URL: process.env.RAILTAAP_SOCKET_URL || "",
+  TANK_WLMS_SOCKET_URL: process.env.TANK_WLMS_SOCKET_URL || "",
+  MQTT_URL: process.env.MQTT_URL|| "http://localhost:3007",
+
+  // Auth Configuration
+  NEXTAUTH_URL: process.env.NEXTAUTH_URL || "",
+  AUTH_SECRET: process.env.AUTH_SECRET || "",
+};
 
 export default conf;

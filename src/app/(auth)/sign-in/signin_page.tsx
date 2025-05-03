@@ -27,6 +27,7 @@ export default function SignInPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const searchParams = useSearchParams();
+  const [showResendButton,setShowResendButton] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -37,22 +38,31 @@ export default function SignInPage() {
 
 
   useEffect(() => {
-    const error = searchParams.get('error');
-    if (error) {
-      toast.error(error,{delay:12});
-      router.replace('/sign-in'); 
-    }
-    
-    generateCaptcha();
-  }, [searchParams, router]);
+    const errorParam = searchParams.get('error');
+    if (errorParam) {
+      try {
+        const parsedError = JSON.parse(errorParam);
+     
+        if (parsedError.status === 400) {
+       
+          router.push("/resend-verification");
+          return; 
+        }
+        toast.error(parsedError.message, { delay: 12 });
+      } catch {
+        toast.error(errorParam);
+      }
 
+      router.replace('/sign-in');
+    }
+  }, [searchParams, router]);
+  
   const { values, touched, errors, handleBlur, handleChange, handleReset, handleSubmit } = useFormik(
     {
       initialValues: initialValues,
       validationSchema: SignInDto,
       onSubmit: async (data) => {
     
- 
     const result =  await signIn('credentials', {
       identifier:data.identifier,
       password:data.password,
@@ -64,7 +74,7 @@ export default function SignInPage() {
 
 
   const generateCaptcha = () => {
-    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+    const chars = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
     let captcha = '';
     for (let i = 0; i < 4; i++) {
       captcha += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -175,6 +185,7 @@ export default function SignInPage() {
           </div>
           <div className="text-white flex justify-center">
             <a className="text-primary" href="https://robokriti.co.in:8000/contact">Contact Support</a>
+            
           </div>
         </form>
       </div>
