@@ -75,8 +75,8 @@ services:
       - EMAIL=info@robokriti.com
       - PASSWORD=hqbaevkbtsgkhuav
       - CLIENT_SECRET=hkfgfhfkjhf
-      # - NEXTAUTH_URL=https://railkriti.co.in
-      - NEXTAUTH_URL=http://localhost:3007
+      - NEXTAUTH_URL=https://railkriti.co.in
+      # - NEXTAUTH_URL=http://localhost:3007
       # Other
       - USE_HTTPS=true
     command: ["npm", "start"]
