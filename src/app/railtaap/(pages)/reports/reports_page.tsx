@@ -306,7 +306,7 @@ const Reports: React.FC = (): JSX.Element => {
             </div>
 
             <div>
-              Max: {data?.temperature_stats?.min?.temp ?? 'N/A'}°C   {' - '}
+              Max: {data?.temperature_stats?.max?.temp ?? 'N/A'}°C   {' - '}
               {data?.temperature_stats?.max?.created_at
                 ? new Date(data.temperature_stats.max.created_at).toLocaleString()
                 : 'N/A'}
