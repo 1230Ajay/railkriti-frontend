@@ -13,7 +13,7 @@ import { BsFileEarmarkPdfFill, BsFillPrinterFill } from "react-icons/bs";
 import { RiFileExcel2Fill } from "react-icons/ri";
 
 interface Log {
-  s_no:any;
+  s_no: any;
   uid: string;
   device_uid: string;
   battery: number;
@@ -22,9 +22,9 @@ interface Log {
   device_status: boolean;
   sensor_status: boolean;
   created_at: string;
-  time:any;
-  date:any;
-  is_online:any;
+  time: any;
+  date: any;
+  is_online: any;
 }
 
 interface Device {
@@ -41,7 +41,7 @@ const getDateRange = (selectedDate: any) => {
 
   const endDate = new Date(selectedDate);
   endDate.setHours(23, 59, 59, 999);
-  endDate.setDate(endDate.getDate()+1);
+  endDate.setDate(endDate.getDate() + 1);
 
 
   return { start: startDate, end: endDate };
@@ -105,8 +105,8 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
     { name: 'S. No.', key: "date", className: "text-center" },
     { name: 'S. No.', key: "is_online", className: "" },
     { name: 'S. No.', key: "sensor_status", className: "" },
+    { name: 'S. No.', key: "remark", className: " text-xs" },
   ]
-
 
   return (
     <div className=" grid h-[calc(100vh)] w-screen grid-rows-[auto_auto_1fr]">
@@ -125,16 +125,21 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
         ) : (
           <div className='text-white  rounded-md min-w-[780px]'>
             {logs && logs.device_logs.length > 0 ? (
-              logs.device_logs.map((log:Log, index) => {
-               const formattedLog = {
-                ...log,
-                s_no :index+1,
-                level :log.sensor_status?log.level:"--:--",
-                wl_msl :log.sensor_status?log.wl_msl:"--:--",
-                date :new Date(log.created_at).toLocaleDateString(),
-                time :new Date(log.created_at).toLocaleTimeString(),
-                is_online : log.device_status
-               }
+              logs.device_logs.map((log: Log, index) => {
+                const formattedLog = {
+                  ...log,
+                  s_no: index + 1,
+                  level: log.sensor_status ? log.level : "--:--",
+                  wl_msl: log.sensor_status ? log.wl_msl : "--:--",
+                  date: new Date(log.created_at).toLocaleDateString(),
+                  time : new Date(log.created_at).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false
+                  }),
+                  is_online: log.device_status
+                }
                 return (
                   <TableRow data={formattedLog} columns={columns} />
                 )

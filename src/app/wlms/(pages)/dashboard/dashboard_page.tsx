@@ -330,7 +330,7 @@ const Dashboard: React.FC = (): JSX.Element => {
     const columns = [
         { name: 'S. No.', key: "s_no", className: "text-start" },
         { name: "Bridge No", key: "bridge_no", className: "text-start" },
-        { name: "River", key: "river_name", className: "text-start" },
+        { name: "River", key: "river_name", className: "text-start capitalize" },
         { name: "Level", key: "current_level", className: "text-center" },
         { name: "Battery", key: "battery" },
         { name: "Device Status", key: "is_online" },

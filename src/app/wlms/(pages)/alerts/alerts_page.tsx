@@ -112,8 +112,8 @@ const AlertPage: React.FC = (): JSX.Element => {
   const columns = [
     { name: "", key: "s_no", className: "text-start" },
     { name: "Bridge No", key: "bridge_no", className: "text-start" },
-    { name: "River", key: "river_name", className: "text-start" },
-    { name: "Zone", key: "designation", className: "text-start" },
+    { name: "River", key: "river_name", className: "text-start capitalize" },
+    { name: "Zone", key: "designation", className: "text-start capitalize" },
     { name: "Mobile", key: "mobile", className: "text-center" },
     { name: "interval", key: "email", className: "text-start" },
     { name: "Time", key: "time", className: "text-center" },

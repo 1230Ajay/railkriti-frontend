@@ -30,5 +30,9 @@ export const BrLogTableHeaderData = [
     {
         name: "Sensor",
         className: "text-center"
+    },
+        {
+        name: "Remarks",
+        className: "text-center"
     }
 ];
