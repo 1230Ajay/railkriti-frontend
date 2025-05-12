@@ -151,7 +151,7 @@ const DevicePage: React.FC = (): JSX.Element => {
                 {
                   icon: <TbListDetails className=' bg-white text-green-500 w-12 rounded-full py-1 text-2xl' />,
                   onClick: () => openUpdateForm(device)
-                }
+                },
               ]} />
             )
           })}

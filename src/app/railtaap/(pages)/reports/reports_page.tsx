@@ -136,7 +136,7 @@ const Reports: React.FC = (): JSX.Element => {
     return { date: formattedDate, time: formattedTime };
   };
 
-
+  
   const groupedData: Record<string, { min_temp: number; max_temp: number; min_time: string; max_time: string }> = {};
 
   data?.device_logs.forEach((log: any) => {

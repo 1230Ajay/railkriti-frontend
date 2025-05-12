@@ -132,48 +132,54 @@ const Dashboard: React.FC = (): JSX.Element => {
     }, []);
 
     const handleMessage = async (topic: string, message: string) => {
-
-        const topicParts = topic.split('/');
-        if (topicParts.length < 4) {
-            console.warn('⚠️ Invalid topic format:', topic);
-            return;
-        }
-
-        const ifd = topicParts[3];
-
-        if (topic.startsWith('device/status/brwlms/')) {
-            if (message === 'online') {
-                updateDeviceByUid({ ifd: ifd, is_online: true })
+        // Check if topic starts with any of the expected base paths
+        const statusPrefix = 'device/status/brwlms/';
+        const relayPrefix = 'relay/status/brwlms/';
+        const updateUIPrefix = 'device/updateui/brwlms/';
+    
+        // Extract 'ifd' dynamically from each topic pattern
+        const extractIFD = (prefix: string, topic: string) => {
+            return topic.slice(prefix.length); // everything after the prefix
+        };
+    
+        if (topic.startsWith(statusPrefix)) {
+            const ifd = extractIFD(statusPrefix, topic);
+            const statusParts = message.split('~');
+            const status = statusParts[0].toLowerCase();
+    
+            if (status === 'online') {
+                console.log("device is online now", ifd);
+                updateDeviceByUid({ ifd: ifd, is_online: true });
                 return;
-            } else if (message === 'offline') {
-                updateDeviceByUid({ ifd: ifd, is_online: false })
-                return;
-            }
-        }
-
-        if (topic.startsWith('relay/status/brwlms/')) {
-            if (message === 'online') {
-                updateDeviceByUid({ ifd: ifd, relay_status: true })
-                return;
-            } else if (message === 'offline') {
-                updateDeviceByUid({ ifd: ifd, relay_status: false })
+            } else if (status === 'offline') {
+                console.log("device went offline", ifd);
+                updateDeviceByUid({ ifd: ifd, is_online: false });
                 return;
             }
         }
-
-
-
-        if (topic.startsWith('device/updateui/brwlms/')) {
-            var data: any = await parseData(message);
-
+    
+        if (topic.startsWith(relayPrefix)) {
+            const ifd = extractIFD(relayPrefix, topic);
+            if (message === 'online') {
+                updateDeviceByUid({ ifd: ifd, relay_status: true });
+                return;
+            } else if (message === 'offline') {
+                updateDeviceByUid({ ifd: ifd, relay_status: false });
+                return;
+            }
+        }
+    
+        if (topic.startsWith(updateUIPrefix)) {
+            const ifd = extractIFD(updateUIPrefix, topic);
+            const data: any = await parseData(message);
             data.is_online = true;
-            updateDeviceByUid({ ifd: ifd, ...data })
+            updateDeviceByUid({ ifd: ifd, ...data });
         }
-
-    }
+    };
+    
 
     const parseData = (input: string) => {
-        const [ifd, current_level, wl_msl, battery, sensor_status] = input.split("~");
+        const [ifd, current_level, wl_msl, sensor_status,battery] = input.split("~");
         return {
             ifd: ifd,
             battery: parseFloat(battery),

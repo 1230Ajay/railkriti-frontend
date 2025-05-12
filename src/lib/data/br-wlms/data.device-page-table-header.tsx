@@ -37,4 +37,8 @@ export const BrDeviceTableHeaderData = [
         name: "Detail",
         className: "text-center "
     },
+    {
+        name: "CMD Chat",
+        className: "text-center "
+    },
 ]

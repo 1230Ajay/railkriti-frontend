@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import NavBar from '@/components/nav/navbar';
 import { RiFileExcel2Fill } from 'react-icons/ri';
@@ -8,6 +8,7 @@ import DateInput from '@/components/text-fields/DateInput';
 import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
 import { Titles } from '@/lib/data/title';
+import generatePDF from 'react-to-pdf';
 
 interface Device {
   mobile_no: any;
@@ -120,6 +121,24 @@ const Reports: React.FC = ():JSX.Element => {
   };
   
 
+    const printRef = useRef<HTMLDivElement>(null);
+  
+    const handlePrint = () => {
+      if (printRef.current) {
+        // Temporarily apply print styles
+        const originalContents = document.body.innerHTML;
+        const printContents = printRef.current.innerHTML;
+  
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents; // Restore original contents
+        window.location.reload(); // Reload to fix event listeners
+      }
+    };
+  
+    
+
+
   return (
     <div className='grid grid-rows-[auto_auto_1fr] h-screen'>
       <div className="bg-black rounded-md p-4 mt-4 mx-4">
@@ -192,15 +211,24 @@ const Reports: React.FC = ():JSX.Element => {
           <div className='flex items-center flex-col w-48 lg:mb-4'>
             <label className="block text-white font-bold mb-2">{'Generate Report'}</label>
             <div className='flex rounded-md space-x-4 w-fit text-white justify-center items-center'>
-              <RiFileExcel2Fill className='bg-green-600 h-8 w-8 p-1 rounded-sm' />
-              <BsFileEarmarkPdfFill className='bg-red-600 h-8 w-8 p-1 rounded-sm' />
-              <BsFillPrinterFill className='bg-blue-600 h-8 w-8 p-1 rounded-sm' />
+              <RiFileExcel2Fill  className='bg-green-600 h-8 w-8 p-1 rounded-sm' />
+              <BsFileEarmarkPdfFill
+                className='bg-red-600 h-8 w-8 p-1 rounded-sm cursor-pointer'
+                title="Export to PDF"
+                onClick={()=>generatePDF(printRef,{filename:`br-wlms-report-${new Date().toDateString()}`})}
+              />
+              <BsFillPrinterFill
+                className='bg-blue-600 h-8 w-8 p-1 rounded-sm cursor-pointer'
+                title="Print Report"
+                onClick={handlePrint}
+              />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="overflow-auto no-scrollbar bg-white mt-4 mx-4 mb-4 rounded-md py-8 px-8 space-y-8">
+       <div  ref={printRef} className='bg-white  mt-4 mx-4 mb-4 rounded-md py-8 px-8 space-y-8'>
+       <div className=" overflow-scroll no-scrollbar ">
         <div className=' flex justify-between'>
           <Image src="/assets/logo/logo3.png" height={100} width={150} alt="Company Logo" />
           <div className='flex flex-col ml-4'>
@@ -301,6 +329,7 @@ const Reports: React.FC = ():JSX.Element => {
 
             </table>}
       </div>
+       </div>
     </div>
   );
 };
