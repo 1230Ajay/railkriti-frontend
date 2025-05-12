@@ -110,8 +110,8 @@ const Dashboard: React.FC = (): JSX.Element => {
     }, []);
 
     const updateDeviceByUid = (updatedDevice: any) => {
-        setDevices(prevDevices => 
-            prevDevices.map(device => 
+        setDevices(prevDevices =>
+            prevDevices.map(device =>
                 device.bridge_no === updatedDevice.ifd ? { ...device, ...updatedDevice } : device
             )
         );
@@ -136,17 +136,17 @@ const Dashboard: React.FC = (): JSX.Element => {
         const statusPrefix = 'device/status/brwlms/';
         const relayPrefix = 'relay/status/brwlms/';
         const updateUIPrefix = 'device/updateui/brwlms/';
-    
+
         // Extract 'ifd' dynamically from each topic pattern
         const extractIFD = (prefix: string, topic: string) => {
             return topic.slice(prefix.length); // everything after the prefix
         };
-    
+
         if (topic.startsWith(statusPrefix)) {
             const ifd = extractIFD(statusPrefix, topic);
             const statusParts = message.split('~');
             const status = statusParts[0].toLowerCase();
-    
+
             if (status === 'online') {
                 console.log("device is online now", ifd);
                 updateDeviceByUid({ ifd: ifd, is_online: true });
@@ -157,7 +157,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                 return;
             }
         }
-    
+
         if (topic.startsWith(relayPrefix)) {
             const ifd = extractIFD(relayPrefix, topic);
             if (message === 'online') {
@@ -168,7 +168,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                 return;
             }
         }
-    
+
         if (topic.startsWith(updateUIPrefix)) {
             const ifd = extractIFD(updateUIPrefix, topic);
             const data: any = await parseData(message);
@@ -176,10 +176,10 @@ const Dashboard: React.FC = (): JSX.Element => {
             updateDeviceByUid({ ifd: ifd, ...data });
         }
     };
-    
+
 
     const parseData = (input: string) => {
-        const [ifd, current_level, wl_msl, sensor_status,battery] = input.split("~");
+        const [ifd, current_level, wl_msl, sensor_status, battery] = input.split("~");
         return {
             ifd: ifd,
             battery: parseFloat(battery),
@@ -198,9 +198,11 @@ const Dashboard: React.FC = (): JSX.Element => {
 
     const getDateRange = (selectedDate: any) => {
         const startDate = new Date(selectedDate);
+        startDate.setDate(startDate.getDate()+1)
         startDate.setHours(0, 0, 0, 0);
 
         const endDate = new Date(selectedDate);
+        endDate.setDate(endDate.getDate()+1)
         endDate.setHours(23, 59, 59, 999);
 
         return { start: startDate, end: endDate };
@@ -313,12 +315,14 @@ const Dashboard: React.FC = (): JSX.Element => {
         },
     };
 
-    const totalDevices = devices.length;
-    const onlineDevices = devices.filter(device => device.is_online).length;
-    const offlineDevices = totalDevices - onlineDevices;
-    const activeDevices = devices.filter(device => device.isActive).length;
+    const safeDevices = Array.isArray(devices) ? devices : [];
 
-    const filteredDevices = devices.filter(device =>
+    const totalDevices = safeDevices.length;
+    const onlineDevices = safeDevices.filter(device => device.is_online).length;
+    const offlineDevices = totalDevices - onlineDevices;
+    const activeDevices = safeDevices.filter(device => device.isActive).length;
+
+    const filteredDevices = safeDevices?.filter(device =>
         (device.bridge_no.toLowerCase().includes(searchQuery.toLowerCase()) ||
             device.river_name.toLowerCase().includes(searchQuery.toLowerCase())) && device?.isActive
     );
@@ -348,7 +352,7 @@ const Dashboard: React.FC = (): JSX.Element => {
             <div className=" overflow-auto pb-4 text-white bg-black mx-4 mb-4 px-4 h-full relative  no-scrollbar  rounded-b-md">
 
                 <HeaderTable columns={BrDashboardTableHeaderData} />
-                {filteredDevices.map((device: Device, index) => {
+                {filteredDevices && filteredDevices.map((device: Device, index) => {
 
                     const formattedDevice = {
                         ...device,
