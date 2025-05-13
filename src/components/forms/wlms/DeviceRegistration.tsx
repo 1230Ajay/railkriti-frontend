@@ -21,6 +21,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
   const [readingInterval, setReadingInterval] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [dangerInterval, setDangerInterval] = useState('');
 
 
   // device static fields
@@ -102,6 +103,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
       start_date: new Date(startDate).toISOString(),
       end_date: new Date(endDate).toISOString(),
       reading_interval: parseInt(readingInterval),
+      danger_interval: parseInt(dangerInterval)
     };
 
     try {
@@ -188,6 +190,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
           required={true}
         />
 
+
         <TextInput
           label="Rail Level (MSL)"
      
@@ -254,6 +257,14 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
           onChange={setSection}
           options={sectionOptions}
           required={true}
+        />
+
+        <SelectInput
+          label="Danger Interval"
+          value={dangerInterval}
+          onChange={setDangerInterval}
+          options={readingIntervalOptions}
+          required
         />
 
         <div className='flex items-center w-full lg:col-span-3 mt-4 justify-center xl:justify-end space-x-8'>

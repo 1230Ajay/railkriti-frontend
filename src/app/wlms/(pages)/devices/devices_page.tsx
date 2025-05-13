@@ -72,6 +72,7 @@ interface Device {
   zone_name: any;
   division_name: any;
   section: Section;
+  danger_interval:any;
 }
 
 const DevicePage: React.FC = (): JSX.Element => {

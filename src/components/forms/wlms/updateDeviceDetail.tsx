@@ -28,6 +28,7 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
   const [railLevel, setRailLevel] = useState('');
   const [dangerLevel, setDangerLevel] = useState('');
   const [sensorLevel, setSensorLevel] = useState('');
+  const [dangerInterval, setDangerInterval] = useState('');
 
   const [zoneOptions, setZoneOptions] = useState([]);
   const [divisionOptions, setDivisionOptions] = useState([]);
@@ -92,6 +93,7 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
         setRailLevel(device.rail_level.toString());
         setDangerLevel(device.danger_level.toString());
         setSensorLevel(device.sensor_level.toString());
+        setDangerInterval(device.danger_interval.toString());
       }
     } catch (error) {
       console.error('Error fetching device data:', error);
@@ -137,6 +139,7 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
       start_date: new Date(startDate).toISOString(),
       end_date: new Date(endDate).toISOString(),
       reading_interval: parseInt(readingInterval),
+      danger_interval: parseInt(dangerInterval)
     };
 
     try {
@@ -212,6 +215,9 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
           options={readingIntervalOptions}
           required
         />
+
+
+
         <TextInput
           label="Rail Level (MSL)"
 
@@ -271,6 +277,16 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
           options={sectionOptions}
           required
         />
+
+
+        <SelectInput
+          label="Danger Interval"
+          value={dangerInterval}
+          onChange={setDangerInterval}
+          options={readingIntervalOptions}
+          required
+        />
+
         <div className='flex items-center w-full lg:col-span-3 mt-4 justify-center xl:justify-end space-x-8'>
         <PrimaryButton type="button" onClick={onClose} className='bg-gray-600'>
             Cancel
