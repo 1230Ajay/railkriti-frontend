@@ -110,7 +110,7 @@ const RailTaapDeviceAdd: React.FC<railTaapAdd> = ({ onClose = () => { } }) => {
     try {
       console.log(formData);
       const res = await myIntercepter.post(`${conf.RAILTAAP}/api/device`, formData);
-      if (res.status === 201) {
+      if (res?.status === 201) {
         toast.success("Device added successfully!");
         window.location.reload();
       } else {

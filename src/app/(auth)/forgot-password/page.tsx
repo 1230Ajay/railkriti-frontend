@@ -36,7 +36,7 @@ export default function ChangeEmail() {
           identifier: values.identifier,
         });
 
-        if (response.data.status === 200) {
+        if (response?.data?.status === 200) {
           dispatch(setIdentifier(values.identifier));
           setEmailSent(true);
           setLastEmail(values.identifier);
@@ -44,7 +44,7 @@ export default function ChangeEmail() {
           setTimerActive(true);
           toast.success('Email sent to your mail.');
         } else {
-          toast.error(response.data.message);
+          toast.error(response?.data?.message);
         }
       } catch (error) {
         toast.error('User does not exist');

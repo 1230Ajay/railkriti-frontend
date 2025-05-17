@@ -138,7 +138,7 @@ const AlertFormRailtaap = ({ onClose = () => { } }) => {
         alertData,
       );
 
-      if (response.status === 201) {
+      if (response?.status === 201) {
         await fetchDevices(); // Refresh devices if necessary
         await fetchAlerts();  // Fetch updated alerts
 

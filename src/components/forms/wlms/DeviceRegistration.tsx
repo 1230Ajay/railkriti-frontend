@@ -108,7 +108,7 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
 
     try {
       const res = await myIntercepter.post(`${conf.BR_WLMS}/api/device`, formData);
-      if (res.status === 201) {
+      if (res?.status === 201) {
         toast.success("Device added succesfully!");
         window.location.reload();
       } else {

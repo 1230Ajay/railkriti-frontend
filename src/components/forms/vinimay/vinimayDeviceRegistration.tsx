@@ -93,7 +93,7 @@ const VinimayDeviceReservationForm = ({ onClose = () => { } }) => {
     try {
       console.log(`${conf.VINIMAY_URL}/api/`);
       const res = await myIntercepter.post(`${conf.VINIMAY_URL}/device/`, formData);
-      if (res.status === 201) {
+      if (res?.status === 201) {
         toast.success("Device added succesfully!");
         window.location.reload();
       } else {

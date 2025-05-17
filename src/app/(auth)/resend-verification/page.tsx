@@ -36,7 +36,7 @@ export default function ChangeEmail() {
           identifier: values.identifier,
         });
 
-        if (response.data.status === 200) {
+        if (response?.data?.status === 200) {
           dispatch(setIdentifier(values.identifier));
           setEmailSent(true);
           setLastEmail(values.identifier);

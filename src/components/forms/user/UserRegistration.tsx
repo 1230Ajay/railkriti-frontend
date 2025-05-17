@@ -90,7 +90,7 @@ const UserRegistrationForm = ({ onClose = () => {} }) => {
 
       try {
         const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/sign-up`, userData);
-        if (response.data.status === 201) {
+        if (response?.data?.status === 201) {
           await dispatch(setEmail(data.email));
           await dispatch(setMobileNumber(data.mobile));
           setIsRegistered(true);

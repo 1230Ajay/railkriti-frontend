@@ -146,7 +146,7 @@ const UpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => v
                 },
             });
 
-            if (response.status === 200) {
+            if (response?.status === 200) {
                 toast.success("Alert Updated Successfully");
                 console.log('Alert updated successfully');
                 window.location.reload();
@@ -170,7 +170,7 @@ const UpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => v
         try {
             const response = await myIntercepter.delete(`${conf.RAILTAAP}/api/alerts/${uid}`);
 
-            if (response.status === 200) {
+            if (response?.status === 200) {
                 toast.success("Alert Deleted Successfully");
                 console.log('Alert deleted successfully');
                 window.location.reload();

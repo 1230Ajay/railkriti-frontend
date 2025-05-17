@@ -101,7 +101,7 @@ const WindDeviceAdd: React.FC<windAdd> = ({ onClose = () => { } }) => {
     try {
       console.log(formData);
       const res = await myIntercepter.post(`${conf.WIND_URL}/device`, formData);
-      if (res.status === 201) {
+      if (res?.status === 201) {
         toast.success("Device added successfully!");
         window.location.reload();
       } else {

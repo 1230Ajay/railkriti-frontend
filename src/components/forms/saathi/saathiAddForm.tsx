@@ -95,7 +95,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
             try {
                 console.log("we have to add transmitter")
                 const res = await myIntercepter.post(`${conf.SAATHI_TX}/api/device`, formDataTx);
-                if (res.status === 201) {
+                if (res?.status === 201) {
                     toast.success("Device added succesfully!");
                     window.location.reload();
                 } else {
@@ -109,7 +109,7 @@ const SaathiDeviceReservationForm = ({ onClose = () => { } }) => {
             try {
                 console.log("we have to add transmitter")
                 const res = await myIntercepter.post(`${conf.SAATHI_RX}/api/device`, formDataRx);
-                if (res.status === 201) {
+                if (res?.status === 201) {
                     toast.success("Device added succesfully!");
                     window.location.reload();
                 } else {

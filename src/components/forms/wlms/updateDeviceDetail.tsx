@@ -104,7 +104,7 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
       console.log(message);
     if (topic.startsWith('device/status/brwlms/')) {
       const statusParts = message.split('~');
-      const status = statusParts[0].toLowerCase(); // e.g., "online"
+      const status = statusParts[0].toLowerCase() || false; // e.g., "online"
 
       if (status === 'online') {
         console.log("device is online now");

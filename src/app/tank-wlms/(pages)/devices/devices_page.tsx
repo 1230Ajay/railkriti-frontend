@@ -81,7 +81,7 @@ const DevicePage: React.FC = (): JSX.Element => {
         isActive: status,
       });
 
-      if (response.status !== 200) {
+      if (response?.status !== 200) {
         // Revert the state if the API request fails
         toast.error("Something went wrong while changing device activation status.");
         setDevices(prevDevices =>

@@ -68,7 +68,7 @@ export default function Page() {
   const updateUserStatus = async (user: User, activate: boolean) => {
     try {
       const response = await myIntercepter.post(`${conf.API_GATEWAY}/auth/activate-deactivate`, { identifier: user.username ,isActive:activate});
-      if (response.status === 200) {
+      if (response?.status === 200) {
         setUsers(prevSections =>
           prevSections.map(u =>
             u.uid === user.uid ? { ...u, isActive: activate } : u

@@ -82,7 +82,7 @@ const DevicePage: React.FC = (): JSX.Element => {
   const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
   const [chatPopUpState, setChatPopUpState] = useState(false);
   const [devices, setDevices] = useState<Device[]>([]);
-
+  
   useEffect(() => {
     getDevice();
   }, []);
@@ -116,7 +116,7 @@ const DevicePage: React.FC = (): JSX.Element => {
         isActive: status
       });
 
-      if (response.status === 200) {
+      if (response?.status === 200) {
         window.location.reload();
       } else {
         toast.error("Something went wrong while changing device activation status.");
@@ -125,7 +125,6 @@ const DevicePage: React.FC = (): JSX.Element => {
       toast.error("An error occurred while changing device activation status.");
     }
   };
-
 
 
   const columns = [
@@ -138,7 +137,6 @@ const DevicePage: React.FC = (): JSX.Element => {
     { name: "Division", key: "division_name", className: "text-center" },
     { name: "Zone", key: "zone_name", className: "text-center" },
   ];
-
 
   return (
     <div className=' grid h-[calc(100vh-96px)] grid-rows-[auto_1fr] '>
@@ -210,7 +208,6 @@ const DevicePage: React.FC = (): JSX.Element => {
           )}
         </div>
       </Modal>
-
     </div>
   );
 };

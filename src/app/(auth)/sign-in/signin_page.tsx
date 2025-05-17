@@ -43,7 +43,7 @@ export default function SignInPage() {
       try {
         const parsedError = JSON.parse(errorParam);
      
-        if (parsedError.status === 400) {
+        if (parsedError?.status === 400) {
        
           router.push("/resend-verification");
           return; 

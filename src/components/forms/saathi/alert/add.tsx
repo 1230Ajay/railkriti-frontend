@@ -134,7 +134,7 @@ const AddAlert:React.FC<AddAlertProps> = ({ onClose = () => { } ,showRx }) => {
       const response = await myIntercepter.post(`${route}/api/alerts`,alertData);
       const data = response.data;
 
-      if (response.status===200) {
+      if (response?.status===200) {
         await fetchDevices(); // Refresh devices if necessary
         await fetchAlerts();  // Fetch updated alerts
 

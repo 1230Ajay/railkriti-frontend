@@ -63,7 +63,7 @@ const Reports: React.FC = (): JSX.Element => {
   const fetchDevices = async () => {
     try {
       const res = await myIntercepter.get(`${conf.RAILTAAP}/api/device`);
-      if (res.status === 200) {
+      if (res?.status === 200) {
         setDevices(res.data);
         setSelectedDevice(res.data[0] || null); // Default to first device if available
       }
@@ -77,7 +77,7 @@ const Reports: React.FC = (): JSX.Element => {
     try {
       if (selectedDevice) {
         const res = await myIntercepter.get(`${conf.RAILTAAP}/api/logs/${selectedDevice.uid}`, { params: { start: fromDate, end: toDate } });
-        if (res.status === 200) {
+        if (res?.status === 200) {
           setData(res.data);
         } else {
           setData(null)

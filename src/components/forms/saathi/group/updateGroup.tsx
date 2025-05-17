@@ -74,7 +74,7 @@ const UpdateGroupForm: React.FC<UpdateGroupFormProp> = ({ group, onClose }) => {
         try {
 
             const res = await myIntercepter.put(`${conf.SAATHI_TX}/api/group/${group.uid}`, formData);
-            if (res.status === 200) {
+            if (res?.status === 200) {
                 toast.success("Device added succesfully!");
                 window.location.reload();
             } else {

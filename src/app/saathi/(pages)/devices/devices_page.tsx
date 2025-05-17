@@ -91,7 +91,7 @@ const DevicePage: React.FC = (): JSX.Element => {
         isActive: status
       });
 
-      if (response.status === 200) {
+      if (response?.status === 200) {
         const updatedDeviceList = devices.map((device) =>
           device.uid === uid ? { ...device, isActive: status } : device
         );

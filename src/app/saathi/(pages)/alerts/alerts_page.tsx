@@ -89,7 +89,7 @@ const AlertPage: React.FC = (): JSX.Element => {
       const route = showRx ? conf.SAATHI_RX : conf.SAATHI_TX;
       const res = await myIntercepter.put(`${route}/api/alerts/${alert.uid
       }`, alert);
-      if (res.status === 200) {
+      if (res?.status === 200) {
         setAlerts(prevAlerts =>
           prevAlerts.map(a => (a.uid === alert.uid ? { ...a, isActive: alert.isActive } : a))
         );

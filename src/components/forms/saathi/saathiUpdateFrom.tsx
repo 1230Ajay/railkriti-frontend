@@ -105,7 +105,7 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
             try {
                 console.log("we have to add transmitter")
                 const res = await myIntercepter.put(`${conf.SAATHI_TX}/api/device/${formDataTx.uid}`, formDataTx);
-                if (res.status === 200) {
+                if (res?.status === 200) {
                     toast.success("Device added succesfully!");
                     window.location.reload();
                 } else {
@@ -119,7 +119,7 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
             try {
                 console.log("we have to add transmitter")
                 const res = await myIntercepter.put(`${conf.SAATHI_RX}/api/device/${formDataRx.uid}`, formDataRx);
-                if (res.status === 200) {
+                if (res?.status === 200) {
                     toast.success("Device added succesfully!");
                     window.location.reload();
                 } else {

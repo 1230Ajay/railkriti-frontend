@@ -116,7 +116,7 @@ const VinimayDeviceUpdateForm: React.FC<VinimayUpdateFormProps> = ({ device, onC
 
     try {
       const res = await myIntercepter.put(`${conf.VINIMAY_URL || 'https://railkriti.co.in:3004'}/device/${device.uid}`, formData);
-      if (res.status === 200) {
+      if (res?.status === 200) {
         toast.success("Device updated successfully!");
         window.location.reload();
       } else {

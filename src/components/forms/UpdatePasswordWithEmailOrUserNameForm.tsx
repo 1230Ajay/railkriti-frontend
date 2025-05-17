@@ -39,7 +39,7 @@ const UpdatePasswordForm: React.FC = () => {
                     password: values.newPassword
                 });
 
-                if (res.status === 200) {
+                if (res?.status === 200) {
                     toast.success(res.data.message);
                     router.push('/sign-in');
                 } else {

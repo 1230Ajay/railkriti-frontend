@@ -98,7 +98,7 @@ const Reports: React.FC = (): JSX.Element => {
     try {
       const device = deviceType === 'transmitter' ? conf.SAATHI_TX : conf.SAATHI_RX;
       const res = await myIntercepter.get(`${device}/api/device`);
-      if (res.status === 200) {
+      if (res?.status === 200) {
         setDevices(res.data);
         setSelectedDevice(res.data[0] || null); // Select the first device by default
 
@@ -124,7 +124,7 @@ const Reports: React.FC = (): JSX.Element => {
             end: toDate
           }
         });
-        if (res.status === 200) {
+        if (res?.status === 200) {
           setData(res.data.device_logs);
 
         } else {

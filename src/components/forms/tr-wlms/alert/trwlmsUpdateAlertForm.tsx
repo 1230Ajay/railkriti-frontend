@@ -96,7 +96,7 @@ const TRWLMSUpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: (
                 },
             });
 
-            if (response.status === 200) {
+            if (response?.status === 200) {
                 toast.success("Alert Updated Successfully");
                 console.log('Alert updated successfully');
                 window.location.reload();
@@ -120,7 +120,7 @@ const TRWLMSUpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: (
         try {
             const response = await myIntercepter.delete(`/api/alerts/${uid}`);
 
-            if (response.status === 200) {
+            if (response?.status === 200) {
                 toast.success("Alert Deleted Successfully");
                 console.log('Alert deleted successfully');
                 window.location.reload();

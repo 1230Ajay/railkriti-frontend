@@ -127,7 +127,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
         };
 
         const res = await myIntercepter.post(`${conf.API_GATEWAY}/auth/update`, formData);
-        if (res.status === 200) {
+        if (res?.status === 200) {
             toast.success("user updated successfully")
             onCancel();
             window.location.reload();

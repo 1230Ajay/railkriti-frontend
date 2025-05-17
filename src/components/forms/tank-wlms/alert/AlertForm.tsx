@@ -135,7 +135,7 @@ const AlertForm = ({ onClose = () => { } }) => {
       const response = await myIntercepter.post(`${conf.TANK_WLMS}/api/alerts`, alertData);
       
 
-      if (response.status===200) {
+      if (response?.status===200) {
         await fetchDevices(); // Refresh devices if necessary
         await fetchAlerts();  // Fetch updated alerts
 

@@ -79,7 +79,7 @@ const AddGroupForm: React.FC<AddGroupProps> = ({ onClose }) => {
 
         try {
             const res = await myIntercepter.post(`${conf.SAATHI_TX}/api/group`, formData);
-            if (res.status === 201) {
+            if (res?.status === 201) {
                 toast.success("Group added successfully!");
                 window.location.reload();
             } else {

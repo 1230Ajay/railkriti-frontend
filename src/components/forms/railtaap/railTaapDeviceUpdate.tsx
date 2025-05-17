@@ -147,7 +147,7 @@ const RailTaapDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose
 
     try {
       const res = await myIntercepter.put(`${conf.RAILTAAP}/api/device/${device.uid}`, formData);
-      if (res.status === 200) {
+      if (res?.status === 200) {
         toast.success("Device updated successfully!");
         onClose();
         window.location.reload();

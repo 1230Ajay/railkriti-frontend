@@ -36,7 +36,7 @@ const UpdatePasswordForm: React.FC<UpdatePasswordFormProps> = ({ uid, onCancel }
 
     try {
       const res = await myIntercepter.post('/api/change-password', data);
-      if (res.status === 200) {
+      if (res?.status === 200) {
         toast.success("Password updated successfully");
       } else {
         toast.error("Something went wrong while updating the password");

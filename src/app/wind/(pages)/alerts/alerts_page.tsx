@@ -74,7 +74,7 @@ const AlertPage: React.FC = (): JSX.Element => {
     try {
       alert.isActive = !alert.isActive;
       const res = await myIntercepter.put(`${conf.WIND_URL}/alert/${alert.uid}`, alert);
-      if (res.status === 200) {
+      if (res?.status === 200) {
         setAlerts((prevAlerts) =>
           prevAlerts.map((a) => (a.uid === alert.uid ? { ...a, isActive: alert.isActive } : a))
         );

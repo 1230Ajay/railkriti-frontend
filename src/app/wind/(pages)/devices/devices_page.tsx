@@ -91,7 +91,7 @@ const DevicePage: React.FC = (): JSX.Element => {
         isActive: status,
       });
 
-      if (response.status !== 200) {
+      if (response?.status !== 200) {
    
         toast.error("Something went wrong while changing device activation status.");
         setDevices(prevDevices =>
