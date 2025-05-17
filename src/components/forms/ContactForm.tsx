@@ -8,13 +8,9 @@ const ContactForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission logic
-  };
 
   return (
-    <form onSubmit={handleSubmit} className="  shadow-lg rounded-md space-y-4">
+    <form className="  shadow-lg rounded-md space-y-4">
       <TextInput label={'Name'}  value={''} onChange={function (value: string): void {
               throw new Error('Function not implemented.');
           } } />

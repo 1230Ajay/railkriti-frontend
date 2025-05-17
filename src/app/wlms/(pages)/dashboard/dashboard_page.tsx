@@ -102,11 +102,9 @@ const Dashboard: React.FC = (): JSX.Element => {
         MqttService.subscribe('device/status/brwlms/#');
         MqttService.subscribe('device/updateui/brwlms/#');
         MqttService.subscribe('relay/status/brwlms/#');
-
         MqttService.client.on('message', (topic, message) => {
             handleMessage(topic, message.toString());
         });
-
     }, []);
 
     const updateDeviceByUid = (updatedDevice: any) => {
@@ -145,7 +143,7 @@ const Dashboard: React.FC = (): JSX.Element => {
         if (topic.startsWith(statusPrefix)) {
             const ifd = extractIFD(statusPrefix, topic);
             const statusParts = message.split('~');
-            const status = statusParts[0].toLowerCase();
+            const status = statusParts[0].toLowerCase() || false;
 
             if (status === 'online') {
                 console.log("device is online now", ifd);
