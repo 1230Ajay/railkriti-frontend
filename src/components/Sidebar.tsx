@@ -14,10 +14,6 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
   const sidebarRef = useRef<HTMLDivElement>(null)
   const [pages, setPages] = useState<any[]>([])
 
-
-
-
-
   useEffect(() => {
     const fetchPages = async () => {
       const pages = await allowedSidebarPages()
@@ -46,15 +42,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
     }
   }, [toggleSidebar])
 
-  if (status === 'loading') {
-    return (
-      <div className="flex bg-gray-800">
-        <div className="fixed top-20 rounded-md z-10 w-64 h-64 bg-black border border-white flex items-center justify-center">
-          <p className="text-white">Loading...</p>
-        </div>
-      </div>
-    )
-  }
+
 
   return (
     <div className="flex bg-gray-800">
