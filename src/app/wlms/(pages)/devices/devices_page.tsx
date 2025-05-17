@@ -96,8 +96,6 @@ const DevicePage: React.FC = (): JSX.Element => {
     }
   };
 
-
-
   const filteredDevices = devices.filter(device =>
     device.river_name.toLowerCase().includes(searchTerm.toLowerCase())
   );

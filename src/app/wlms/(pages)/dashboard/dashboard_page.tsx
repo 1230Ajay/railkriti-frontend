@@ -33,7 +33,7 @@ interface Section {
     name: string;
     division_uid: string;
     sectional_code: string;
-    division: Record<string, any>; // Adjust based on actual division structure
+    division: Record<string, any>; 
 }
 
 interface Device {
@@ -232,8 +232,6 @@ const Dashboard: React.FC = (): JSX.Element => {
         });
         return hourlyData;
     };
-
-
 
 
     const handleDateChange = (date: Date | null) => {

@@ -1,28 +1,27 @@
 import { MdDashboard, MdOutlineContactPhone } from 'react-icons/md';
 import { TbReportSearch, TbDevicesCog } from 'react-icons/tb';
 import { HiOutlineBellAlert } from 'react-icons/hi2';
+import { getSession } from 'next-auth/react';
 
-// Include all pages initially
+
 const getAllPages = () => {
   return [
-    { name: 'Dashboard', href: "dashboard", icon: MdDashboard },
-    { name: 'Devices', href: "devices", icon: TbDevicesCog },
-    { name: 'Alerts', href: "alerts", icon: HiOutlineBellAlert },
-    { name: 'Reports', href: "reports", icon: TbReportSearch },
-    { name: 'Contact Us', href: "contact", icon: MdOutlineContactPhone }
+    { name: 'Dashboard', href: "dashboard", icon: MdDashboard, role: ['user',"emp", 'admin', 'user-emp'] },
+    { name: 'Devices', href: "devices", icon: TbDevicesCog, role: ['admin', "emp",'user-emp'] },
+    { name: 'Alerts', href: "alerts", icon: HiOutlineBellAlert, role: ['admin',"emp", 'user', ] },
+    { name: 'Reports', href: "reports", icon: TbReportSearch, role: ['admin',"emp",'user-emp',"user"] },
+    { name: 'Contact Us', href: "contact", icon: MdOutlineContactPhone, role: ['user', "emp",'admin', 'user-emp'] }
   ];
 };
 
-// Function to filter pages based on the user's role
-const allowedSidebarPages = async (isAdmin: boolean) => {
-  const pages = getAllPages();
+export const allowedSidebarPages = async () => {
+  const session = await getSession(); 
+  console.log(session);
+  const userRole = session?.user?.role || 'user'; 
+  const allPages = getAllPages();
 
-  if (!isAdmin) {
-    // Filter out 'Devices' and 'Alerts' if the user is not an admin
-    return pages.filter(page => page.name !== 'Devices' && page.name !== 'Alerts');
-  }
-  
-  return pages;
+  return allPages.filter((page) => {
+    if (!page.role) return true;
+    return page.role.includes(userRole);
+  });
 };
-
-export default allowedSidebarPages;

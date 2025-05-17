@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import allowedSidebarPages from '@/lib/data/SidebarData'
-import { useSession } from 'next-auth/react'
+import { allowedSidebarPages } from '@/lib/data/SidebarData'
+
 
 interface SidebarProps {
   sidebarOpen: boolean
@@ -13,26 +13,19 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
   const sidebarRef = useRef<HTMLDivElement>(null)
   const [pages, setPages] = useState<any[]>([])
-  const [isAdmin, setIsAdmin] = useState<boolean>(false)
-  const { data: session, status } = useSession()
 
-  useEffect(() => {
 
-    if (status === 'authenticated' && session?.user) {
-      setIsAdmin(session.user.role === 'admin')
-    } else {
-      setIsAdmin(false)
-    }
-  }, [session, status])
+
+
 
   useEffect(() => {
     const fetchPages = async () => {
-      const pages = await allowedSidebarPages(isAdmin)
+      const pages = await allowedSidebarPages()
       setPages(pages)
     }
 
     fetchPages()
-  }, [isAdmin])
+  }, [])
 
   useEffect(() => {
     const handleMouseLeave = (event: MouseEvent) => {

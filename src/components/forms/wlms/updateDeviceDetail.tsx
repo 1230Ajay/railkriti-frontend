@@ -6,6 +6,8 @@ import { PrimaryButton } from '../../buttons/primarybutton';
 import { toast } from 'react-toastify';
 import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
+import { useSession } from 'next-auth/react';
+import MqttService from '@/lib/network/mqtt_client';
 
 interface DeviceUpdateFormProps {
   device: any;
@@ -33,13 +35,20 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
   const [zoneOptions, setZoneOptions] = useState([]);
   const [divisionOptions, setDivisionOptions] = useState([]);
   const [sectionOptions, setSectionOptions] = useState([]);
+
+  const [deviceStatus, setDeviceStatus] = useState(false);
+  const [okCount, setOkCount] = useState(0);
+
   const [readingIntervalOptions, setReadingIntervalOptions] = useState([
     { uid: '15', name: '15 minutes' },
     { uid: '30', name: '30 minutes' },
     { uid: '60', name: '60 minutes' },
   ]);
-  
+
+  const { data: session } = useSession();
   const [loading, setLoading] = useState(false); // Loading state
+
+  const isUserEmp = session?.user?.role === 'user-emp';
 
   useEffect(() => {
     if (device) {
@@ -72,6 +81,56 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
     }
   };
 
+
+  useEffect(() => {
+    MqttService.subscribe(`device/scmd/brwlms/${device.uid}`);
+    MqttService.subscribe(`device/status/brwlms/${device.uid}`);
+
+    const handleMqttMessage = (topic: string, payload: Buffer) => {
+      handleMessage(topic, payload.toString())
+    }
+
+    MqttService.client.on('message', handleMqttMessage)
+
+    return () => {
+      MqttService.client.off('message', handleMqttMessage)
+    }
+  }, [])
+
+
+  const handleMessage = (topic: string, message: string) => {
+    const topicParts = topic.split('/')
+    if (topicParts.length < 4) return
+      console.log(message);
+    if (topic.startsWith('device/status/brwlms/')) {
+      const statusParts = message.split('~');
+      const status = statusParts[0].toLowerCase(); // e.g., "online"
+
+      if (status === 'online') {
+        console.log("device is online now");
+        setDeviceStatus(true);
+        return;
+      } else if (status === 'offline') {
+        console.log("device went offline");
+        setDeviceStatus(false);
+        return;
+      }
+    }
+
+
+    if (topic.startsWith("device/scmd/brwlms/")) {
+      if (okCount===6) {
+        toast.success("Your device data is updated to device!");
+        onClose();
+        window.location.reload();
+      }
+      setOkCount(okCount + 1);
+
+    }
+
+  }
+
+
   const fetchDeviceData = async () => {
     setLoading(true); // Set loading state
     try {
@@ -94,6 +153,7 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
         setDangerLevel(device.danger_level.toString());
         setSensorLevel(device.sensor_level.toString());
         setDangerInterval(device.danger_interval.toString());
+        setDeviceStatus(device?.is_online);
       }
     } catch (error) {
       console.error('Error fetching device data:', error);
@@ -145,9 +205,28 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
     try {
       const res = await myIntercepter.put(`${conf.BR_WLMS}/api/device/${formData.uid}`, formData);
       if (res.status === 200) {
-        toast.success("Device updated successfully!");
-        onClose();
-        window.location.reload();
+
+        const commands = [
+          `set location -s ${riverName}`,
+          `set ifd -s ${bridgeNumber}`,
+          `set rail_level -f ${railLevel}`,
+          `set danger_level -f ${dangerLevel}`,
+          `set sensor_level -f ${sensorLevel}`,
+          `set interval -f ${readingInterval}`,
+          `set danger_interval -f ${dangerInterval}`,
+        ]
+
+        commands.forEach((command) => {
+          MqttService.client.publish(`device/cmd/brwlms/${device.uid}`, command);
+        });
+
+        toast.success("Device updated successfully you data will be updated to device!");
+
+        if (!isUserEmp) {
+          onClose();
+          window.location.reload();
+        }
+
       } else {
         toast.error("Something went wrong while updating the device.");
       }
@@ -161,13 +240,15 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
 
   return (
     <div className='rounded-md h-fit pb-8'>
-      <div className='font-bold uppercase text-xl text-white mb-4'>
+      <div className='font-bold uppercase text-xl flex justify-between text-white mb-4'>
         <h2>Update Device <span>#{device.uid}</span></h2>
+
+        <h2>{deviceStatus ? "Online" : "Offline"}</h2>
       </div>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
         <TextInput
           label="Bridge Number"
- 
+
           value={bridgeNumber}
           onChange={setBridgeNumber}
           required
@@ -179,34 +260,38 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
           onChange={setRiverName}
           required
         />
-        <TextInput
-          label="Mobile Number"
+        {
+          !isUserEmp ? <>
+            <TextInput
+              label="Mobile Number"
 
-          value={mobileNumber}
-          onChange={setMobileNumber}
-          required
-        />
-        <TextInput
-          label="IMEI Number"
+              value={mobileNumber}
+              onChange={setMobileNumber}
+              required
+            />
+            <TextInput
+              label="IMEI Number"
 
-          value={imeiNumber}
-          onChange={setImeiNumber}
-          required
-        />
-        <TextInput
-          label="Longitude"
+              value={imeiNumber}
+              onChange={setImeiNumber}
+              required
+            />
+            <TextInput
+              label="Longitude"
 
-          value={longitude}
-          onChange={setLongitude}
-          required
-        />
-        <TextInput
-          label="Latitude"
+              value={longitude}
+              onChange={setLongitude}
+              required
+            />
+            <TextInput
+              label="Latitude"
 
-          value={latitude}
-          onChange={setLatitude}
-          required
-        />
+              value={latitude}
+              onChange={setLatitude}
+              required
+            />
+          </> : null
+        }
         <SelectInput
           label="Reading Interval"
 
@@ -239,44 +324,48 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
           onChange={setSensorLevel}
           required
         />
-        <DateInput
-          label="Start Date"
-          htmlFor="startDate"
-          value={startDate}
-          onChange={setStartDate}
-          required
-        />
-        <DateInput
-          label="End Date"
-          htmlFor="endDate"
-          value={endDate}
-          onChange={setEndDate}
-          required
-        />
-        <SelectInput
-          label="Zone"
+        {
+          !isUserEmp ? <>
+            <DateInput
+              label="Start Date"
+              htmlFor="startDate"
+              value={startDate}
+              onChange={setStartDate}
+              required
+            />
+            <DateInput
+              label="End Date"
+              htmlFor="endDate"
+              value={endDate}
+              onChange={setEndDate}
+              required
+            />
+            <SelectInput
+              label="Zone"
 
-          value={zone}
-          onChange={setZone}
-          options={zoneOptions}
-          required
-        />
-        <SelectInput
-          label="Division"
+              value={zone}
+              onChange={setZone}
+              options={zoneOptions}
+              required
+            />
+            <SelectInput
+              label="Division"
 
-          value={division}
-          onChange={setDivision}
-          options={divisionOptions}
-          required
-        />
-        <SelectInput
-          label="Section"
+              value={division}
+              onChange={setDivision}
+              options={divisionOptions}
+              required
+            />
+            <SelectInput
+              label="Section"
 
-          value={section}
-          onChange={setSection}
-          options={sectionOptions}
-          required
-        />
+              value={section}
+              onChange={setSection}
+              options={sectionOptions}
+              required
+            />
+          </> : null
+        }
 
 
         <SelectInput
@@ -288,7 +377,7 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
         />
 
         <div className='flex items-center w-full lg:col-span-3 mt-4 justify-center xl:justify-end space-x-8'>
-        <PrimaryButton type="button" onClick={onClose} className='bg-gray-600'>
+          <PrimaryButton type="button" onClick={onClose} className='bg-gray-600'>
             Cancel
           </PrimaryButton>
           <PrimaryButton type="submit" >
