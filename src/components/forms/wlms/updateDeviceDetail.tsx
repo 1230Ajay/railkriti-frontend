@@ -199,10 +199,6 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
     
           toast.success("Device updated successfully you data will be updated to device!");
 
-        if (!isUserEmp) {
-          onClose();
-          window.location.reload();
-        }
 
       } else {
         toast.error("Something went wrong while updating the device.");
@@ -356,14 +352,15 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
         />
 
         <div className='flex items-center w-full lg:col-span-3 mt-4 justify-center xl:justify-end space-x-8'>
-          <PrimaryButton type="button" onClick={onClose} className='bg-gray-600'>
+          <PrimaryButton type="button" onClick={()=>{
+            onClose()
+            window.location.reload();
+          }} className='bg-gray-600'>
             Cancel
           </PrimaryButton>
           <PrimaryButton type="submit" >
             {loading ? 'Updating...' : 'Update'}
           </PrimaryButton>
-
-
         </div>
       </form>
     </div>
