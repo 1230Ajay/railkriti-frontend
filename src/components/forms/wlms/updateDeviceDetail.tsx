@@ -36,8 +36,7 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
   const [divisionOptions, setDivisionOptions] = useState([]);
   const [sectionOptions, setSectionOptions] = useState([]);
 
-  const [deviceStatus, setDeviceStatus] = useState(false);
-  const [okCount, setOkCount] = useState(0);
+  const [syncStatus, setSyncStatus] = useState(false);
 
   const [readingIntervalOptions, setReadingIntervalOptions] = useState([
     { uid: '15', name: '15 minutes' },
@@ -84,7 +83,6 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
 
   useEffect(() => {
     MqttService.subscribe(`device/scmd/brwlms/${device.uid}`);
-    MqttService.subscribe(`device/status/brwlms/${device.uid}`);
 
     const handleMqttMessage = (topic: string, payload: Buffer) => {
       handleMessage(topic, payload.toString())
@@ -101,31 +99,12 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
   const handleMessage = (topic: string, message: string) => {
     const topicParts = topic.split('/')
     if (topicParts.length < 4) return
-      console.log(message);
-    if (topic.startsWith('device/status/brwlms/')) {
-      const statusParts = message.split('~');
-      const status = statusParts[0].toLowerCase() || false; // e.g., "online"
-
-      if (status === 'online') {
-        console.log("device is online now");
-        setDeviceStatus(true);
-        return;
-      } else if (status === 'offline') {
-        console.log("device went offline");
-        setDeviceStatus(false);
-        return;
-      }
-    }
-
 
     if (topic.startsWith("device/scmd/brwlms/")) {
-      if (okCount===6) {
-        toast.success("Your device data is updated to device!");
-        onClose();
-        window.location.reload();
+      if (message === "true" && !syncStatus) {
+        toast.success("Syncronisation Successfly!");
+        setSyncStatus(true);
       }
-      setOkCount(okCount + 1);
-
     }
 
   }
@@ -153,7 +132,7 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
         setDangerLevel(device.danger_level.toString());
         setSensorLevel(device.sensor_level.toString());
         setDangerInterval(device.danger_interval.toString());
-        setDeviceStatus(device?.is_online);
+        setSyncStatus(device?.sync);
       }
     } catch (error) {
       console.error('Error fetching device data:', error);
@@ -199,28 +178,26 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
       start_date: new Date(startDate).toISOString(),
       end_date: new Date(endDate).toISOString(),
       reading_interval: parseInt(readingInterval),
-      danger_interval: parseInt(dangerInterval)
+      danger_interval: parseInt(dangerInterval),
+      sync: false
     };
 
     try {
       const res = await myIntercepter.put(`${conf.BR_WLMS}/api/device/${formData.uid}`, formData);
       if (res.status === 200) {
+        setSyncStatus(false);
+        const command = `multi_set ` +
+          `location -s ${device.river_name}; ` +
+          `ifd -s ${device.bridge_no}; ` +
+          `rail_level -f ${device.rail_level}; ` +
+          `danger_level -f ${device.danger_level}; ` +
+          `sensor_level -f ${device.sensor_level}; ` +
+          `interval -f ${device.reading_interval}; ` +
+          `danger_interval -f ${device.danger_interval};`;
 
-        const commands = [
-          `set location -s ${riverName}`,
-          `set ifd -s ${bridgeNumber}`,
-          `set rail_level -f ${railLevel}`,
-          `set danger_level -f ${dangerLevel}`,
-          `set sensor_level -f ${sensorLevel}`,
-          `set interval -f ${readingInterval}`,
-          `set danger_interval -f ${dangerInterval}`,
-        ]
-
-        commands.forEach((command) => {
           MqttService.client.publish(`device/cmd/brwlms/${device.uid}`, command);
-        });
-
-        toast.success("Device updated successfully you data will be updated to device!");
+    
+          toast.success("Device updated successfully you data will be updated to device!");
 
         if (!isUserEmp) {
           onClose();
@@ -243,7 +220,9 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
       <div className='font-bold uppercase text-xl flex justify-between text-white mb-4'>
         <h2>Update Device <span>#{device.uid}</span></h2>
 
-        <h2>{deviceStatus ? "Online" : "Offline"}</h2>
+        <div className='flex'>
+          <h2 className={`${syncStatus?" text-green-400":"text-primary"} `} >{syncStatus ? "Synced " : "Syncing...."}</h2>
+        </div>
       </div>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
         <TextInput
