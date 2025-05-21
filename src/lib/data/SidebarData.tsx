@@ -6,11 +6,11 @@ import { getSession } from 'next-auth/react';
 
 const getAllPages = () => {
   return [
-    { name: 'Dashboard', href: "dashboard", icon: MdDashboard, role: ['user',"emp", 'admin', 'user-emp'] },
-    { name: 'Devices', href: "devices", icon: TbDevicesCog, role: ['admin', "emp",'user-emp'] },
+    { name: 'Dashboard', href: "dashboard", icon: MdDashboard, role: ['user',"emp", 'admin', 'railway admin'] },
+    { name: 'Devices', href: "devices", icon: TbDevicesCog, role: ['admin', "emp",'railway admin'] },
     { name: 'Alerts', href: "alerts", icon: HiOutlineBellAlert, role: ['admin',"emp", 'user', ] },
-    { name: 'Reports', href: "reports", icon: TbReportSearch, role: ['admin',"emp",'user-emp',"user"] },
-    { name: 'Contact Us', href: "contact", icon: MdOutlineContactPhone, role: ['user', "emp",'admin', 'user-emp'] }
+    { name: 'Reports', href: "reports", icon: TbReportSearch, role: ['admin',"emp",'railway admin',"user"] },
+    { name: 'Contact Us', href: "contact", icon: MdOutlineContactPhone, role: ['user', "emp",'admin', 'railway admin'] }
   ];
 };
 

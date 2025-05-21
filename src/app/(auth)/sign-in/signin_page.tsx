@@ -6,13 +6,9 @@ import { toast } from "react-toastify";
 import Image from 'next/image';
 import { signIn } from 'next-auth/react';
 import Link from "next/link";
-import myIntercepter from '@/lib/interceptor';
-import conf from '@/lib/conf/conf';
 import { SignInPageData } from '@/lib/data/sigin-in';
 import { useFormik } from 'formik';
 import { SignInDto } from './dto/signin.dto';
-
-
 
 const initialValues = {
   identifier: "",
@@ -27,7 +23,6 @@ export default function SignInPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const searchParams = useSearchParams();
-  const [showResendButton,setShowResendButton] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -42,11 +37,11 @@ export default function SignInPage() {
     if (errorParam) {
       try {
         const parsedError = JSON.parse(errorParam);
-     
+
         if (parsedError?.status === 400) {
-       
+
           router.push("/resend-verification");
-          return; 
+          return;
         }
         toast.error(parsedError.message, { delay: 12 });
       } catch {
@@ -56,18 +51,23 @@ export default function SignInPage() {
       router.replace('/sign-in');
     }
   }, [searchParams, router]);
-  
+
   const { values, touched, errors, handleBlur, handleChange, handleReset, handleSubmit } = useFormik(
     {
       initialValues: initialValues,
       validationSchema: SignInDto,
       onSubmit: async (data) => {
-    
-    const result =  await signIn('credentials', {
-      identifier:data.identifier,
-      password:data.password,
-      callbackUrl: '/application',
-    });
+
+        if (data.captcha === generatedCaptcha) {
+          const result = await signIn('credentials', {
+            identifier: data.identifier,
+            password: data.password,
+            callbackUrl: '/application',
+          });
+        }else{
+          toast.error("Please Enter correct captcha!")
+        }
+
       }
     }
   )
@@ -110,7 +110,9 @@ export default function SignInPage() {
             />
             <FaEnvelope className="absolute right-2 bottom-3 text-white" />
           </div>
-          { errors.identifier && touched.identifier? <p className=' text-primary text-xs '>{errors.identifier}</p>:null}
+
+          {errors.identifier && touched.identifier ? <p className=' text-primary text-xs '>{errors.identifier}</p> : null}
+          
           <div className="relative mt-3 mb-1">
             <input
               id="password"
@@ -134,7 +136,8 @@ export default function SignInPage() {
               />
             )}
           </div>
-          {errors.password && touched.password?<p className='text-primary text-xs '>{errors.password}</p>:null}
+
+          {errors.password && touched.password ? <p className='text-primary text-xs '>{errors.password}</p> : null}
           <div className="flex mb-4 mt-5 justify-between">
             <div className="flex items-center">
               <input
@@ -167,7 +170,7 @@ export default function SignInPage() {
                 onBlur={handleBlur}
                 className="ml-4 py-1 border-b text-center  w-36 border-white bg-transparent focus:ring-transparent focus:border-primary focus:outline-none text-white"
               />
-              {errors.captcha && touched.captcha? <p className='ml-4 mt-1 text-primary text-xs'>{errors.captcha}</p>:null}
+              {errors.captcha && touched.captcha ? <p className='ml-4 mt-1 text-primary text-xs'>{errors.captcha}</p> : null}
             </div>
           </div>
           <div>
@@ -185,7 +188,7 @@ export default function SignInPage() {
           </div>
           <div className="text-white flex justify-center">
             <a className="text-primary" href="https://robokriti.co.in:8000/contact">Contact Support</a>
-            
+
           </div>
         </form>
       </div>
