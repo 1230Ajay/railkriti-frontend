@@ -124,6 +124,7 @@ export default function SignInPage() {
               onBlur={handleBlur}
               className="w-full py-2 border-b border-white bg-transparent focus:ring-transparent focus:border-primary focus:outline-none text-white"
             />
+            
             {showPassword ? (
               <FaEyeSlash
                 className="absolute right-2 bottom-3 text-white cursor-pointer"
@@ -135,6 +136,7 @@ export default function SignInPage() {
                 onClick={togglePasswordVisibility}
               />
             )}
+
           </div>
 
           {errors.password && touched.password ? <p className='text-primary text-xs '>{errors.password}</p> : null}

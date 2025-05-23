@@ -132,12 +132,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
                   level: log.sensor_status ? log.level : "--:--",
                   wl_msl: log.sensor_status ? log.wl_msl : "--:--",
                   date: new Date(log.created_at).toLocaleDateString(),
-                  time : new Date(log.created_at).toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    hour12: false
-                  }),
+                  time :new Date(log.created_at).toISOString().substring(11, 19),
                   is_online: log.device_status
                 }
                 return (

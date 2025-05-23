@@ -5,7 +5,7 @@ import LogDetails from './logs-page'
 
 
 export const metadata:Metadata = {
-  title: 'LOGS | Rail Taap',
+  title: 'LOGS | PAWAN SUTRA',
   description: 'Default page description for SEO.',
 }
 

@@ -356,7 +356,7 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
             onClose()
             window.location.reload();
           }} className='bg-gray-600'>
-            Cancel
+            Close
           </PrimaryButton>
           <PrimaryButton type="submit" >
             {loading ? 'Updating...' : 'Update'}

@@ -16,7 +16,6 @@ export default function LocationPage(params: any) {
     const location = { lat: Number(lat), lng: Number(long) }
 
 
-
     return (
         <div className=' capitalize'>
             <NavBar disableMenuBar={true}></NavBar>

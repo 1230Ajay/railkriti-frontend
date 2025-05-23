@@ -35,6 +35,11 @@ class BaseMetaData {
         description: "User can contact tp team",
         icons: { icon: this.favIcon },
       },
+      Log:{
+        title: `Log | ${this.pageGroup}`,
+        description: "User can contact tp team",
+        icons: { icon: this.favIcon },
+      }
     };
   }
 }
