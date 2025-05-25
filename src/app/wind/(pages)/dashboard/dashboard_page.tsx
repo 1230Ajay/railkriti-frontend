@@ -35,7 +35,6 @@ import MqttService from "@/lib/network/mqtt_client";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const Dashboard: React.FC = (): JSX.Element => {
-    const [searchState, setSearchState] = useState(false);
     const [activeDetail, setActiveDetail] = useState<any | null>(null);
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
     const [devices, setDevices] = useState<any[]>([]);
@@ -89,6 +88,10 @@ const Dashboard: React.FC = (): JSX.Element => {
         };
       }
     
+
+      const restartDevice = async (uid:any)=>{
+          MqttService.client.publish(`device/restart/wind/${uid}`,"")
+      }
 
     const handleMessage = async (topic:string,message:string)=>{
         console.log(topic, message);
@@ -202,7 +205,7 @@ const Dashboard: React.FC = (): JSX.Element => {
         const hourlyData = Array(24).fill(null);
         data.forEach((entry) => {
             const hour = new Date(entry.created_at).getHours();
-            hourlyData[hour] = entry.temp > 0 ? entry.temp : null;
+            hourlyData[hour] = entry.wind_speed > -1 ? entry.wind_speed : null;
         });
         return hourlyData;
     };
@@ -309,9 +312,7 @@ const Dashboard: React.FC = (): JSX.Element => {
             name: "", key: "name", className: " text-start"
         },
 
-        {
-            name: "", key: "temp", className: " text-start"
-        },
+
         {
             name: "", key: "wind_speed", className: " text-start"
         },
@@ -322,8 +323,12 @@ const Dashboard: React.FC = (): JSX.Element => {
             name: "", key: "is_online", className: " text-start"
         },
         {
-            name: "", key: "sensor_status", className: " text-start"
-        }
+            name: "", key: "sensor_status", className: " text-center"
+        },
+
+                {
+            name: "", key: "temp", className: " text-center"
+        },
     ]
 
 
@@ -370,7 +375,8 @@ const Dashboard: React.FC = (): JSX.Element => {
                                 },
                                 {
                                     icon: <RiRestartLine />,
-                                    onClick: () => {
+                                    onClick: async () => {
+                                        await restartDevice(device.uid);
                                         toast.success(`${device.name} (${device.location}) is being restarted`);
                                     },
                                     className: `p-2 rounded-full ${device.relay_status ? 'bg-green-500' : 'bg-gray-500'}`,

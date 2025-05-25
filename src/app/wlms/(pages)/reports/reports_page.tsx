@@ -104,21 +104,12 @@ const Reports: React.FC = (): JSX.Element => {
     label: `${device.river_name} (${device.bridge_no})`
   }));
 
-  const convertUtcToIst = (utcDate: string | number | Date): string => {
+  const formatUtcDate = (utcDate: string | number | Date): string => {
     const date = new Date(utcDate);
-    const offset = 5.5 * 60; // IST is UTC+5:30
-    const istDate = new Date(date.getTime() - offset);
-    return istDate.toLocaleString('en-IN', {
-      timeZone: 'Asia/Kolkata',
-      hour12: false, // Use 24-hour format
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
-    });
+
+    return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(date.getUTCDate()).padStart(2, '0')} ${String(date.getUTCHours()).padStart(2, '0')}:${String(date.getUTCMinutes()).padStart(2, '0')}:${String(date.getUTCSeconds()).padStart(2, '0')}`;
   };
+
 
 
   const printRef = useRef<HTMLDivElement>(null);
@@ -195,7 +186,7 @@ const Reports: React.FC = (): JSX.Element => {
       data?.forEach((log, index) => {
         excelData.push([
           index + 1,
-          convertUtcToIst(log.created_at),
+          formatUtcDate(log.created_at),
           log.wl_msl.toFixed(2),
           log.level.toFixed(2)
         ]);
@@ -211,7 +202,7 @@ const Reports: React.FC = (): JSX.Element => {
         if (index === 0 || log.device_status !== data[index - 1].device_status) {
           excelData.push([
             index + 1,
-            convertUtcToIst(log.created_at),
+            formatUtcDate(log.created_at),
             log.device_status
               ? log.sensor_status
                 ? "Device Online"
@@ -378,7 +369,7 @@ const Reports: React.FC = (): JSX.Element => {
                 {data && data.map((log, index) => (
                   <tr key={index}>
                     <td className="border border-primary/50 p-2">{index + 1}</td>
-                    <td className="border border-primary/50 p-2"> {convertUtcToIst(log.created_at)}</td>
+                    <td className="border border-primary/50 p-2"> {formatUtcDate(log.created_at)}</td>
                     <td className="border border-primary/50 p-2">{log.wl_msl.toFixed(2)}</td>
                     <td className="border border-primary/50 p-2">{log.level.toFixed(2)}</td>
 
@@ -392,30 +383,26 @@ const Reports: React.FC = (): JSX.Element => {
                     <th className="border w-1/12 p-2">S.no.</th>
                     <th className="border w-3/12 p-2">Date / Time</th>
                     <th className="border w-4/12 p-2">Status</th>
-
-
                   </tr>
                 </thead>
                 <tbody className='text-center  border-primary'>
-                  {data && data.map((log, index) => {
-                    // Initialize the previous status to something that won't match
+                  {data && data.filter((log, index) => {
                     const prevStatus = index > 0 ? data[index - 1].device_status : null;
-
-                    // Determine if the current status should be displayed
-                    const showStatus = prevStatus === null || prevStatus !== log.device_status;
+                    return prevStatus === null || prevStatus !== log.device_status;
+                  }).map((log, index) => {
 
                     return (
-                      showStatus ? <tr key={index} className=''>
+                      <tr key={index} className=''>
                         <td className="border border-primary/50 p-2">{index + 1}</td>
                         <td className="border border-primary/50 p-2">
-                          {convertUtcToIst(log.created_at)}
+                          {formatUtcDate(log.created_at)}
                         </td>
                         {
                           <td className="border border-primary/50 p-2">
                             {log.device_status ? log.sensor_status ? "Device Online" : "Sensor Error" : "Device Offline"}
                           </td>
                         }
-                      </tr> : <></>
+                      </tr>
                     );
                   })}
                 </tbody>

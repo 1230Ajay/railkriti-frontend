@@ -31,6 +31,6 @@ export class Titles {
 
    static WindTitle = {
       titleSm: "PAVAN SUTRA",
-      titleXl: "PAVAN SUTRA- WIND MONITORING SYSTEM"
+      titleXl: "PAVAN SUTRA- WIND SPEED MONITORING SYSTEM"
    }
 }

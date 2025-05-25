@@ -7,10 +7,7 @@ export const WindDashboardTableHeaderData = [
         name: "name",
         className: "text-start"
     },
-    {
-        name: "Temp",
-        className: "text-start"
-    },
+
 
     {
         name: "Wind Speed",
@@ -26,7 +23,11 @@ export const WindDashboardTableHeaderData = [
     },
     {
         name: "Sensor",
-        className: "text-start"
+        className: "text-center"
+    },
+    {
+        name: "Temp",
+        className: "text-center"
     },
     {
         name: "GPS",
@@ -39,5 +40,6 @@ export const WindDashboardTableHeaderData = [
     {
         name: "Details",
         className: "text-center"
-    }
+    },
+
 ];

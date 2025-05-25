@@ -2,12 +2,11 @@ import React from 'react'
 
 import { Metadata } from 'next'
 import LogDetails from './logs-page'
+import { WindMSMetaData } from '@/lib/data/metaData';
 
 
-export const metadata:Metadata = {
-  title: 'LOGS | PAWAN SUTRA',
-  description: 'Default page description for SEO.',
-}
+export const metadata: Metadata = new WindMSMetaData().getMetaData().Log;
+
 
 
 function page({ params }: { params: { id: string } }) {
