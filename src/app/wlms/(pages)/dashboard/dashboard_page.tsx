@@ -203,7 +203,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                 .filter((log:any)=>log.log_type==="LOG")
                 .map((log: any) => ({
                     x: log.created_at,  // UTC ISO format
-                    y: log.level,
+                    y: -log.level,
                 }));
 
 
@@ -241,7 +241,6 @@ const lineChartOptions:any = {
         x: {
             type: 'time',
             time: {
-            
                 stepSize:1,
                 parser: 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'',
                 displayFormats: {
@@ -262,12 +261,15 @@ const lineChartOptions:any = {
                     zone: 'UTC' // Force UTC timezone
                 }
             },
+
+            min:selectedDate?.setHours(0,0,0,0),
+            max:selectedDate?.setHours(23,59,59,0),
             ticks: {
                 color: '#ffffff',
                 autoSkip: true,
                 maxRotation: 0,
                 minRotation: 0,
-                source: 'data',
+                source: 'auto',
             },
             grid: {
                 color: 'rgba(255,255,255,0.1)',
@@ -276,6 +278,7 @@ const lineChartOptions:any = {
         },
         y: {
             min: -30,
+            max: 0,
             ticks: {
                 color: '#ffffff',
                 callback: (value: number) => Math.abs(value)
