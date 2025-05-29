@@ -129,11 +129,13 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
                 const formattedLog = {
                   ...log,
                   s_no: index + 1,
-                  level: log.sensor_status ? log.level : "--:--",
-                  wl_msl: log.sensor_status ? log.wl_msl : "--:--",
+                  level: log.sensor_status && log.device_status ? log.level : "--:--",
+                  wl_msl: log.sensor_status && log.device_status ? log.wl_msl : "--:--",
                   date: new Date(log.created_at).toLocaleDateString(),
                   time :new Date(log.created_at).toISOString().substring(11, 19),
-                  is_online: log.device_status
+                  is_online: log.device_status,
+                  sensor_status: log.sensor_status && log.device_status,
+                  battery:  log.device_status ? log.battery:"--:--"
                 }
                 return (
                   <TableRow data={formattedLog} columns={columns} />

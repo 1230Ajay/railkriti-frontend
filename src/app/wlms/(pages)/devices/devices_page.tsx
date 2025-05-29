@@ -90,7 +90,7 @@ const DevicePage: React.FC = (): JSX.Element => {
   const getDevice = async () => {
     try {
       const response = await myIntercepter.get(`${conf.BR_WLMS}/api/device`);
-      setDevices(response.data);
+      setDevices(response.data || []);
     } catch (error) {
       console.error('Error fetching alerts:', error);
     }

@@ -10,6 +10,12 @@ import myIntercepter from '@/lib/interceptor';
 import generatePDF from 'react-to-pdf';
 import * as XLSX from 'xlsx';
 
+
+enum LogType {
+  LOG = "LOG",
+  DIAGNOSTIC = "DIAGNOSTIC"
+}
+
 interface Device {
   mobile_no: any;
   uid: any;
@@ -32,6 +38,8 @@ interface LogData {
   timestamp: string;
   data: string;
   battery: string;
+  log_type: LogType;
+  remark: String;
 }
 
 const Reports: React.FC = (): JSX.Element => {
@@ -53,7 +61,7 @@ const Reports: React.FC = (): JSX.Element => {
     const yesterday = new Date(today);
 
     yesterday.setDate(today.getDate() - 1);
-
+    today.setDate(today.getDate()+ 1);
     setToDate(formatDate(today));
     setFromDate(formatDate(yesterday));
   }, []);
@@ -68,7 +76,7 @@ const Reports: React.FC = (): JSX.Element => {
     try {
       const res = await myIntercepter.get(`${conf.BR_WLMS}/api/device`);
       if (res.status === 200) {
-        setDevices(res.data);
+        setDevices(res.data || []);
         setSelectedDevice(res.data[0] || null); // Default to first device if available
       }
     } catch (error) {
@@ -169,7 +177,7 @@ const Reports: React.FC = (): JSX.Element => {
     excelData.push([
       logType === "water level"
         ? "WATER LEVEL DATA"
-        : "DEVICE & SENSOR STATUS"
+        : "IFD DATA"
     ]);
     excelData.push([`(From ${fromDate} To ${toDate})`]);
     excelData.push([]);
@@ -223,7 +231,7 @@ const Reports: React.FC = (): JSX.Element => {
   };
 
   return (
-    <div className='grid grid-rows-[auto_auto_1fr] h-screen'>
+    <div className='grid grid-rows-[auto_auto_1fr] h-[88vh]'>
       <div className="bg-black rounded-md p-4 mt-4 mx-4">
         <h2 className='font-bold text-xl text-white uppercase pb-2'>Reports</h2>
         <div className="flex flex-col items-center lg:flex-row">
@@ -269,7 +277,7 @@ const Reports: React.FC = (): JSX.Element => {
                   required
                 >
                   <option value="water level">water level</option>
-                  <option value="device & sensor status">Status</option>
+                  <option value="device & sensor status">IFD DATA</option>
                 </select>
               </div>
             </div>
@@ -322,8 +330,8 @@ const Reports: React.FC = (): JSX.Element => {
               <p>0761 4046444; info@robokriti.com</p>
             </div>
           </div>
-
-          <div className="uppercase font-bold text-center text-3xl font-serif border-t pt-6 border-primary">
+          
+          <div className="uppercase font-bold text-center text-3xl font-serif border-t mt-2 pt-6 border-primary">
             bridge water level monitoring system (BR-WLMS)
           </div>
 
@@ -349,7 +357,7 @@ const Reports: React.FC = (): JSX.Element => {
 
 
 
-            <div className="font-bold uppercase text-center col-span-2 mt-8 text-2xl">{logType == "water level" ? "water level data" : 'Device & Sensor Status'}</div>
+            <div className="font-bold uppercase text-center col-span-2 mt-8 text-2xl">{logType == "water level" ? "water level data" : 'IFD DATA'}</div>
             <div className='flex justify-center text-sm space-x-1'>
               <div className=''>( From {fromDate} To {toDate} )</div>
             </div>
@@ -366,7 +374,7 @@ const Reports: React.FC = (): JSX.Element => {
                 </tr>
               </thead>
               <tbody className='text-center  '>
-                {data && data.map((log, index) => (
+                {data && data.filter((log)=>log.log_type===LogType.LOG && log.device_status).map((log, index) => (
                   <tr key={index}>
                     <td className="border border-primary/50 p-2">{index + 1}</td>
                     <td className="border border-primary/50 p-2"> {formatUtcDate(log.created_at)}</td>
@@ -382,13 +390,15 @@ const Reports: React.FC = (): JSX.Element => {
                   <tr>
                     <th className="border w-1/12 p-2">S.no.</th>
                     <th className="border w-3/12 p-2">Date / Time</th>
-                    <th className="border w-4/12 p-2">Status</th>
+                    <th className="border w-1/12 p-2">Status</th>
+                    <th className="border w-1/12 p-2">Sensor</th>
+                    <th className="border w-1/12 p-2">Battery</th>
+                    <th className="border w-4/12 p-2">Remark</th>
                   </tr>
                 </thead>
                 <tbody className='text-center  border-primary'>
                   {data && data.filter((log, index) => {
-                    const prevStatus = index > 0 ? data[index - 1].device_status : null;
-                    return prevStatus === null || prevStatus !== log.device_status;
+                    return log.log_type === LogType.DIAGNOSTIC;
                   }).map((log, index) => {
 
                     return (
@@ -397,11 +407,19 @@ const Reports: React.FC = (): JSX.Element => {
                         <td className="border border-primary/50 p-2">
                           {formatUtcDate(log.created_at)}
                         </td>
-                        {
-                          <td className="border border-primary/50 p-2">
-                            {log.device_status ? log.sensor_status ? "Device Online" : "Sensor Error" : "Device Offline"}
-                          </td>
-                        }
+                        <td className="border border-primary/50 p-2">
+                          {log.device_status ? "Online" : "Offline"}
+                        </td>
+
+                        <td className="border border-primary/50 p-2">
+                          {log.sensor_status ? "OK" : "Error"}
+                        </td>
+                        <td className="border border-primary/50 p-2">
+                          {log.battery}
+                        </td>
+                        <td className="border border-primary/50 p-2">
+                          {log.remark}
+                        </td>
                       </tr>
                     );
                   })}

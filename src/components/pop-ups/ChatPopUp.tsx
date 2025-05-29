@@ -49,15 +49,11 @@ function ChatPopUp({ device, onClose, sendToTopic, subscribeToTopic }: ChatPopUp
         if (topicParts.length < 4) return
 
         if (topic.startsWith('device/status/brwlms/')) {
-            const statusParts = message.split('~');
-            const status = statusParts[0].toLowerCase() || false; // e.g., "online"
-          
-            if (status === 'online') {
-              console.log("device is online now");
+
+            if (message === 'online') {
               setDeviceStatus(true);
               return;
-            } else if (status === 'offline') {
-              console.log("device went offline");
+            } else if (message === 'offline') {
               setDeviceStatus(false);
               return;
             }

@@ -1,32 +1,37 @@
 'use client'
 
 import { useState, useEffect } from "react";
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
-import 'chartjs-adapter-date-fns';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler, TimeScale } from 'chart.js';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { BsFileEarmarkPdfFill, BsFillPrinterFill } from "react-icons/bs";
 import { TbListDetails } from "react-icons/tb";
 import { RiFileExcel2Fill, RiRestartLine } from "react-icons/ri";
 import { GrMapLocation } from "react-icons/gr";
-import { useDispatch, useSelector } from "react-redux";
-import { enableButton, setTimer } from "@/features/device/deviceSlice";
 import { toast } from "react-toastify";
 import DevicesStatics from "@/components/DevicesStatics";
 import { PrimaryButton } from "@/components/buttons/primarybutton";
 import conf from "@/lib/conf/conf";
 import myIntercepter from "@/lib/interceptor";
-
 import HeaderTable from "@/components/headers/header.table";
 import { BrDashboardTableHeaderData } from "@/lib/data/br-wlms/data.dashboard-header";
 import TableRowV2 from "@/components/tiles/tile.table-row-v2";
 import { HeaderTile } from "@/components/headers/header.tile";
-import mqtt from "mqtt";
 import MqttService from "@/lib/network/mqtt_client";
+import 'chartjs-adapter-date-fns';
+import { Line } from "react-chartjs-2";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
-
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    TimeScale, // ⬅️ Register this
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+    Filler
+);
 
 interface Section {
     uid: string;
@@ -67,35 +72,16 @@ interface Device {
 
 
 const Dashboard: React.FC = (): JSX.Element => {
-    const [searchState, setSearchState] = useState(false);
     const [activeDetail, setActiveDetail] = useState<Device | null>(null);
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
     const [devices, setDevices] = useState<any[]>([]);
     const [chartData, setChartData] = useState<number[]>([]);
     const [searchQuery, setSearchQuery] = useState('');  // Step 1: Add state for search query
 
-    const dispatch = useDispatch();
-    const deviceButtonStates = useSelector((state: any) => state.button.deviceButtonStates);
 
-
-    useEffect(() => {
-        Object.keys(deviceButtonStates).forEach((deviceUid) => {
-            const { timer } = deviceButtonStates[deviceUid];
-            if (timer) {
-                const remainingTime = timer - Date.now();
-                if (remainingTime > 0) {
-                    const timeoutId = setTimeout(() => {
-                        dispatch(enableButton({ deviceUid }));
-                        dispatch(setTimer({ deviceUid, timer: null }));
-                    }, remainingTime);
-                    return () => clearTimeout(timeoutId);
-                }
-            }
-        });
-    }, [deviceButtonStates, dispatch]);
 
     const handleRestartClick = (deviceUid: string) => {
-
+        MqttService.client.publish(`device/restart/brwlms/${deviceUid}`, "");
     };
 
     useEffect(() => {
@@ -144,14 +130,11 @@ const Dashboard: React.FC = (): JSX.Element => {
 
         if (topic.startsWith(statusPrefix)) {
             const ifd = extractIFD(statusPrefix, topic);
-            const statusParts = message.split('~');
-            const status = statusParts[0].toLowerCase();
-
-            if (status === 'online') {
+            if (message === 'online') {
                 console.log("device is online now", ifd);
                 updateDeviceByUid({ ifd: ifd, is_online: true });
                 return;
-            } else if (status === 'offline') {
+            } else if (message === 'offline') {
                 console.log("device went offline", ifd);
                 updateDeviceByUid({ ifd: ifd, is_online: false });
                 return;
@@ -198,11 +181,11 @@ const Dashboard: React.FC = (): JSX.Element => {
 
     const getDateRange = (selectedDate: any) => {
         const startDate = new Date(selectedDate);
-        startDate.setDate(startDate.getDate()+1)
+        startDate.setDate(startDate.getDate() + 1)
         startDate.setHours(0, 0, 0, 0);
 
         const endDate = new Date(selectedDate);
-        endDate.setDate(endDate.getDate()+1)
+        endDate.setDate(endDate.getDate() + 1)
         endDate.setHours(23, 59, 59, 999);
 
         return { start: startDate, end: endDate };
@@ -210,110 +193,107 @@ const Dashboard: React.FC = (): JSX.Element => {
 
     const fetchChartData = async (uid: string) => {
         try {
-
             const date = getDateRange(selectedDate);
-
             const response = await myIntercepter.get(`${conf.BR_WLMS}/api/logs/${uid}`, {
-                params: { start: date.start, end: date.end }
+                params: { start: date.start, end: date.end },
             });
-            const data = response.data;
-            const processedData = processChartData(data.device_logs);
-            setChartData(processedData);
+
+            const logs = response.data.device_logs
+                .sort((a: any, b: any) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+                .filter((log:any)=>log.log_type==="LOG")
+                .map((log: any) => ({
+                    x: log.created_at,  // UTC ISO format
+                    y: log.level,
+                }));
+
+
+            console.log(logs);
+            setChartData(logs);
         } catch (error) {
-            console.error('Error fetching chart data:', error);
+            console.error("Error fetching chart data:", error);
         }
     };
-
-    const processChartData = (data: any[]) => {
-        const hourlyData = Array(24).fill(null);
-        data.forEach((entry) => {
-            const hour = new Date(entry.created_at).getHours();
-            hourlyData[hour] = - entry.level; // Assuming 'level' is the value you want to plot
-        });
-        return hourlyData;
-    };
-
-
-
 
     const handleDateChange = (date: Date | null) => {
         setSelectedDate(date);
     };
 
     const lineChartData = {
-        labels: Array.from({ length: 24 }, (_, i) => `${i}:00`), // Hours 0-23
         datasets: [
             {
-                label: ' From DL',
-                data: chartData, // Use fetched chart data
-                borderColor: 'rgba(0, 119, 204, 1)', // Main line color
-                backgroundColor: 'rgba(0, 119, 204, 0.35)', // Area fill color (transparent or semi-transparent)
+                label: 'From DL',
+                data: chartData,  // Now it's array of { x: timestamp, y: value }
+                borderColor: 'rgba(0, 119, 204, 1)',
+                backgroundColor: 'rgba(0, 119, 204, 0.35)',
                 borderWidth: 3,
-                pointBackgroundColor: 'rgba(0, 119, 204, 1)', // Point color
-                pointBorderColor: 'rgba(0, 119, 204, 1)', // Point border color
-
-            },
-        ],
-    };
-
-    const lineChartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            x: {
-                grid: {
-                    color: 'rgba(255,255,255,0.1)',
-                },
-                ticks: {
-                    color: '#ffffff',
-                },
-            },
-            y: {
-                min: -25,
-                max: 0,
-                grid: {
-                    color: 'rgba(255,255,255,0.1)',
-                },
-                ticks: {
-                    color: '#ffffff',
-                    callback: function (value: any) {
-                        return `${Math.abs(value)}`; // Convert negative values to positive for display
-                    },
-                },
-            },
-        },
-        plugins: {
-            legend: {
-                display: false,
-            },
-            title: {
-                display: false,
-            },
-            tooltip: {
-                callbacks: {
-                    title: function (context: any) {
-                        // Assuming your labels are in the context object
-                        let label = context[0].label;
-                        return `Time : ${label}`;
-                    },
-                    label: function (context: any) {
-                        // Assuming your data points are in context.raw
-                        let value = context.raw;
-                        return `  From DL : ${Math.abs(value.toFixed(2))}`; // Convert negative values to positive for display in tooltips
-                    },
-                },
-            },
-        },
-        elements: {
-            line: {
+                pointRadius: 3,
+                pointHoverRadius: 5,
                 tension: 0.3,
-            },
-        },
-        spanGaps: true,
-        animation: {
-            duration: 2000, // Adjust animation duration in milliseconds
-        },
+            }
+        ]
     };
+
+
+const lineChartOptions:any = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+        x: {
+            type: 'time',
+            time: {
+            
+                stepSize:1,
+                parser: 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'',
+                displayFormats: {
+                    millisecond: 'HH:mm:ss.SSS',
+                    second: 'HH:mm:ss',
+                    minute: 'HH:mm',
+                    hour: 'HH:mm',
+                    day: 'MMM d',
+                    week: 'MMM d',
+                    month: 'MMM yyyy',
+                    quarter: 'MMM yyyy',
+                    year: 'yyyy'
+                },
+                tooltipFormat: 'PPpp', // Nice readable format for tooltips
+            },
+            adapters: {
+                date: {
+                    zone: 'UTC' // Force UTC timezone
+                }
+            },
+            ticks: {
+                color: '#ffffff',
+                autoSkip: true,
+                maxRotation: 0,
+                minRotation: 0,
+                source: 'data',
+            },
+            grid: {
+                color: 'rgba(255,255,255,0.1)',
+            },
+            bounds: 'ticks',
+        },
+        y: {
+            min: -30,
+            ticks: {
+                color: '#ffffff',
+                callback: (value: number) => Math.abs(value)
+            },
+            grid: { color: 'rgba(255,255,255,0.1)' }
+        }
+    },
+    plugins: {
+        legend: { display: false },
+        tooltip: {
+            callbacks: {
+                label: (context: any) => `From DL: ${Math.abs(context.parsed.y).toFixed(2)}`
+            }
+        }
+    },
+    spanGaps: true,
+    animation: { duration: 1000 }
+};
 
     const safeDevices = Array.isArray(devices) ? devices : [];
 

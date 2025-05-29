@@ -42,6 +42,7 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
     { uid: '15', name: '15 minutes' },
     { uid: '30', name: '30 minutes' },
     { uid: '60', name: '60 minutes' },
+    { uid: '1', name: '1 minutes' },
   ]);
 
   const { data: session } = useSession();
@@ -187,13 +188,13 @@ const DeviceUpdateForm: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
       if (res.status === 200) {
         setSyncStatus(false);
         const command = `multi_set ` +
-          `location -s ${device.river_name}; ` +
-          `ifd -s ${device.bridge_no}; ` +
-          `rail_level -f ${device.rail_level}; ` +
-          `danger_level -f ${device.danger_level}; ` +
-          `sensor_level -f ${device.sensor_level}; ` +
-          `interval -f ${device.reading_interval}; ` +
-          `danger_interval -f ${device.danger_interval};`;
+          `location -s ${riverName}; ` +
+          `ifd -s ${bridgeNumber}; ` +
+          `rail_level -f ${railLevel}; ` +
+          `danger_level -f ${dangerLevel}; ` +
+          `sensor_level -f ${sensorLevel}; ` +
+          `interval -f ${readingInterval}; ` +
+          `danger_interval -f ${dangerInterval};`;
 
           MqttService.client.publish(`device/cmd/brwlms/${device.uid}`, command);
     
