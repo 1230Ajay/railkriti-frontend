@@ -374,7 +374,7 @@ const Reports: React.FC = (): JSX.Element => {
                 </tr>
               </thead>
               <tbody className='text-center  '>
-                {data && data.filter((log)=>log.log_type===LogType.LOG && log.device_status).map((log, index) => (
+                {data && data.filter((log)=>log.log_type===LogType.LOG && log.device_status && log.sensor_status).map((log, index) => (
                   <tr key={index}>
                     <td className="border border-primary/50 p-2">{index + 1}</td>
                     <td className="border border-primary/50 p-2"> {formatUtcDate(log.created_at)}</td>

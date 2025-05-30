@@ -200,7 +200,7 @@ const Dashboard: React.FC = (): JSX.Element => {
 
             const logs = response.data.device_logs
                 .sort((a: any, b: any) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
-                .filter((log:any)=>log.log_type==="LOG")
+                .filter((log:any)=>log.log_type==="LOG" && log.sensor_status )
                 .map((log: any) => ({
                     x: log.created_at,  // UTC ISO format
                     y: -log.level,
@@ -240,6 +240,7 @@ const lineChartOptions:any = {
     scales: {
         x: {
             type: 'time',
+            unit: 'hour',
             time: {
                 stepSize:1,
                 parser: 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'',
@@ -362,12 +363,10 @@ const lineChartOptions:any = {
                                     {
                                         icon: <RiRestartLine />,
                                         onClick: () => {
-                                            if (device.is_online) {
-                                                toast.error(`Device is allready online`);
-                                            } else {
-                                                handleRestartClick(device.uid)
+                                    
+                                                handleRestartClick(device.bridge_no)
                                                 toast.success(`${device.river_name} (${device.bridge_no}) is being restarted`);
-                                            }
+                                      
                                         },
                                         className: ` p-2 rounded-full ${device.relay_status ? 'bg-green-500' : 'bg-gray-500'}`,
                                     },
