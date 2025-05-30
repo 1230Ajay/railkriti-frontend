@@ -26,7 +26,7 @@ interface Log {
   sensor_status: boolean;
   date: any;
   time: any;
-  created_at:any;
+  created_at: any;
 }
 
 interface Device {
@@ -87,22 +87,25 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
     }
   };
 
+  /// --- Date Time, Wind Speed, Battery, Temp, Sensor Status, Device Status, Remark
+
   const columns = [
     { name: 'S. No.', key: "s_no", className: "text-start" },
+    { name: 'S. No.', key: "date", className: "text-center" },
+    { name: 'S. No.', key: "time", className: "text-center" },
+    { name: 'S. No.', key: "wind_speed", className: "text-start" },
     { name: 'S. No.', key: "battery", className: "text-start" },
     { name: 'S. No.', key: "temp", className: "text-start" },
-    { name: 'S. No.', key: "wind_speed", className: "text-start" },
-    { name: 'S. No.', key: "time", className: "text-center" },
-    { name: 'S. No.', key: "date", className: "text-center" },
-    { name: 'S. No.', key: "is_online", className: "" },
     { name: 'S. No.', key: "sensor_status", className: "" },
+    { name: 'S. No.', key: "is_online", className: "" },
+
   ]
 
 
   return (
     <div className=" grid h-[calc(100vh)] w-screen grid-rows-[auto_auto_1fr]">
 
-    <NavBar disableMenuBar={true} title={Titles.WindTitle} />
+      <NavBar disableMenuBar={true} title={Titles.WindTitle} />
 
       <HeaderTile title={`LOGS / ${device?.name} (${device?.location})`} actions={[
 
@@ -123,12 +126,13 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
 
                 const formattedLog = {
                   ...log,
-                  s_no:index+1,
-                  temp: log.temp === -127?"--:--":`${log.temp}°C`,
-                  wind_speed:`${log.wind_speed} km/h`,
-                  sensor_status :log.is_online && log.sensor_status,
-                  date : new Date(log.created_at).toLocaleDateString('en-IN',{hour12:false}),
-                  time : new Date(log.created_at).toLocaleTimeString('en-IN',{hour12:false})
+                  s_no: index + 1,
+                  battery:`${log.battery} %`,
+                  temp: log.temp === -127 ? "--:--" : `${log.temp}°C`,
+                  wind_speed: `${log.wind_speed} km/h`,
+                  sensor_status: log.is_online && log.sensor_status,
+                  date: new Date(log.created_at).toLocaleDateString('en-IN', { hour12: false }),
+                  time: new Date(log.created_at).toLocaleTimeString('en-IN', { hour12: false })
                 }
 
                 return (

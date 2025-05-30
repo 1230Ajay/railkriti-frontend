@@ -108,6 +108,9 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
     { name: 'S. No.', key: "remark", className: " text-xs" },
   ]
 
+
+  /// --- Date Time, Wind Speed, Battery, Temp, Sensor Status, Device Status, Remark
+  
   return (
     <div className=" grid h-[calc(100vh)] w-screen grid-rows-[auto_auto_1fr]">
       <NavBar disableMenuBar={true} title={Titles.BrWlmsTitle} />
