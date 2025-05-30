@@ -25,13 +25,13 @@ export const WindLogTableHeaderData = [
         name: "Temp",
         className: "text-start"
     },
-
+    {
+        name: "Sensor",
+        className: "text-center"
+    },
     {
         name: "Device Status",
         className: "text-center"
     },
-    {
-        name: "Sensor",
-        className: "text-center"
-    }
+
 ];
