@@ -42,6 +42,10 @@ services:
       - USE_HTTPS=false
     command: ["sh", "-c", "npm run dev"]
 
+    networks:
+      - railkriti 
+
+
   frontend-prod:
     build:
       context: .
@@ -80,3 +84,10 @@ services:
       - USE_HTTPS=true
     command: ["npm", "start"]
 
+
+
+
+networks:
+  railkriti:
+    driver: bridge
+    name: railkriti

@@ -2,7 +2,7 @@ const useHttps = true;
 
 const protocol = useHttps ? 'https' : 'http';
 const mqttProtocol = useHttps ? 'ws' : 'ws';
-const host = useHttps ? 'railkriti.co.in' : 'host.docker.internal';
+const host = useHttps ? 'railkriti.co.in' : 'localhost';
 
 const conf = {
   // API Endpoints

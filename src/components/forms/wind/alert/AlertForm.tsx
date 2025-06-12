@@ -43,7 +43,7 @@ const CustomTimePicker: React.FC<TimePickerProps> = ({ value, onChange }) => {
   );
 };
 
-const WindAlertForm = ({ onClose = () => { } }) => {
+const AlertForm = ({ onClose = () => { } }) => {
   const [riverName, setRiverName] = useState<string>('');
   const [bridgeNumber, setBridgeNumber] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -339,4 +339,4 @@ const WindAlertForm = ({ onClose = () => { } }) => {
   );
 };
 
-export default WindAlertForm;
+export default AlertForm;

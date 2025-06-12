@@ -39,7 +39,7 @@ const CustomTimePicker: React.FC<TimePickerProps> = ({ value, onChange }) => {
     );
   };
   
-const UpdateWindAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => void, alertData?: any }) => {
+const UpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => void, alertData?: any }) => {
     const [name, setName] = useState<string>('');
     const [mobileNumber, setMobileNumber] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -276,4 +276,4 @@ const UpdateWindAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () 
     );
 }
 
-export default UpdateWindAlertForm;
+export default UpdateAlertForm;

@@ -96,9 +96,10 @@ const Dashboard: React.FC = (): JSX.Element => {
     }, []);
 
     const updateDeviceByUid = (updatedDevice: any) => {
+        console.log(updatedDevice);
         setDevices(prevDevices =>
             prevDevices.map(device =>
-                device.bridge_no === updatedDevice.ifd ? { ...device, ...updatedDevice } : device
+                device.bridge_no === updatedDevice.ifd || device.uid === updatedDevice.uid ? { ...device, ...updatedDevice } : device
             )
         );
     };
@@ -364,7 +365,8 @@ const lineChartOptions:any = {
                                         icon: <RiRestartLine />,
                                         onClick: () => {
                                     
-                                                handleRestartClick(device.bridge_no)
+                                                handleRestartClick(device.bridge_no);
+                                                 handleRestartClick(device.uid)
                                                 toast.success(`${device.river_name} (${device.bridge_no}) is being restarted`);
                                       
                                         },

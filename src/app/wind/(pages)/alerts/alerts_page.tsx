@@ -13,7 +13,7 @@ import HeaderTable from '@/components/headers/header.table';
 import TableRow from '@/components/tiles/tile.table-row';
 import { WindAlertTableHeaderData } from '@/lib/data/wind/data.alert-page.header';
 import WindAlertForm from '@/components/forms/wind/alert/AlertForm';
-import UpdateWindAlertForm from '@/components/forms/wind/alert/updateAlertForm';
+import UpdateAlertForm from '@/components/forms/wlms/alert/updateAlertForm';
 
 interface Alert {
   uid: string;
@@ -153,7 +153,7 @@ const AlertPage: React.FC = (): JSX.Element => {
       {isUpdateModalOpen && selectedAlert && (
         <Modal isOpen={isUpdateModalOpen}>
           <div className='w-[68vw] bg-black px-8 py-4'>
-            <UpdateWindAlertForm onClose={() => setIsUpdateModalOpen(false)} alertData={selectedAlert} />
+            <UpdateAlertForm onClose={() => setIsUpdateModalOpen(false)} alertData={selectedAlert} />
           </div>
         </Modal>
       )}
