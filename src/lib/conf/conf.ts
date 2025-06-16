@@ -1,4 +1,4 @@
-const useHttps = false;
+const useHttps = true;
 
 const protocol = useHttps ? 'https' : 'http';
 const mqttProtocol = useHttps ? 'ws' : 'ws';
