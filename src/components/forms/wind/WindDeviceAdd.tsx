@@ -22,16 +22,24 @@ const WindDeviceAdd: React.FC<windAdd> = ({ onClose = () => { } }) => {
   const [division, setDivision] = useState('');
   const [section, setSection] = useState('');
   const [lattitude, setlattitude] = useState('');
-  const [readingInterval, setReadingInterval] = useState('');
+  const [readingInterval, setReadingInterval] = useState(60);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-
+  const [dangerSpeed, setDangerSpeed] = useState(40);
+  const [calibration, setCalibration] = useState(0);
+  const [danger_interval, setDangerInterval] = useState(15);
   // device static fields
 
   const [zoneOptions, setZoneOptions] = useState([]);
   const [divisionOptions, setDivisionOptions] = useState([]);
   const [sectionOptions, setSectionOptions] = useState([]);
   const [readingIntervalOptions, setReadingIntervalOptions] = useState([
+    { uid: '15', name: '15 minutes' },
+    { uid: '30', name: '30 minutes' },
+    { uid: '60', name: '60 minutes' },
+  ]);
+
+  const [dangerIntervalOptions, setDangerIntervalOptions] = useState([
     { uid: '15', name: '15 minutes' },
     { uid: '30', name: '30 minutes' },
     { uid: '60', name: '60 minutes' },
@@ -95,7 +103,10 @@ const WindDeviceAdd: React.FC<windAdd> = ({ onClose = () => { } }) => {
 
       start_date: new Date(startDate).toISOString(),
       end_date: new Date(endDate).toISOString(),
-      reading_interval: parseInt(readingInterval),
+      reading_interval: readingInterval,
+      danger_speed: dangerSpeed,
+      danger_interval: danger_interval,
+      calibration_value:calibration
     };
 
     try {
@@ -121,10 +132,10 @@ const WindDeviceAdd: React.FC<windAdd> = ({ onClose = () => { } }) => {
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
 
         {/* Other form fields */}
-        
+
         <TextInput
           label="Name"
-  
+
           value={name}
           onChange={setName}
           required
@@ -142,7 +153,7 @@ const WindDeviceAdd: React.FC<windAdd> = ({ onClose = () => { } }) => {
 
         <TextInput
           label="Mobile Number"
-        
+
           value={mobileNumber}
           onChange={setMobileNumber}
           required
@@ -171,6 +182,7 @@ const WindDeviceAdd: React.FC<windAdd> = ({ onClose = () => { } }) => {
           onChange={setlattitude}
           required
         />
+
 
         <SelectInput
           label="Reading Interval"
@@ -224,6 +236,32 @@ const WindDeviceAdd: React.FC<windAdd> = ({ onClose = () => { } }) => {
           required={true}
         />
 
+        <SelectInput
+          label="Reading Interval"
+
+          value={danger_interval}
+          onChange={setDangerInterval}
+          options={dangerIntervalOptions}
+          required={true}
+        />
+
+        <TextInput
+          label="Threshold"
+          value={dangerSpeed.toString()}
+          onChange={setDangerSpeed}
+          required
+        />
+
+        <TextInput
+          label="Calibration"
+          value={calibration.toString()}
+          onChange={setCalibration}
+          required
+        />
+
+
+
+
         {/* New installed_at field */}
 
         <div className='flex items-center w-full lg:col-span-3 mt-4 justify-center xl:justify-end space-x-8'>
@@ -238,7 +276,7 @@ const WindDeviceAdd: React.FC<windAdd> = ({ onClose = () => { } }) => {
             setDivision('');
             setSection('');
             setlattitude('');
-            setReadingInterval('');
+            setReadingInterval(15);
             setStartDate('');
             setEndDate('');
           }}>Reset</PrimaryButton>

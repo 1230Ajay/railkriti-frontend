@@ -127,7 +127,7 @@ const UpdateAlertForm = ({ onClose = () => { }, alertData }: { onClose?: () => v
                 sms_update: smsChecked,
             };
 
-            const response = await myIntercepter.put(`${conf.WIND_URL}/alert/${alertData.uid}`, alertData, {
+            const response = await myIntercepter.put(`${conf.NOTIFICATION}/alert/${alertData.uid}`, alertData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

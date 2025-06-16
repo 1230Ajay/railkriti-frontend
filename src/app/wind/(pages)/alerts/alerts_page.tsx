@@ -12,8 +12,9 @@ import { HeaderTile } from '@/components/headers/header.tile';
 import HeaderTable from '@/components/headers/header.table';
 import TableRow from '@/components/tiles/tile.table-row';
 import { WindAlertTableHeaderData } from '@/lib/data/wind/data.alert-page.header';
-import WindAlertForm from '@/components/forms/wind/alert/AlertForm';
-import UpdateAlertForm from '@/components/forms/wlms/alert/updateAlertForm';
+import AlertForm from '@/components/forms/wind/alert/AlertForm';
+import { AlertType } from '@/lib/enums/alert_type';
+import UpdateAlertForm from '@/components/forms/wind/alert/updateAlertForm';
 
 interface Alert {
   uid: string;
@@ -50,7 +51,7 @@ const AlertPage: React.FC = (): JSX.Element => {
 
   const fetchAlerts = async () => {
     try {
-      const response = await myIntercepter.get(`${conf.WIND_URL}/alert`);
+      const response = await myIntercepter.get(`${conf.NOTIFICATION}/alert_by_type`,{params:{alertType:"WSMS"}});
       setAlerts(response.data);
     } catch (error) {
       console.error('Error fetching alerts:', error);
@@ -73,7 +74,7 @@ const AlertPage: React.FC = (): JSX.Element => {
   const activateDeactivateAlert = async (alert: Alert) => {
     try {
       alert.isActive = !alert.isActive;
-      const res = await myIntercepter.put(`${conf.WIND_URL}/alert/${alert.uid}`, alert);
+      const res = await myIntercepter.put(`${conf.NOTIFICATION}/alert/${alert.uid}`, alert);
       if (res?.status === 200) {
         setAlerts((prevAlerts) =>
           prevAlerts.map((a) => (a.uid === alert.uid ? { ...a, isActive: alert.isActive } : a))
@@ -146,7 +147,7 @@ const AlertPage: React.FC = (): JSX.Element => {
       {isModalOpen && (
         <Modal isOpen={isModalOpen}>
           <div className='w-[68vw] bg-black px-8 py-4'>
-            <WindAlertForm onClose={() => setIsModalOpen(false)} />
+            <AlertForm alertType={AlertType.WSMS} onClose={() => setIsModalOpen(false)} />
           </div>
         </Modal>
       )}

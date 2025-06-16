@@ -109,6 +109,7 @@ const LogDetails = ({ params }: { params: { id: string } }) => {
                 const formattedLog = {
                   s_no : index + 1,
                   battery:`${log.battery}%`,
+                  is_online:log.device_status,
                   time : new Date(log.created_at).toLocaleTimeString('en-IN',{hour12:false}),
                   date : new Date(log.created_at).toLocaleDateString('en-IN',{hour12:false}),
                 }

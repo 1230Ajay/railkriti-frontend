@@ -1,4 +1,4 @@
-const useHttps = true;
+const useHttps = false;
 
 const protocol = useHttps ? 'https' : 'http';
 const mqttProtocol = useHttps ? 'ws' : 'ws';
@@ -7,6 +7,7 @@ const host = useHttps ? 'railkriti.co.in' : 'localhost';
 const conf = {
   // API Endpoints
   API_GATEWAY: `${protocol}://${host}:8090`,
+  AUTH: `${protocol}://${ useHttps? host:"host.docker.internal"}:8090/auth`,
   LOCATION: `${protocol}://${host}:8090/location`,
   BR_WLMS: `${protocol}://${host}:8090/br-wlms`,
   TR_WLMS: `${protocol}://${host}:8090/tr-wlms`,

@@ -7,6 +7,7 @@ import 'react-time-picker/dist/TimePicker.css'; // Make sure to import the neces
 import { toast } from 'react-toastify';
 import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
+import { AlertType } from '@/lib/enums/alert_type';
 
 interface AlertEntry {
   river_name:any;
@@ -43,9 +44,14 @@ const CustomTimePicker: React.FC<TimePickerProps> = ({ value, onChange }) => {
   );
 };
 
-const AlertForm = ({ onClose = () => { } }) => {
-  const [riverName, setRiverName] = useState<string>('');
-  const [bridgeNumber, setBridgeNumber] = useState<string>('');
+
+interface AlertFormProps {
+  onClose?: () => void;
+  alertType: AlertType; // Replace `any` with a more specific type if available, like `AlertType`
+}
+
+const AlertForm: React.FC<AlertFormProps> = ({ onClose = () => { },alertType}) => {
+
   const [name, setName] = useState<string>('');
   const [mobileNumber, setMobileNumber] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -74,10 +80,6 @@ const AlertForm = ({ onClose = () => { } }) => {
   };
 
   const handleAddEntry = () => {
-
-    // Add entry to the list (if needed)
-    setRiverName('');
-    setBridgeNumber('');
     setName('');
     setMobileNumber('');
     setEmail('');
@@ -131,9 +133,10 @@ const AlertForm = ({ onClose = () => { } }) => {
         device_uid: device_id,
         email_update: emailChecked,
         sms_update: smsChecked,
+        alertType: alertType
       };
 
-      const response = await myIntercepter.post(`${conf.WIND_URL}/alert`,alertData);
+      const response = await myIntercepter.post(`${conf.NOTIFICATION}/alert`,alertData);
 
       if (response) {
         await fetchDevices(); // Refresh devices if necessary
@@ -168,7 +171,10 @@ const AlertForm = ({ onClose = () => { } }) => {
   const fetchAlerts = async () => {
     try {
       if (device_id) {
-        const response = await myIntercepter.get(`${conf.WIND_URL}/alert/${device_id}`);
+        const response = await myIntercepter.get(`${conf.NOTIFICATION}/alerts_by_device_uid`,{params:{
+         device_uid:device_id,
+         alertType: alertType
+        }});
         setAlerts(response.data);
       }
     } catch (error) {

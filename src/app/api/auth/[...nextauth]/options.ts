@@ -17,7 +17,7 @@ export const authOptions: AuthOptions = {
         const { identifier, password } = credentials ?? {};
 
         try {
-          const response = await axios.post(`${conf.API_GATEWAY}/auth/sign-in`, {
+          const response = await axios.post(`${conf.AUTH}/sign-in`, {
             identifier: identifier,
             password: password
           },{

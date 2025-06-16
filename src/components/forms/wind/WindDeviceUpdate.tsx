@@ -6,6 +6,7 @@ import { PrimaryButton } from '../../buttons/primarybutton';
 import { toast } from 'react-toastify';
 import conf from '@/lib/conf/conf';
 import myIntercepter from '@/lib/interceptor';
+import MqttService from '@/lib/network/mqtt_client';
 
 interface DeviceUpdateFormProps {
   device: any;
@@ -26,9 +27,16 @@ const WindDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
+  const [dangerSpeed, setDangerSpeed] = useState(40);
+  const [calibration, setCalibration] = useState(0);
+  const [danger_interval, setDangerInterval] = useState(15);
+
+  const [syncStatus, setSyncStatus] = useState(false);
+
   const [zoneOptions, setZoneOptions] = useState([]);
   const [divisionOptions, setDivisionOptions] = useState([]);
   const [sectionOptions, setSectionOptions] = useState([]);
+
   const [readingIntervalOptions, setReadingIntervalOptions] = useState([
     { uid: '15', name: '15 minutes' },
     { uid: '30', name: '30 minutes' },
@@ -40,6 +48,11 @@ const WindDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
     { uid: 'SSE_OFFICE', name: 'SSE Office' },
   ];
 
+  const [dangerIntervalOptions, setDangerIntervalOptions] = useState([
+    { uid: '15', name: '15 minutes' },
+    { uid: '30', name: '30 minutes' },
+    { uid: '60', name: '60 minutes' },
+  ]);
 
   const [loading, setLoading] = useState(false); // Loading state
 
@@ -77,8 +90,6 @@ const WindDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
   const fetchDeviceData = async () => {
     setLoading(true); // Set loading state
     try {
-   
-   
 
       if (device) {
         setImeiNumber(device.imei);
@@ -91,9 +102,12 @@ const WindDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
         setDivision(device.section.division.uid || '');
         setSection(device.section.uid || '');
         setReadingInterval(device.reading_interval.toString());
-        setStartDate(new Date(device.start_date).toISOString().split('T')[0]); 
+        setStartDate(new Date(device.start_date).toISOString().split('T')[0]);
         setEndDate(new Date(device.end_date).toISOString().split('T')[0]);
-
+        setDangerSpeed(device.danger_speed),
+          setCalibration(device.calibration_value),
+          setDangerInterval(device.danger_interval),
+          setSyncStatus(device.sync)
       }
     } catch (error) {
       console.error('Error fetching device data:', error);
@@ -102,6 +116,35 @@ const WindDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
       setLoading(false); // Reset loading state
     }
   };
+
+  useEffect(() => {
+    MqttService.subscribe(`device/scmd/wind/${device.uid}`);
+
+    const handleMqttMessage = (topic: string, payload: Buffer) => {
+      handleMessage(topic, payload.toString())
+    }
+
+    MqttService.client.on('message', handleMqttMessage)
+   
+    return () => {
+      MqttService.client.off('message', handleMqttMessage)
+    }
+  }, [])
+
+
+  const handleMessage = (topic: string, message: string) => {
+    const topicParts = topic.split('/')
+    if (topicParts.length < 4) return
+
+    if (topic.startsWith("device/scmd/wind/")) {
+      if (message === "true" && !syncStatus) {
+        toast.success("Syncronisation Successfly!");
+        setSyncStatus(true);
+      }
+    }
+
+  }
+
 
   const fetchDivisions = async (zoneId: string) => {
     try {
@@ -136,14 +179,27 @@ const WindDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
       start_date: new Date(startDate).toISOString(),
       end_date: new Date(endDate).toISOString(),
       reading_interval: parseInt(readingInterval),
+      danger_speed: dangerSpeed,
+      danger_interval: danger_interval,
+      calibration_value: calibration
     };
 
     try {
       const res = await myIntercepter.put(`${conf.WIND_URL}/device/${device.uid}`, formData);
       if (res?.status === 200) {
         toast.success("Device updated successfully!");
-        onClose();
-        window.location.reload();
+        setSyncStatus(false);
+        const command = `multi_set ` +
+          `NAME -s ${location}; ` +
+          `interval -f ${readingInterval}; ` +
+          `danger_speed -f ${dangerSpeed}; ` +
+          `calibration -f ${calibration}; ` +
+          `danger_interval -f ${danger_interval};`;
+
+        MqttService.client.publish(`device/cmd/wind/${device.uid}`, command);
+
+    
+
       } else {
         toast.error("Something went wrong while updating the device.");
       }
@@ -171,27 +227,30 @@ const WindDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
 
   return (
     <div className='rounded-md h-fit pb-8'>
-      <div className='font-bold uppercase text-xl text-white mb-4'>
+      <div className='font-bold uppercase text-xl flex justify-between text-white mb-4'>
         <h2>Update Device <span>#{device.uid}</span></h2>
+        <div className='flex'>
+          <h2 className={`${syncStatus ? " text-green-400" : "text-primary"} `} >{syncStatus ? "Synced " : "Syncing...."}</h2>
+        </div>
       </div>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8">
         <TextInput
           label="Name"
-   
+
           value={name}
           onChange={setName}
           required
         />
         <TextInput
           label="Location"
-        
+
           value={location}
           onChange={setLocation}
           required
         />
         <TextInput
           label="Mobile Number"
-      
+
           value={mobileNumber}
           onChange={setMobileNumber}
           required
@@ -219,7 +278,7 @@ const WindDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
         />
         <SelectInput
           label="Reading Interval"
-  
+
           value={readingInterval}
           onChange={setReadingInterval}
           options={readingIntervalOptions}
@@ -263,6 +322,29 @@ const WindDeviceUpdate: React.FC<DeviceUpdateFormProps> = ({ device, onClose }) 
           options={sectionOptions}
           required
         />
+        <SelectInput
+          label="Reading Interval"
+
+          value={danger_interval}
+          onChange={setDangerInterval}
+          options={dangerIntervalOptions}
+          required={true}
+        />
+
+        <TextInput
+          label="Threshold"
+          value={dangerSpeed.toString()}
+          onChange={setDangerSpeed}
+          required
+        />
+
+        <TextInput
+          label="Calibration"
+          value={calibration.toString()}
+          onChange={setCalibration}
+          required
+        />
+
 
         <div className=' md:col-span-2 lg:col-span-3 space-x-8 flex  mt-4  justify-end'>
 
