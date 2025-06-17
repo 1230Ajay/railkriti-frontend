@@ -1,5 +1,4 @@
 const useHttps = true;
-
 const protocol = useHttps ? 'https' : 'http';
 const mqttProtocol = useHttps ? 'ws' : 'ws';
 const host = useHttps ? 'railkriti.co.in' : 'localhost';
@@ -30,8 +29,7 @@ const conf = {
 
   // Auth
   NEXTAUTH_URL: useHttps ? 'https://robokriti.co.in' : 'http://localhost:3007',
-  AUTH_SECRET:
-    process.env.AUTH_SECRET || 'Q29tbWFuZCB0byBnZW5lcmF0ZSBhIHJhbmRvbSBzdHJpbmcgaW4gYmFzZTY0',
+  AUTH_SECRET: process.env.AUTH_SECRET || 'Q29tbWFuZCB0byBnZW5lcmF0ZSBhIHJhbmRvbSBzdHJpbmcgaW4gYmFzZTY0',
 };
 
 export default conf;
