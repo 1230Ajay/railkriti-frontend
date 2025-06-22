@@ -25,8 +25,6 @@ export const authOptions: AuthOptions = {
           });
          
 
-
-
           if (response?.data?.status === 200 && response.data?.jwt && response.data?.user) {
             const { jwt, user } = response.data;
             return {

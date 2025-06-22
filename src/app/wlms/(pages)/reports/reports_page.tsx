@@ -130,8 +130,7 @@ const Reports: React.FC = (): JSX.Element => {
 
       document.body.innerHTML = printContents;
       window.print();
-      document.body.innerHTML = originalContents; // Restore original contents
-      window.location.reload(); // Reload to fix event listeners
+      document.body.innerHTML = originalContents;
     }
   };
 

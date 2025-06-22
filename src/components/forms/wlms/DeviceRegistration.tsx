@@ -22,7 +22,6 @@ const DeviceReservationForm = ({ onClose = () => { } }) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [dangerInterval, setDangerInterval] = useState('');
-  const [danger_speed,setDangerSpeed] = useState(40);
 
   // device static fields
   const [rail_level, setRailLevel] = useState('');
