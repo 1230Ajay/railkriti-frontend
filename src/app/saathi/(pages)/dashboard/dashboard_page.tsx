@@ -51,7 +51,7 @@ const Dashboard: React.FC = (): JSX.Element => {
 
     const handleRestartClick = (deviceUid: string,isTx:any) => {
         isTx ? socketSaathiTX.emit('rebootDevice', { "uid": deviceUid }) : socketSaathiRx.emit('rebootDevice', { "uid": deviceUid });
-        isTx ? MqttService1.client.publish(`device/restart/saathi-tx/${deviceUid}`,"restart"): MqttService1.client.publish(`device/restart/saathi-tx/${deviceUid}`,"restart")
+        // isTx ? MqttService1.client.publish(`device/restart/saathi-tx/${deviceUid}`,"restart"): MqttService1.client.publish(`device/restart/saathi-tx/${deviceUid}`,"restart")
     };
 
     useEffect(() => {
