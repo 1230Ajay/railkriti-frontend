@@ -18,6 +18,7 @@ import { HeaderTile } from "@/components/headers/header.tile";
 import HeaderTable from "@/components/headers/header.table";
 import { SaathiDashboardTableHeaderData } from "@/lib/data/saathi/data.dashboard-header";
 import TableRow from "@/components/tiles/tile.table-row";
+import MqttService1 from "@/lib/network/mqtt_client_1";
 
 const Dashboard: React.FC = (): JSX.Element => {
 
@@ -49,7 +50,8 @@ const Dashboard: React.FC = (): JSX.Element => {
     }, [deviceButtonStates, dispatch]);
 
     const handleRestartClick = (deviceUid: string,isTx:any) => {
-        isTx ? socketSaathiTX.emit('rebootDevice', { "uid": deviceUid }) : socketSaathiRx.emit('rebootDevice', { "uid": deviceUid });;
+        isTx ? socketSaathiTX.emit('rebootDevice', { "uid": deviceUid }) : socketSaathiRx.emit('rebootDevice', { "uid": deviceUid });
+        isTx ? MqttService1.client.publish(`device/restart/saathi-tx/${deviceUid}`,"restart"): MqttService1.client.publish(`device/restart/saathi-tx/${deviceUid}`,"restart")
     };
 
     useEffect(() => {

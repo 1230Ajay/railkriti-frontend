@@ -26,6 +26,7 @@ const conf = {
   RAILTAAP_SOCKET_URL: `${protocol}://${host}:3009`,
   TANK_WLMS_SOCKET_URL: `${protocol}://${host}:3010`,
   MQTT_URL: `wss://railkriti.co.in:9002/ws`,
+  MQTT_URL_1: `ws://railkriti.co.in:18832/ws`,
 
   // Auth
   NEXTAUTH_URL: useHttps ? 'https://robokriti.co.in' : 'http://localhost:3007',

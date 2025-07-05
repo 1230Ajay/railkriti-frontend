@@ -81,7 +81,7 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
             is_fixed: systemType === "true" ? true : false,
             isUpside: direction === "true" ? true : false,
             installed_at:installedAt,
-        
+            old_group: device.group_uid
 
         };
 
@@ -94,11 +94,9 @@ const SaathiDeviceUpdateForm: React.FC<SaathiDeviceUpdateFormProps> = ({ isTrans
             mobile_no: mobileNumber,
             name: name,
             is_fixed: systemType === "true" ? true : false,
-            installed_at:installedAt
-
+            installed_at:installedAt,
+            old_group: device.group_uid
         };
-
-        console.log(deviceType)
 
         if (deviceType === "true") {
 
