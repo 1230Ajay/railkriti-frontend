@@ -1,8 +1,11 @@
 import axios from "axios";
 import { getSession } from "next-auth/react";
-
+import https from "https"
 // Create the axios instance
 const myInterceptor = axios.create({
+    httpsAgent: new https.Agent({
+        rejectUnauthorized:false
+    }),
     baseURL: process.env.BASE_URL, // Set the base URL from environment variables
 });
 

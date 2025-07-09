@@ -147,7 +147,7 @@ const DashboardNav: React.FC<DashboardNavProps> = (details) => {
               </div>
             )
           ) : (
-            <IoNotifications />
+            <IoNotifications onClick={()=>router.push('sos')} />
           )}
         </div>
 
